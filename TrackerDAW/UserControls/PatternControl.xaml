@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="TrackerDAW.PatternControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TrackerDAW"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" >
+                <TextBlock Name="nameTextBlock" Padding="4,4,24,4" Text="P100"></TextBlock>
+                <TextBox Name="bpsTextBox" Width="42"  PreviewTextInput="bpsTextBox_PreviewTextInput" PreviewKeyDown="bpsTextBox_PreviewKeyDown" />
+                <Label>BPS</Label>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" >
+                <Button Name="prevPatternButton" Content="&lt;" Width="25" Click="prevPatternButton_Click"></Button>
+                <Button Name="nextPatternButton" Content="&gt;" Width="25" Click="nextPatternButton_Click"></Button>
+            </StackPanel>
+        </Grid>
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
+            <StackPanel x:Name="tracksStackPanel" FlowDirection="LeftToRight" Orientation="Horizontal" Background="{StaticResource CheckerBoard}">
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
