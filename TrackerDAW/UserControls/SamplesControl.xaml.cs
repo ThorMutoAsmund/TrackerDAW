@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace TrackerDAW
     /// </summary>
     public partial class SamplesControl : UserControl
     {
-        //private Point startPoint;
+        private Point dragStartPoint;
 
         public SamplesControl()
         {
@@ -38,27 +39,27 @@ namespace TrackerDAW
 
         private void listView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            //if (e.ClickCount == 2)
-            //{
-                //AudioPlaybackEngine.Instance.StopPlayback();
+            var fileName = this.listView.SelectedItem as string;
+            Audio.PlayFile(fileName);
+        }
 
-                //var sampleName = this.samplesListView.SelectedItem as string;
-                //AudioPlaybackEngine.Instance.PlaySound(Path.Combine(Env.Song.SamplesPath, sampleName));
-            //}
-
-            //this.startPoint = e.GetPosition(null);
+        private void listView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Audio.StopPlayFile();
+            this.dragStartPoint = e.GetPosition(null);
         }
 
         private void listView_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            //if (e.LeftButton == MouseButtonState.Pressed)
-            //{
-            //    // Get the current mouse position
-            //    var mousePos = e.GetPosition(null);
-            //    var diff = startPoint - mousePos;
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                // Get the current mouse position
+                var mousePos = e.GetPosition(null);
+                var diff = this.dragStartPoint - mousePos;
 
-            //    this.samplesListView.CheckDragDropMove<string>(diff, e.OriginalSource, "sample");
-            //}
+                var fileName = this.listView.SelectedItem as string;
+                this.listView.CheckDragDropMove(diff, fileName, "sample");
+            }
         }
     }
 }

@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <ListView x:Name="listView" Margin="0,0,0,0" ItemsSource="{Binding}"
-                MouseDoubleClick="listView_MouseDoubleClick" PreviewMouseMove="listView_PreviewMouseMove">
+            MouseDoubleClick="listView_MouseDoubleClick" PreviewMouseMove="listView_PreviewMouseMove" MouseLeftButtonDown="listView_MouseLeftButtonDown">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <TextBlock Text="{Binding}" />

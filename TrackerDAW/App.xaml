@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:TrackerDAW"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        
         <Style x:Key="DefaultStyle" TargetType="{x:Type Control}">
             <Setter Property="FontSize" Value="13" />
             <Setter Property="FontFamily" Value="Franklin Gothic" />
@@ -17,6 +18,37 @@
             <Setter Property="Padding" Value="3" />
         </Style>
 
+        <DrawingBrush x:Key="AimBrush"  Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="Red">
+                        <GeometryDrawing.Geometry>
+                            <GeometryGroup>
+                                <RectangleGeometry Rect="0,0,50,50" />
+                                <RectangleGeometry Rect="50,50,50,50" />
+                            </GeometryGroup>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+        
+        <DrawingBrush x:Key="TrackBrush" Viewport="0,0,10,24" ViewportUnits="Absolute" Viewbox="0,0,10,24" ViewboxUnits="Absolute" TileMode="Tile">
+            <DrawingBrush.Drawing>
+                <GeometryDrawing>
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <LineGeometry StartPoint="0,0" EndPoint="10,0"></LineGeometry>
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                    <GeometryDrawing.Pen>
+                        <Pen Thickness="1" Brush="#666" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+        
+        
         <DrawingBrush x:Key="CheckerBoard" Viewport="0,0,8,8" ViewportUnits="Absolute" Stretch="None" TileMode="Tile">
             <DrawingBrush.Drawing>
                 <DrawingGroup>

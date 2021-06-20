@@ -28,7 +28,7 @@ namespace TrackerDAW
             InitializeComponent();
 
             Env.SelectedPatternChanged += Env_SelectedPatternChanged;
-            Song.PatternChanged += Song_PatternChanged; ;
+            Song.PatternChanged += Song_PatternChanged;
         }
 
         private void Song_PatternChanged(Pattern pattern)
@@ -65,7 +65,7 @@ namespace TrackerDAW
             int i = 1;
             foreach (var track in this.pattern.Tracks)
             {
-                var trackControl = new TrackControl($"Track {i}", this.pattern.Length);
+                var trackControl = new TrackControl($"Track {i}", track, this.pattern.Length);
                 DockPanel.SetDock(trackControl, Dock.Left);
                 this.tracksStackPanel.Children.Add(trackControl);
                 i++;

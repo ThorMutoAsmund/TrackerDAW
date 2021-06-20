@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,7 @@ namespace TrackerDAW
         public static double DefaultSampleRate = 44100d;
         public static int DefaultNumberOfPatterns = 1;
         public static int DefaultNumberOfTracks = 4;
+        public static double DefaultPartHeight = 24d;
         public static double DefaultBPS = 120d;
         public static Song Song;
         public static int SelectedPatternIdx;
@@ -29,7 +31,6 @@ namespace TrackerDAW
         public static bool HasChanges;
         public static string LastProjectPath;
         public static double TrackPixelsPerSecond = 100d;
-
         public static Watchers Watchers { get; private set; } = new Watchers();
         public static List<string> RecentFiles { get; } = new List<string>();
         public static void OnDirtyChanged(bool dirty)

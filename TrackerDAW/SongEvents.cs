@@ -12,6 +12,7 @@ namespace TrackerDAW
         public static event Action PatternsChanged;
         public static event Action<Pattern> PatternChanged;
         public static event Action<Track> TrackChanged;
+        public static event Action<Part> PartChanged;
 
         public static void OnSongChanged(Song song, bool dirty)
         {
@@ -34,6 +35,12 @@ namespace TrackerDAW
         public static void OnTrackChanged(Track track)
         {
             TrackChanged?.Invoke(track);
+            Env.OnDirtyChanged(true);
+        }
+
+        public static void OnPartChanged(Part part)
+        {
+            PartChanged?.Invoke(part);
             Env.OnDirtyChanged(true);
         }
     }
