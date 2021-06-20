@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:TrackerDAW"
              mc:Ignorable="d" 
              d:DesignHeight="24" d:DesignWidth="150"
+             IsHitTestVisible="false"
              BorderBrush="{StaticResource AimBrush}" BorderThickness="1">
     <Canvas Width="147">
     </Canvas>

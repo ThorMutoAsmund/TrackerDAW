@@ -12,7 +12,7 @@ namespace TrackerDAW
     {
         [JsonProperty] public string Name { get; set; }
         [JsonProperty] public int Ver { get; set; }
-        [JsonProperty] public double SampleRate { get; set; }
+        [JsonProperty] public int SampleRate { get; set; }
         [JsonProperty] public List<Pattern> Patterns { get; private set; }
         [JsonProperty] public double BPS { get; set; }
 
@@ -48,7 +48,7 @@ namespace TrackerDAW
             CreateNew(projectPath, Env.DefaultProjectName, Env.DefaultSampleRate, Env.DefaultBPS);
         }
 
-        public static void CreateNew(string projectPath, string songName, double sampleRate, double bps)
+        public static void CreateNew(string projectPath, string songName, int sampleRate, double bps)
         {
             Env.Song = new Song()
             {

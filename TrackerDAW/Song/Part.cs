@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using NAudio.Wave;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +12,24 @@ namespace TrackerDAW
     {
         [JsonProperty] public double Start { get; set; }
 
-        public string Title => this.provider?.Title;
+        public string Title => this.Provider?.Title;
 
-        private IProvider provider;
+        public IProvider Provider { get; private set; }
 
         public Part(IProvider provider, double start)
         {
-            this.provider = provider;
+            this.Provider = provider;
             this.Start = start;
         }
 
         public float GetLength()
         {
             return 24f;
+        }
+
+        public Part Clone()
+        {
+            return new Part(this.Provider, this.Start);
         }
     }
 }

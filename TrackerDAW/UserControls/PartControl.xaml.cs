@@ -66,8 +66,13 @@ namespace TrackerDAW
                 var mousePos = e.GetPosition(null);
                 var diff = this.dragStartPoint - mousePos;
                 
-                this.CheckDragDropMove(diff, (this.part, this.track), "part");
+                this.CheckDragDrop(diff, (this.part, this.track), "part", DragDropEffects.Copy | DragDropEffects.Move);
             }
+        }
+
+        private void deletePartMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.track.DeletePart(this.part);
         }
     }
 }

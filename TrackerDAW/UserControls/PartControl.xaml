@@ -13,5 +13,11 @@
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock x:Name="titleTextBlock" Grid.Row="0" Padding="4" Text="Part x"></TextBlock>
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Delete part" Name="deletePartMenuItem" Click="deletePartMenuItem_Click" />
+            </ContextMenu>
+        </Grid.ContextMenu>
+
     </Grid>
 </UserControl>

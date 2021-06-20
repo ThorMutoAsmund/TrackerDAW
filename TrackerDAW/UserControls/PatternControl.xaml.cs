@@ -1,8 +1,10 @@
-﻿using System;
+﻿using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,12 +25,55 @@ namespace TrackerDAW
     {
         private Pattern pattern;
         private static readonly Regex _regex = new Regex("[^0-9.-]+");
+        private Thread playPositionThread;
+        
         public PatternControl()
         {
             InitializeComponent();
 
             Env.SelectedPatternChanged += Env_SelectedPatternChanged;
             Song.PatternChanged += Song_PatternChanged;
+
+            Audio.WaveOut.PlaybackStopped +=    Audio_PlaybackStopped;
+
+            this.playPositionThread = new Thread(CheckPlayPosition);
+            this.playPositionThread.Start();
+            Env.ApplicationEnded += Env_ApplicationEnded;
+        }
+
+
+        private void Env_ApplicationEnded()
+        {
+            this.playPositionThread.Abort();
+        }
+
+        private void CheckPlayPosition()
+        {
+            for (; ; )
+            {
+                if (Audio.WaveOut.PlaybackState == PlaybackState.Playing)
+                {
+                    double ms = Audio.WaveOut.GetPosition() * 1000.0 / Audio.WaveOut.OutputWaveFormat.BitsPerSample / Audio.WaveOut.OutputWaveFormat.Channels * 8 / Audio.WaveOut.OutputWaveFormat.SampleRate;
+
+                    this.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        Audio_PlayPositionChanged(ms);
+                    }));                    
+                }
+
+                Thread.Sleep(100);
+            }
+        }
+
+
+        private void Audio_PlayPositionChanged(double ms)
+        {
+            this.playPositionBlock.Text = string.Format("{0:0.0}", ms/1000d) + " s";
+        }
+
+        private void Audio_PlaybackStopped(object sender, StoppedEventArgs e)
+        {
+            this.playPositionBlock.Text = "Stopped";
         }
 
         private void Song_PatternChanged(Pattern pattern)

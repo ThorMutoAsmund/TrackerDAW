@@ -45,7 +45,7 @@ namespace TrackerDAW
 
         private void listView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Audio.StopPlayFile();
+            Audio.Stop();
             this.dragStartPoint = e.GetPosition(null);
         }
 
@@ -58,7 +58,7 @@ namespace TrackerDAW
                 var diff = this.dragStartPoint - mousePos;
 
                 var fileName = this.listView.SelectedItem as string;
-                this.listView.CheckDragDropMove(diff, fileName, "sample");
+                this.listView.CheckDragDrop(diff, fileName, "sample");
             }
         }
     }

@@ -62,6 +62,7 @@ namespace TrackerDAW
         {
             if (!(e.Data.GetDataPresent("sample") || e.Data.GetDataPresent("script") || e.Data.GetDataPresent("part")))
             {
+                e.Effects = DragDropEffects.None;
                 return;
             }
 
@@ -74,7 +75,7 @@ namespace TrackerDAW
             }
             this.aimControl.SetTop(GetSnapValue(point.Y));
 
-            e.Effects = DragDropEffects.All;
+            e.Effects = e.CheckEffect();
             e.Handled = true;
         }
 
@@ -97,47 +98,18 @@ namespace TrackerDAW
             {
                 (var part, var oldTrack) = ((Part, Track))e.Data.GetData("part");
 
-                this.track.MovePart(part, oldTrack, GetSnapValue(point.Y) / Env.TrackPixelsPerSecond);
+                switch (e.CheckEffect())
+                {
+                    case DragDropEffects.Copy:
+                        this.track.CopyPart(part, GetSnapValue(point.Y) / Env.TrackPixelsPerSecond);
+                        break;
+                    case DragDropEffects.Move:
+                        this.track.MovePart(part, oldTrack, GetSnapValue(point.Y) / Env.TrackPixelsPerSecond);
+                        break;
+                }
             }
 
-            if (this.aimControl != null)
-            {
-                this.partCanvas.Children.Remove(this.aimControl);
-                this.aimControl = null;
-            }
-
-            //    if (e.Data.GetDataPresent("sample"))
-            //    {
-            //        var sampleName = e.Data.GetData("sample") as string;
-
-            //        var sampleId = Env.Song.FindSample(sampleName).Id;
-            //        var sampleLength = SampleDataProcessor.GetSampleLength(sampleId);
-
-            //        if (sampleLength == 0)
-            //        {
-            //            MessageBox.Show("Empty or unsupported file");
-            //            return;
-            //        }
-
-            //        var part = AddPart(point: point, title: sampleName);
-            //        var generator = part.AddSampleGenerator(sampleName);
-
-            //        // Set length
-            //        if (generator.Settings.ContainsKey(Tags.SampleId))
-            //        {
-            //            part.SampleLength = sampleLength;
-            //            Env.Song.OnPartChanged(part);
-            //        }
-            //    }
-            //    else if (e.Data.GetDataPresent("script"))
-            //    {
-            //        var scriptName = e.Data.GetData("script") as string;
-
-            //        var part = AddPart(point: point, title: scriptName);
-            //        part.AddGenerator(scriptName);
-            //    }
-            //}
-
+            partCanvas_DragLeave(sender, e);
         }
 
         private void partCanvas_DragLeave(object sender, DragEventArgs e)
@@ -151,7 +123,7 @@ namespace TrackerDAW
 
         private void addEmptyPartMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            this.track.AddEmptyPart(this.contextMenuPoint.Y / Env.TrackPixelsPerSecond);
+            this.track.AddPart(EmptyProvider.Instance, GetSnapValue(this.contextMenuPoint.Y) / Env.TrackPixelsPerSecond);
         }
 
         private void ContextMenu_Opened(object sender, RoutedEventArgs e)

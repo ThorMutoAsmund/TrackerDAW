@@ -82,9 +82,10 @@ namespace TrackerDAW
         protected override void OnClosing(CancelEventArgs e)
         {
             e.Cancel = !Dialogs.ConfirmChangesMade();
+            
             if (!e.Cancel)
-            {
-                //AudioPlaybackEngine.Instance.Dispose();
+            {                
+                Env.OnApplicationEnded();
             }
         }
         
@@ -110,8 +111,24 @@ namespace TrackerDAW
             Env.Song.NewPattern(Env.DefaultPatternLength, Env.Song.BPS);
         }
 
-        private void patternMenu_Click(object sender, RoutedEventArgs e)
+        private void playMenu_Click(object sender, RoutedEventArgs e)
         {
+            Audio.Play();
+        }
+
+        private void playFromPatternStartMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Audio.PlayFromPatternStart(Env.SelectedPattern);
+        }
+
+        private void playFromStartMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Audio.PlayFromStart();
+        }
+
+        private void stopMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Audio.Stop();
         }
     }
 }

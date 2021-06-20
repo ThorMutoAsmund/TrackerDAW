@@ -16,6 +16,7 @@
                 <TextBlock Name="nameTextBlock" Padding="4,4,24,4" Text="P100"></TextBlock>
                 <TextBox Name="bpsTextBox" Width="42"  PreviewTextInput="bpsTextBox_PreviewTextInput" PreviewKeyDown="bpsTextBox_PreviewKeyDown" />
                 <Label>BPS</Label>
+                <TextBlock Name="playPositionBlock" Padding="4,4,24,4" Text="Stopped"></TextBlock>
             </StackPanel>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" >
                 <Button Name="prevPatternButton" Content="&lt;" Width="25" Click="prevPatternButton_Click"></Button>

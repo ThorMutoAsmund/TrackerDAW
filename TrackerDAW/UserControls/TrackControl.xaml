@@ -21,7 +21,6 @@
                     <MenuItem Header="Add empty part" Name="addEmptyPartMenuItem" Click="addEmptyPartMenuItem_Click" />
                 </ContextMenu>
             </Canvas.ContextMenu>
-
         </Canvas>
     </Grid>
 </UserControl>

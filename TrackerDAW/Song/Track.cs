@@ -16,17 +16,6 @@ namespace TrackerDAW
             this.Parts = new List<Part>();
         }
 
-        public Part AddEmptyPart(double start)
-        {
-            var part = new Part(EmptyProvider.Instance, start);
-
-            this.Parts.Add(part);
-
-            Song.OnTrackChanged(this);
-
-            return part;
-        }
-
         public Part AddPart(IProvider provider, double start)
         {
             var part = new Part(provider, start);
@@ -50,6 +39,25 @@ namespace TrackerDAW
             Song.OnTrackChanged(this);
 
             return part;
+        }
+
+        public Part CopyPart(Part source, double start)
+        {
+            var part = source.Clone();
+            part.Start = start;
+
+            this.Parts.Add(part);
+
+            Song.OnTrackChanged(this);
+
+            return part;
+        }
+
+        public void DeletePart(Part part)
+        {
+            this.Parts.Remove(part);
+
+            Song.OnTrackChanged(this);
         }
     }
 }

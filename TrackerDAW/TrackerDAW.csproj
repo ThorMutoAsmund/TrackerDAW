@@ -90,10 +90,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Audio.cs" />
-    <Compile Include="ListViewExtensions.cs" />
+    <Compile Include="DragDropExtensions.cs" />
     <Compile Include="Providers\EmptyProvider.cs" />
+    <Compile Include="Providers\MixingProvider.cs" />
+    <Compile Include="Providers\ProviderFactory.cs" />
     <Compile Include="Providers\SampleProvider.cs" />
     <Compile Include="Providers\IProvider.cs" />
+    <Compile Include="Providers\PatternSampleProvider.cs" />
+    <Compile Include="Providers\PartSampleProvider.cs" />
+    <Compile Include="Providers\SongSampleProvider.cs" />
     <Compile Include="Song\Pattern.cs" />
     <Compile Include="Song\Track.cs" />
     <Compile Include="Song\Part.cs" />

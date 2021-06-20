@@ -31,6 +31,13 @@
                 <!--<Separator />
                 <MenuItem Name="patternsMenu" Header="Patterns" />-->
             </MenuItem>
+            <MenuItem Header="_Transport">
+                <MenuItem Name="playMenu" Header="_Play" Click="playMenu_Click" />
+                <MenuItem Name="playFromStartMenu" Header="_Play from start" Click="playFromStartMenu_Click" />
+                <MenuItem Name="playFromPatternStartMenu" Header="_Play from pattern start" Click="playFromPatternStartMenu_Click" />
+                <Separator />
+                <MenuItem Name="stopMenu" Header="_Stop" Click="stopMenu_Click" />
+            </MenuItem>
         </Menu>
         <Grid  DockPanel.Dock="Right" Width="200" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}">
             <TabControl>

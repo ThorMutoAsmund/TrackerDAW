@@ -11,6 +11,7 @@ namespace TrackerDAW
     {
         public static event Action<bool> DirtyChanged;
         public static event Action<Pattern> SelectedPatternChanged;
+        public static event Action ApplicationEnded;
 
         public static string AppName = "TrackerDAW";
         public static string ApplicationPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -20,7 +21,7 @@ namespace TrackerDAW
         public static string DefaultProjectFileName = "default_project";
         public static string DefaultProjectName = "Default project";
         public static double DefaultPatternLength = 10d;
-        public static double DefaultSampleRate = 44100d;
+        public static int DefaultSampleRate = 44100;
         public static int DefaultNumberOfPatterns = 1;
         public static int DefaultNumberOfTracks = 4;
         public static double DefaultPartHeight = 24d;
@@ -33,6 +34,12 @@ namespace TrackerDAW
         public static double TrackPixelsPerSecond = 100d;
         public static Watchers Watchers { get; private set; } = new Watchers();
         public static List<string> RecentFiles { get; } = new List<string>();
+
+        public static void OnApplicationEnded()
+        {
+            ApplicationEnded?.Invoke();
+        }
+
         public static void OnDirtyChanged(bool dirty)
         {
             if (dirty != HasChanges)
