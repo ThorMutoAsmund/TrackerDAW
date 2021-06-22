@@ -10,26 +10,23 @@ namespace TrackerDAW
     public static class ProviderFactory
     {
         private static Dictionary<object, ISampleProvider> providers = new Dictionary<object, ISampleProvider>();
-        private static Song _song;
 
-        public static ISampleProvider Init(Song song)
+        public static ISampleProvider Init()
         {
-            _song = song;
             providers.Clear();
             return Create();
         }
 
-        public static ISampleProvider Init(Pattern pattern, Song song)
+        public static ISampleProvider Init(Pattern pattern)
         {
-            _song = song;
             providers.Clear();
             return Create(pattern);
         }
 
         public static ISampleProvider Create()
         {
-            var songSampleProvider = new SongSampleProvider(_song);
-            providers[_song] = songSampleProvider;
+            var songSampleProvider = new SongSampleProvider(Env.Song);
+            providers[Env.Song] = songSampleProvider;
             return songSampleProvider;
         }
 
@@ -39,7 +36,7 @@ namespace TrackerDAW
             {
                 return providers[pattern];
             }
-            var patternSampleProvider = new PatternSampleProvider(pattern, _song);
+            var patternSampleProvider = new PatternSampleProvider(pattern, Env.Song);
             providers[pattern] = patternSampleProvider;
             return patternSampleProvider;
         }

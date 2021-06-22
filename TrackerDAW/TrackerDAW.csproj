@@ -90,6 +90,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Audio.cs" />
+    <Compile Include="CustomCommands.cs" />
     <Compile Include="DragDropExtensions.cs" />
     <Compile Include="Providers\EmptyProvider.cs" />
     <Compile Include="Providers\MixingProvider.cs" />

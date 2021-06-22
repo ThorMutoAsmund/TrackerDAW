@@ -9,22 +9,32 @@
         WindowStartupLocation="CenterScreen"        
         Style="{StaticResource DefaultStyle}">
     <Window.CommandBindings>
-        <CommandBinding x:Name="newCommand" Command="ApplicationCommands.New" Executed="newMenu_Click" />
+        <CommandBinding x:Name="newCommand" Command="ApplicationCommands.New" Executed="New_Action" />
+        <CommandBinding x:Name="playCommand" Command="local:CustomCommands.Play" Executed="Play_Action" />
+        <CommandBinding x:Name="playFromStartCommand" Command="local:CustomCommands.PlayFromStart" Executed="PlayFromStart_Action" />
+        <CommandBinding x:Name="playPatternCommand" Command="local:CustomCommands.PlayPattern" Executed="PlayPattern_Action" />
+        <CommandBinding x:Name="stopCommand" Command="local:CustomCommands.Stop" Executed="Stop_Action" />
+        <CommandBinding x:Name="exitAppCommand" Command="local:CustomCommands.ExitApp" Executed="Exit_Action" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Key="N" Modifiers="Ctrl" Command="ApplicationCommands.New"/>
+        <KeyBinding Key="F5" Command="local:CustomCommands.Play"/>
+        <KeyBinding Key="F5" Modifiers="Ctrl" Command="local:CustomCommands.PlayFromStart"/>
+        <KeyBinding Key="F6" Command="local:CustomCommands.PlayPattern"/>
+        <KeyBinding Key="Esc" Command="local:CustomCommands.Stop"/>
+        <KeyBinding Key="F4" Modifiers="Alt" Command="local:CustomCommands.ExitApp"/>
     </Window.InputBindings>
     <DockPanel>
         <Menu DockPanel.Dock="Top" Style="{StaticResource MenuDefaultStyle}">
             <MenuItem Header="_File">
-                <MenuItem Name="newMenu" Header="_New" Click="newMenu_Click" />
+                <MenuItem Name="newMenu" Header="_New" InputGestureText="Ctrl+N" Command="ApplicationCommands.New" />
                 <MenuItem Name="openMenu"  Header="_Open" />
                 <Separator />
                 <MenuItem Name="closeMenu" Header="_Close" Click="closeMenu_Click" />
                 <Separator />
                 <MenuItem Name="saveMenu" Header="_Save" />
                 <Separator />
-                <MenuItem Name="exitMenu" Header="_Exit" Click="exitMenu_Click" />
+                <MenuItem Name="exitMenu" Header="_Exit" InputGestureText="Alt+F4" Command="local:CustomCommands.ExitApp" />
             </MenuItem>
             <MenuItem Header="_Song">
                 <MenuItem Name="createPatternMenu" Header="_Create Pattern" Click="createPatternMenu_Click" />
@@ -32,11 +42,11 @@
                 <MenuItem Name="patternsMenu" Header="Patterns" />-->
             </MenuItem>
             <MenuItem Header="_Transport">
-                <MenuItem Name="playMenu" Header="_Play" Click="playMenu_Click" />
-                <MenuItem Name="playFromStartMenu" Header="_Play from start" Click="playFromStartMenu_Click" />
-                <MenuItem Name="playFromPatternStartMenu" Header="_Play from pattern start" Click="playFromPatternStartMenu_Click" />
+                <MenuItem Name="playMenu" Header="_Play" InputGestureText="F5" Command="local:CustomCommands.Play"  />
+                <MenuItem Name="playPatternMenu" Header="_Play pattern" InputGestureText="F6" Command="local:CustomCommands.PlayPattern" />
+                <MenuItem Name="playFromStartMenu" Header="_Play from start" InputGestureText="Ctrl+F5" Command="local:CustomCommands.PlayFromStart"  />
                 <Separator />
-                <MenuItem Name="stopMenu" Header="_Stop" Click="stopMenu_Click" />
+                <MenuItem Name="stopMenu" Header="_Stop" InputGestureText="Esc" Command="local:CustomCommands.Stop"  />
             </MenuItem>
         </Menu>
         <Grid  DockPanel.Dock="Right" Width="200" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}">

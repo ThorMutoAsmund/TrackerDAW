@@ -53,7 +53,7 @@ namespace TrackerDAW
         {
             Stop();
 
-            sampleProvider = ProviderFactory.Init(Env.Song);
+            sampleProvider = ProviderFactory.Init();
             WaveOut.Init(sampleProvider);
             WaveOut.Play();
         }
@@ -62,7 +62,7 @@ namespace TrackerDAW
         {
             Stop();
                         
-            sampleProvider = ProviderFactory.Init(Env.Song);
+            sampleProvider = ProviderFactory.Init();
             WaveOut.Init(sampleProvider);
             WaveOut.Play();
         }
@@ -71,7 +71,7 @@ namespace TrackerDAW
         {
             Stop();
 
-            sampleProvider = ProviderFactory.Init(pattern, Env.Song);
+            sampleProvider = ProviderFactory.Init(pattern);
             WaveOut.Init(sampleProvider);
             WaveOut.Play();
         }

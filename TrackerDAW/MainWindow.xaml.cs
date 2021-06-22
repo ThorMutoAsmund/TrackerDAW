@@ -89,7 +89,7 @@ namespace TrackerDAW
             }
         }
         
-        private void newMenu_Click(object sender, RoutedEventArgs e)
+        private void New_Action(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Not supported yet");
 
@@ -101,7 +101,7 @@ namespace TrackerDAW
             Song.Close();
         }
 
-        private void exitMenu_Click(object sender, RoutedEventArgs e)
+        private void Exit_Action(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
@@ -111,24 +111,29 @@ namespace TrackerDAW
             Env.Song.NewPattern(Env.DefaultPatternLength, Env.Song.BPS);
         }
 
-        private void playMenu_Click(object sender, RoutedEventArgs e)
+        private void Play_Action(object sender, RoutedEventArgs e)
         {
             Audio.Play();
         }
 
-        private void playFromPatternStartMenu_Click(object sender, RoutedEventArgs e)
+        private void PlayPattern_Action(object sender, RoutedEventArgs e)
         {
             Audio.PlayFromPatternStart(Env.SelectedPattern);
         }
 
-        private void playFromStartMenu_Click(object sender, RoutedEventArgs e)
+        private void PlayFromStart_Action(object sender, RoutedEventArgs e)
         {
             Audio.PlayFromStart();
         }
 
-        private void stopMenu_Click(object sender, RoutedEventArgs e)
+        private void Stop_Action(object sender, RoutedEventArgs e)
         {
             Audio.Stop();
+        }
+
+        private void PlaySong_Action(object sender, ExecutedRoutedEventArgs e)
+        {
+
         }
     }
 }
