@@ -10,16 +10,20 @@ namespace TrackerDAW
 {
     public class Part
     {
-        [JsonProperty] public double Start { get; set; }
+        [JsonProperty] public ProviderInfo ProviderInfo { get; set; }
+        [JsonProperty] public ProviderData ProviderData { get; set; }
+        [JsonProperty] public string Name { get; set; }
+        [JsonProperty] public double Offset { get; set; }
 
-        public string Title => this.Provider?.Title;
-
-        public IProvider Provider { get; private set; }
-
-        public Part(IProvider provider, double start)
+        public Part()
         {
-            this.Provider = provider;
-            this.Start = start;
+        }
+
+        public Part(double offset, ProviderInfo providerInfo, ProviderData providerData)
+        {
+            this.ProviderInfo = providerInfo;
+            this.ProviderData = providerData;
+            this.Offset = offset;
         }
 
         public float GetLength()
@@ -29,7 +33,10 @@ namespace TrackerDAW
 
         public Part Clone()
         {
-            return new Part(this.Provider, this.Start);
+            return new Part(this.Offset, this.ProviderInfo.Clone(), this.ProviderData.Clone())
+            {
+                Name = this.Name
+            };
         }
     }
 }

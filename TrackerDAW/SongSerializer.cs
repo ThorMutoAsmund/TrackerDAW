@@ -20,7 +20,7 @@ namespace TrackerDAW
 
         private void WriteToFile(string projectFilePath)
         {
-            this.Song.Ver = CurrentVersion;
+            this.Song.Version = CurrentVersion;
 
             string json = JsonConvert.SerializeObject(this, Formatting.Indented);
 

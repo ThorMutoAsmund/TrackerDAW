@@ -92,7 +92,13 @@ namespace TrackerDAW
             {
                 var sampleName = e.Data.GetData("sample") as string;
 
-                this.track.AddPart(new SampleProvider(sampleName), GetSnapValue(point.Y) / Env.TrackPixelsPerSecond);
+                this.track.AddPart(
+                    new Part(GetSnapValue(point.Y) / Env.TrackPixelsPerSecond,
+                    ProviderFactory.DefaultSampleProviderInfo,
+                    new ProviderData()
+                    {
+                        { ProviderData.SampleNameKey, sampleName }
+                    }));
             }
             else if (e.Data.GetDataPresent("part"))
             {
@@ -123,7 +129,8 @@ namespace TrackerDAW
 
         private void addEmptyPartMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            this.track.AddPart(EmptyProvider.Instance, GetSnapValue(this.contextMenuPoint.Y) / Env.TrackPixelsPerSecond);
+            this.track.AddPart(new Part(GetSnapValue(this.contextMenuPoint.Y) / Env.TrackPixelsPerSecond,
+                ProviderFactory.EmptyProviderInfo, new ProviderData()));
         }
 
         private void ContextMenu_Opened(object sender, RoutedEventArgs e)

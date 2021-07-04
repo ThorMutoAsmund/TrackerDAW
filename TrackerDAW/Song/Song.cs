@@ -1,31 +1,38 @@
-﻿using Newtonsoft.Json;
+﻿using NAudio.Wave;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TrackerDAW
 {
     public partial class Song
     {
         [JsonProperty] public string Name { get; set; }
-        [JsonProperty] public int Ver { get; set; }
+        [JsonProperty] public ProviderInfo ProviderInfo { get; set; }
+        [JsonProperty] public int Version { get; set; }
         [JsonProperty] public int SampleRate { get; set; }
+        [JsonProperty] public int Channels { get; set; }
         [JsonProperty] public List<Pattern> Patterns { get; private set; }
+        //[JsonProperty] public List<ProviderInfo> Providers { get; set; }
         [JsonProperty] public double BPS { get; set; }
 
         [JsonIgnore] public string ProjectFilePath => Path.Combine(this.projectPath, $"{Env.ProjectFileName}.json");
         [JsonIgnore] public string ScriptsPath => Path.Combine(this.projectPath, Env.ScriptsFolder);
         [JsonIgnore] public string SamplesPath => Path.Combine(this.projectPath, Env.SamplesFolder);
-        
+        [JsonIgnore] public WaveFormat WaveFormat { get; private set; }
+
         private string projectPath;
 
         private Song()
         {
+            this.ProviderInfo = ProviderFactory.DefaultSongProviderInfo;
             this.Patterns = new List<Pattern>();
+            //this.Providers = new List<ProviderInfo>();
+            this.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(this.SampleRate, this.Channels);
         }
+
         public static void CreateEmpty()
         {
             var projectPath = Path.Combine(Env.ApplicationPath, Env.DefaultProjectFileName);
@@ -48,17 +55,19 @@ namespace TrackerDAW
             CreateNew(projectPath, Env.DefaultProjectName, Env.DefaultSampleRate, Env.DefaultBPS);
         }
 
-        public static void CreateNew(string projectPath, string songName, int sampleRate, double bps)
+        public static void CreateNew(string projectPath, string songName, int sampleRate, double bps, int channels = 2)
         {
             Env.Song = new Song()
             {
                 projectPath = projectPath,
                 Name = songName,
                 SampleRate = sampleRate,
-                BPS = bps
+                BPS = bps,
+                Channels = 2
             };
 
             CreateFolders(projectPath);
+            ProviderFactory.AddDefaultProviders(Env.Song);
 
             for (var p = 0; p < Env.DefaultNumberOfPatterns; ++p)
             {
@@ -122,6 +131,7 @@ namespace TrackerDAW
                 Directory.CreateDirectory(sampleDirectory);
             }
         }
+
 
         public static void Close()
         {

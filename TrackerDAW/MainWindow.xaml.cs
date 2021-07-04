@@ -92,8 +92,6 @@ namespace TrackerDAW
         private void New_Action(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Not supported yet");
-
-            //Env.OnSelectedPatternChanged(0);
         }
 
         private void closeMenu_Click(object sender, RoutedEventArgs e)

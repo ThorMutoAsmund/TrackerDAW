@@ -8,20 +8,24 @@ using System.Threading.Tasks;
 
 namespace TrackerDAW
 {
-    public class EmptyProvider : IProvider
+    public class EmptyProvider : BaseProvider
     {
-        public static EmptyProvider Instance = new EmptyProvider();
-        public string Title => "empty";
+        public override string Title => "empty";
+        public override double Offset => 0;
 
-        public WaveFormat WaveFormat { get; } = WaveFormat.CreateIeeeFloatWaveFormat(Env.DefaultSampleRate, 2);
-
-        public int Read(float[] buffer, int offset, int count)
+        public override int Read(float[] buffer, int offset, int count)
         {
             return 0;
         }
 
-        private EmptyProvider()
+        public EmptyProvider(Song song) :
+            base(song)
         {
+        }
+        public EmptyProvider(Song song, string failure) :
+            base(song)
+        {
+            Fail(failure);
         }
     }
 }

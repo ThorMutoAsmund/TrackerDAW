@@ -8,48 +8,91 @@ using System.Threading.Tasks;
 namespace TrackerDAW
 {
     public static class ProviderFactory
-    {
-        private static Dictionary<object, ISampleProvider> providers = new Dictionary<object, ISampleProvider>();
+    {        
+        public static ProviderInfo EmptyProviderInfo = ProviderInfo.CreateDefaultProvider<EmptyProvider>(0);
+        public static ProviderInfo DefaultSongProviderInfo = ProviderInfo.CreateDefaultProvider<DefaultSongProvider>(DefaultSongProvider.Version);
+        public static ProviderInfo DefaultPatternProviderInfo = ProviderInfo.CreateDefaultProvider<DefaultPatternProvider>(DefaultPatternProvider.Version);
+        public static ProviderInfo DefaultTrackProviderInfo = ProviderInfo.CreateDefaultProvider<DefaultTrackProvider>(DefaultTrackProvider.Version);
+        public static ProviderInfo DefaultSampleProviderInfo = ProviderInfo.CreateDefaultProvider<DefaultSampleProvider>(DefaultSampleProvider.Version);
 
-        public static ISampleProvider Init()
+        private static Dictionary<string, Type> providerClasses = new Dictionary<string, Type>();
+        
+        private static Dictionary<object, IProvider> providers = new Dictionary<object, IProvider>();
+
+
+        static ProviderFactory()
+        {
+            providerClasses.Add(DefaultSongProviderInfo.Name, typeof(DefaultSongProvider));
+            providerClasses.Add(DefaultPatternProviderInfo.Name, typeof(DefaultPatternProvider));
+            providerClasses.Add(DefaultTrackProviderInfo.Name, typeof(DefaultTrackProvider));
+            providerClasses.Add(DefaultSampleProviderInfo.Name, typeof(DefaultSampleProvider));
+        }
+
+        public static void AddDefaultProviders(Song song)
+        {
+            //song.Providers.Add(DefaultSongProviderInfo);
+            //song.Providers.Add(DefaultPatternProviderInfo);
+            //song.Providers.Add(DefaultTrackProviderInfo);
+            //song.Providers.Add(DefaultSampleProviderInfo);
+        }
+
+        public static ISampleProvider InitFromSong(Song song)
         {
             providers.Clear();
-            return Create();
+            return Create(song, song, song.ProviderInfo, new ProviderData()
+            {
+            });
         }
 
-        public static ISampleProvider Init(Pattern pattern)
+        public static ISampleProvider InitFromPattern(Song song, Pattern pattern)
         {
             providers.Clear();
-            return Create(pattern);
-        }
-
-        public static ISampleProvider Create()
-        {
-            var songSampleProvider = new SongSampleProvider(Env.Song);
-            providers[Env.Song] = songSampleProvider;
-            return songSampleProvider;
-        }
-
-        public static ISampleProvider Create(this Pattern pattern)
-        {
-            if (providers.ContainsKey(pattern))
+            
+            return Create(song, pattern, pattern.ProviderInfo, new ProviderData()
             {
-                return providers[pattern];
-            }
-            var patternSampleProvider = new PatternSampleProvider(pattern, Env.Song);
-            providers[pattern] = patternSampleProvider;
-            return patternSampleProvider;
+                { ProviderData.PatternKey, pattern },
+                { ProviderData.OffsetKey, 0d },
+            });
         }
 
-        public static ISampleProvider Create(this Part part)
+        public static ISampleProvider Create(Song song, object source, ProviderInfo providerInfo, ProviderData providerData)
         {
-            if (providers.ContainsKey(part))
+            if (providers.ContainsKey(source))
             {
-                return providers[part];
+                return providers[source];
             }
-            var partSampleProvider = part.Provider;
-            providers[part] = partSampleProvider;
-            return partSampleProvider;
+
+            var providerClass = GetProviderClass(providerInfo);
+
+            IProvider provider;
+
+            if (providerClass == null)
+            {
+                provider = new EmptyProvider(song, $"Provider class {providerInfo.Name} not found");
+            }
+            else
+            {
+                provider = Activator.CreateInstance(providerClass, song, providerData) as IProvider;
+
+                if (provider == null)
+                {
+                    provider = new EmptyProvider(song, $"Object instantiated from {providerInfo.Name} is not an IProvider");
+                }
+            }
+
+            providers[source] = provider;
+
+            return provider;
+        }
+
+        private static Type GetProviderClass(ProviderInfo providerInfo)
+        {
+            if (providerClasses.ContainsKey(providerInfo.Name))
+            {
+                return providerClasses[providerInfo.Name];
+            }
+
+            return null;
         }
     }
 }

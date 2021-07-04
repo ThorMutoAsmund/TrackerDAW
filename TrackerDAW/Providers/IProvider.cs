@@ -10,5 +10,6 @@ namespace TrackerDAW
     public interface IProvider : ISampleProvider
     {
         string Title { get; }
+        double Offset { get; }
     }
 }

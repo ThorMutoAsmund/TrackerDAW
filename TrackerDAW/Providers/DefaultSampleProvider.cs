@@ -8,25 +8,46 @@ using System.Threading.Tasks;
 
 namespace TrackerDAW
 {
-    public class SampleProvider : ISampleProvider, IProvider
+    public class DefaultSampleProvider : BaseProvider
     {
-        private string sampleName;
+        public const int Version = 1;
+        public override string Title => "";
+        public override double Offset => this.part?.Offset ?? 0d;
 
         private ISampleProvider wtsProvider;
 
-        public string Title => this.sampleName;
+        private ProviderData providerData;
+        private Part part;
+        private string sampleName;
 
-        public WaveFormat WaveFormat => this.wtsProvider.WaveFormat;
-
-        public SampleProvider(string sampleName)
+        public DefaultSampleProvider(Song song, ProviderData providerData) :
+            base(song)
         {
-            this.sampleName = sampleName;
-            var waveFileReader = new WaveFileReader(System.IO.Path.Combine(Env.Song.SamplesPath, sampleName));
+            this.providerData = providerData;
+
+            if (!providerData.TryGetValue<Part>(ProviderData.PartKey, out this.part))
+            {
+                Fail("No part info");
+                return;
+            }
+
+            if (!providerData.TryGetValue<string>(ProviderData.SampleNameKey, out this.sampleName))
+            {
+                Fail("No samplename info");
+                return;
+            }
+
+            var waveFileReader = new WaveFileReader(System.IO.Path.Combine(Env.Song.SamplesPath, this.sampleName));
             this.wtsProvider = CreateConverter(waveFileReader);
         }
 
-        public int Read(float[] buffer, int offset, int count)
+        public override int Read(float[] buffer, int offset, int count)
         {
+            if (this.Failed)
+            {
+                return 0;
+            }
+
             return this.wtsProvider.Read(buffer, offset, count);
         }
 

@@ -9,20 +9,22 @@ namespace TrackerDAW
 {
     public class Track
     {
+        [JsonProperty] public ProviderInfo ProviderInfo { get; set; }
         [JsonProperty] public List<Part> Parts { get; set; }
 
         public Track()
         {
+            this.ProviderInfo = ProviderFactory.DefaultTrackProviderInfo;
             this.Parts = new List<Part>();
         }
 
-        public Part AddPart(IProvider provider, double start)
+        public Part AddPart(Part part)
         {
-            var part = new Part(provider, start);
-
+            part.ProviderData.Add(ProviderData.PartKey, part);
             this.Parts.Add(part);
 
             Song.OnTrackChanged(this);
+
 
             return part;
         }
@@ -31,7 +33,7 @@ namespace TrackerDAW
         {
             oldTrack.Parts.Remove(part);
 
-            part.Start = start;
+            part.Offset = start;
 
             this.Parts.Add(part);
 
@@ -44,7 +46,7 @@ namespace TrackerDAW
         public Part CopyPart(Part source, double start)
         {
             var part = source.Clone();
-            part.Start = start;
+            part.Offset = start;
 
             this.Parts.Add(part);
 

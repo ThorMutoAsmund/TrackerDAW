@@ -31,7 +31,7 @@ namespace TrackerDAW
             this.part = part;
             this.track = track;
             this.Height = Env.DefaultPartHeight;
-            Canvas.SetTop(this, this.part.Start * Env.TrackPixelsPerSecond);
+            Canvas.SetTop(this, this.part.Offset * Env.TrackPixelsPerSecond);
             
             Song.PartChanged += Song_PartChanged;
 
@@ -50,7 +50,7 @@ namespace TrackerDAW
 
         private void RedrawPart()
         {
-            this.titleTextBlock.Text = this.part.Title;
+            this.titleTextBlock.Text = this.part.Name;
         }
 
         private void grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
