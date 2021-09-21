@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace TrackerDAW
 {
@@ -50,13 +38,13 @@ namespace TrackerDAW
 
         private void Song_SongChanged(Song song)
         {
-            var songExists = song != null;
+            var songNotNull = song != null;
 
-            this.title = $"{Env.AppName}{(songExists ? $" - {song.Name}" : string.Empty)}" ;
-            this.openMenu.IsEnabled = false;
-            this.saveMenu.IsEnabled = false;
-            this.closeMenu.IsEnabled = songExists;
-            this.createPatternMenu.IsEnabled = songExists;
+            this.title = $"{Env.AppName}{(songNotNull ? $" - {song.Name}" : string.Empty)}" ;
+            this.openMenu.IsEnabled = true;
+            this.saveMenu.IsEnabled = songNotNull;
+            this.closeMenu.IsEnabled = songNotNull;
+            this.createPatternMenu.IsEnabled = songNotNull;
                         
             Env_DirtyChanged(Env.HasChanges);
         }
@@ -88,13 +76,67 @@ namespace TrackerDAW
                 Env.OnApplicationEnded();
             }
         }
-        
-        private void New_Action(object sender, RoutedEventArgs e)
+
+        private void Open_Action(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not supported yet");
+            if (!Dialogs.ConfirmChangesMade())
+            {
+                return;
+            }
+
+            if (Dialogs.OpenFile("Select project file", Env.ApplicationPath, out var projectFilePath, filter: "Project files (Project.json)|Project.json"))
+            {
+                var projectPath = System.IO.Path.GetDirectoryName(projectFilePath);
+
+                if (!System.IO.Directory.Exists(projectPath))
+                {
+                    MessageBox.Show("Selected project not found");
+                    return;
+                }
+
+                Song.Open(projectPath);
+            }
         }
 
-        private void closeMenu_Click(object sender, RoutedEventArgs e)
+        private void Save_Action(object sender, RoutedEventArgs e)
+        {
+            if (!Env.HasChanges)
+            {
+                return;
+            }
+
+            Song.Save();
+        }
+
+        private void New_Action(object sender, RoutedEventArgs e)
+        {
+            if (!Dialogs.ConfirmChangesMade())
+            {
+                return;
+            }
+
+            var dialog = CreateProjectDialog.Create(this, Env.ApplicationPath, Env.NewProjectName, Env.DefaultSampleRate, Env.DefaultBPS, 2);
+            if (dialog.ShowDialog() ?? false)
+            {
+                if (!System.IO.Directory.Exists(dialog.ProjectPath))
+                {
+                    MessageBox.Show("Selected project folder not found");
+                    return;
+                }
+
+                var projectPath = System.IO.Path.Combine(dialog.ProjectPath, dialog.ProjectName);
+
+                if (System.IO.Directory.Exists(projectPath))
+                {
+                    MessageBox.Show("Project already exists");
+                    return;
+                }
+
+                Song.CreateNew(projectPath, dialog.ProjectName, dialog.SampleRate, dialog.BPS);
+            }
+        }
+
+        private void Close_Action(object sender, RoutedEventArgs e)
         {
             Song.Close();
         }
@@ -127,11 +169,6 @@ namespace TrackerDAW
         private void Stop_Action(object sender, RoutedEventArgs e)
         {
             Audio.Stop();
-        }
-
-        private void PlaySong_Action(object sender, ExecutedRoutedEventArgs e)
-        {
-
         }
     }
 }

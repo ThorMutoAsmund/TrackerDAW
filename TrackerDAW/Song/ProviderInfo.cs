@@ -42,7 +42,7 @@ namespace TrackerDAW
         {
             return new ProviderInfo()
             {
-                Name = $"{DefaultNameSpace}/{nameof(T)}",
+                Name = $"{DefaultNameSpace}/{typeof(T)}",
                 Version = version
             };
         }

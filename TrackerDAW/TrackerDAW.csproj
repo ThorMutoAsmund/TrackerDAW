@@ -90,6 +90,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Audio.cs" />
+    <Compile Include="CreateProjectDialog.xaml.cs">
+      <DependentUpon>CreateProjectDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomCommands.cs" />
     <Compile Include="DragDropExtensions.cs" />
     <Compile Include="Providers\DefaultTrackProvider.cs" />
@@ -139,6 +142,10 @@
       <DependentUpon>TrackControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Watchers.cs" />
+    <Page Include="CreateProjectDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\AimControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

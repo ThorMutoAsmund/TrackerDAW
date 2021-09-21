@@ -41,7 +41,7 @@ namespace TrackerDAW
             {
                 try
                 {
-                    if (Open(projectPath))
+                    if (Song.Open(projectPath))
                     {
                         return;
                     }
@@ -52,7 +52,7 @@ namespace TrackerDAW
                 }
             }
 
-            CreateNew(projectPath, Env.DefaultProjectName, Env.DefaultSampleRate, Env.DefaultBPS);
+            Song.CreateNew(projectPath, Env.DefaultProjectName, Env.DefaultSampleRate, Env.DefaultBPS);
         }
 
         public static void CreateNew(string projectPath, string songName, int sampleRate, double bps, int channels = 2)
@@ -63,10 +63,10 @@ namespace TrackerDAW
                 Name = songName,
                 SampleRate = sampleRate,
                 BPS = bps,
-                Channels = 2
+                Channels = channels
             };
 
-            CreateFolders(projectPath);
+            Song.CreateFolders(projectPath);
             ProviderFactory.AddDefaultProviders(Env.Song);
 
             for (var p = 0; p < Env.DefaultNumberOfPatterns; ++p)
@@ -74,7 +74,7 @@ namespace TrackerDAW
                 var pattern = Env.Song.NewPattern(Env.DefaultPatternLength, Env.Song.BPS);
             }
 
-            Env.Song.Save();
+            Song.Save();
 
             Env.AddRecentFile(projectPath);
         }
@@ -83,6 +83,7 @@ namespace TrackerDAW
         {
             var songSerializer = SongSerializer.FromFile(new Song() { projectPath = projectPath }.ProjectFilePath);
 
+            Song.CreateFolders(projectPath);
             Env.Song = songSerializer.Song;
 
             if (Env.Song == null)
@@ -100,13 +101,13 @@ namespace TrackerDAW
             return true;
         }
 
-        public void Save()
+        public static void Save()
         {
             var storeCursor = System.Windows.Forms.Cursor.Current;
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
             try
             {
-                SongSerializer.ToFile(this);
+                SongSerializer.ToFile(Env.Song);
                 Song.OnSongChanged(Env.Song, false);
             }
             finally
@@ -157,7 +158,7 @@ namespace TrackerDAW
         public Pattern NewPattern(double length, double bps)
         {
             // Get pattern name
-            int patternNo = 1;
+            int patternNo = 0;
             string patternName;
             do
             {
@@ -212,6 +213,4 @@ namespace TrackerDAW
             Song.OnPatternsChanged();
         }
     }
-
-
 }

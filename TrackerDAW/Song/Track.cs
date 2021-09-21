@@ -20,11 +20,10 @@ namespace TrackerDAW
 
         public Part AddPart(Part part)
         {
-            part.ProviderData.Add(ProviderData.PartKey, part);
+            //part.ProviderData.Add(ProviderData.PartKey, part); creates self reference!
             this.Parts.Add(part);
 
             Song.OnTrackChanged(this);
-
 
             return part;
         }

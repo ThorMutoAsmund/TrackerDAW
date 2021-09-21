@@ -20,6 +20,7 @@ namespace TrackerDAW
         public static string ProjectFileName = "Project";
         public static string DefaultProjectFileName = "default_project";
         public static string DefaultProjectName = "Default project";
+        public static string NewProjectName = "New project";
         public static double DefaultPatternLength = 10d;
         public static int DefaultSampleRate = 44100;
         public static int DefaultNumberOfPatterns = 1;

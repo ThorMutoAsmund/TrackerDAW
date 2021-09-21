@@ -9,15 +9,20 @@
         WindowStartupLocation="CenterScreen"        
         Style="{StaticResource DefaultStyle}">
     <Window.CommandBindings>
-        <CommandBinding x:Name="newCommand" Command="ApplicationCommands.New" Executed="New_Action" />
-        <CommandBinding x:Name="playCommand" Command="local:CustomCommands.Play" Executed="Play_Action" />
-        <CommandBinding x:Name="playFromStartCommand" Command="local:CustomCommands.PlayFromStart" Executed="PlayFromStart_Action" />
-        <CommandBinding x:Name="playPatternCommand" Command="local:CustomCommands.PlayPattern" Executed="PlayPattern_Action" />
-        <CommandBinding x:Name="stopCommand" Command="local:CustomCommands.Stop" Executed="Stop_Action" />
-        <CommandBinding x:Name="exitAppCommand" Command="local:CustomCommands.ExitApp" Executed="Exit_Action" />
+        <CommandBinding Command="ApplicationCommands.New" Executed="New_Action" />
+        <CommandBinding Command="ApplicationCommands.Open" Executed="Open_Action" />
+        <CommandBinding Command="ApplicationCommands.Save" Executed="Save_Action" />
+        <CommandBinding Command="ApplicationCommands.Close" Executed="Close_Action" />
+        <CommandBinding Command="local:CustomCommands.Play" Executed="Play_Action" />
+        <CommandBinding Command="local:CustomCommands.PlayFromStart" Executed="PlayFromStart_Action" />
+        <CommandBinding Command="local:CustomCommands.PlayPattern" Executed="PlayPattern_Action" />
+        <CommandBinding Command="local:CustomCommands.Stop" Executed="Stop_Action" />
+        <CommandBinding Command="local:CustomCommands.ExitApp" Executed="Exit_Action" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Key="N" Modifiers="Ctrl" Command="ApplicationCommands.New"/>
+        <KeyBinding Key="O" Modifiers="Ctrl" Command="ApplicationCommands.Open"/>
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="ApplicationCommands.Save"/>
         <KeyBinding Key="F5" Command="local:CustomCommands.Play"/>
         <KeyBinding Key="F5" Modifiers="Ctrl" Command="local:CustomCommands.PlayFromStart"/>
         <KeyBinding Key="F6" Command="local:CustomCommands.PlayPattern"/>
@@ -28,11 +33,11 @@
         <Menu DockPanel.Dock="Top" Style="{StaticResource MenuDefaultStyle}">
             <MenuItem Header="_File">
                 <MenuItem Name="newMenu" Header="_New" InputGestureText="Ctrl+N" Command="ApplicationCommands.New" />
-                <MenuItem Name="openMenu"  Header="_Open" />
+                <MenuItem Name="openMenu"  Header="_Open" InputGestureText="Ctrl+O" Command="ApplicationCommands.Open" />
                 <Separator />
-                <MenuItem Name="closeMenu" Header="_Close" Click="closeMenu_Click" />
+                <MenuItem Name="closeMenu" Header="_Close" Command="ApplicationCommands.Close" />
                 <Separator />
-                <MenuItem Name="saveMenu" Header="_Save" />
+                <MenuItem Name="saveMenu" Header="_Save" InputGestureText="Ctrl+S" Command="ApplicationCommands.Save"/>
                 <Separator />
                 <MenuItem Name="exitMenu" Header="_Exit" InputGestureText="Alt+F4" Command="local:CustomCommands.ExitApp" />
             </MenuItem>

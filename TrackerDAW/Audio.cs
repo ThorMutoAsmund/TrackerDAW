@@ -11,7 +11,7 @@ namespace TrackerDAW
         private static ISampleProvider sampleProvider;
         public static WaveOutEvent WaveOut { get; private set; } = new WaveOutEvent();
 
-        public static void Stop()
+        private static void EnsureStopped()
         {
             if (WaveOut.PlaybackState != PlaybackState.Stopped)
             {
@@ -26,9 +26,14 @@ namespace TrackerDAW
             }
         }
 
+        public static void Stop()
+        {
+            EnsureStopped();
+        }
+
         public static void PlayFile(string fileName)
         {
-            Stop();
+            EnsureStopped();
 
             try
             {
@@ -51,7 +56,7 @@ namespace TrackerDAW
 
         public static void Play()
         {
-            Stop();
+            EnsureStopped();
 
             sampleProvider = ProviderFactory.InitFromSong(Env.Song);
             WaveOut.Init(sampleProvider);
@@ -60,7 +65,7 @@ namespace TrackerDAW
 
         public static void PlayFromStart()
         {
-            Stop();
+            EnsureStopped();
                         
             sampleProvider = ProviderFactory.InitFromSong(Env.Song);
             WaveOut.Init(sampleProvider);
@@ -69,7 +74,7 @@ namespace TrackerDAW
 
         public static void PlayFromPatternStart(Pattern pattern)
         {
-            Stop();
+            EnsureStopped();
 
             sampleProvider = ProviderFactory.InitFromPattern(Env.Song, pattern);
             WaveOut.Init(sampleProvider);

@@ -1,0 +1,71 @@
+﻿<Window x:Class="TrackerDAW.CreateProjectDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TrackerDAW"
+        mc:Ignorable="d"
+        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+        Title="Create New Project" Height="300" Width="613" WindowStartupLocation="CenterScreen">
+    <StackPanel>
+        <Label Content="Create new project" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="119"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Height="auto" Width="auto" Margin="12,12,12,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="80"/>
+                </Grid.RowDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="{x:Type Label}">
+                        <Setter Property="Margin" Value="0,-3,0,0"/>
+                    </Style>
+                </Grid.Resources>
+                <Label Grid.Row="0" Grid.Column="0" Content="Project path" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                <TextBox x:Name="projectPathTextBox" Grid.Row="0" Grid.Column="1" Height="23" TextWrapping="Wrap" Text="" Width="auto" VerticalAlignment="Top" />
+                <Label Grid.Row="1" Grid.Column="0" Content="Project name" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                <TextBox x:Name="projectNameTextBox" Grid.Row="1" Grid.Column="1" Height="23" TextWrapping="Wrap" Text="" Width="240" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                <Label Grid.Row="2" Grid.Column="0" Content="Sample rate" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                <TextBox x:Name="sampleRateTextBox" Grid.Row="2" Grid.Column="1" Height="23" TextWrapping="Wrap" Text="" Width="120" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                <Label Grid.Row="3" Grid.Column="0" Content="BPS" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                <TextBox x:Name="bpsTextBox" Grid.Row="3" Grid.Column="1" Height="23" TextWrapping="Wrap" Width="120" VerticalAlignment="Top" HorizontalAlignment="Left"  Text=""/>
+                <Label Grid.Row="4" Grid.Column="0" Content="Channels" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                <TextBox x:Name="channelsTextBox" Grid.Row="4" Grid.Column="1" Height="23" Text="2" Width="120" VerticalAlignment="Top" HorizontalAlignment="Left" IsReadOnly="True" IsEnabled="false"/>
+            </Grid>
+            <StackPanel Grid.Column="1" Height="auto" Orientation="Vertical" Margin="12,12,12,12">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Margin" Value="0,0,0,10"/>
+                    </Style>
+                </StackPanel.Resources>
+                <Button x:Name="okButton" Content="OK" HorizontalAlignment="Left"  Width="95" IsDefault="true" />
+                <Button x:Name="cancelButton" Content="Cancel" HorizontalAlignment="Left"  Width="95" IsCancel="True"  />
+            </StackPanel>
+
+
+        </Grid>
+    </StackPanel>
+
+    <!--<Grid Margin="0,1,0.333,-1.333">
+        <TextBox x:Name="sampleRateTextBox" HorizontalAlignment="Left" Height="23" Margin="89,161,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Sample rate" HorizontalAlignment="Left" Margin="10,157,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="bpsTextBox" HorizontalAlignment="Left" Height="23" Margin="89,193,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Label Content="BPS" HorizontalAlignment="Left" Margin="10,189,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="channelsTextBox" HorizontalAlignment="Left" Height="23" Margin="89,224,0,0" TextWrapping="Wrap" Text="2" VerticalAlignment="Top" Width="120" IsReadOnly="True" IsEnabled="false"/>
+        <Label Content="Channels" HorizontalAlignment="Left" Margin="10,220,0,0" VerticalAlignment="Top"/>
+        
+        <Button Content="OK" HorizontalAlignment="Left" Margin="628,390,0,0" VerticalAlignment="Top" Width="75" IsDefault="True"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="708,390,0,0" VerticalAlignment="Top" Width="75" IsCancel="True"/>
+    </Grid>-->
+</Window>
