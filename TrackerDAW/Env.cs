@@ -13,6 +13,7 @@ namespace TrackerDAW
         public static event Action<Pattern> SelectedPatternChanged;
         public static event Action ApplicationEnded;
 
+        public static MainWindow MainWindow;
         public static string AppName = "TrackerDAW";
         public static string ApplicationPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
         public static string SamplesFolder = "Samples";

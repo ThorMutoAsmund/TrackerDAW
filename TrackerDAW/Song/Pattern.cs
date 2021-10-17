@@ -21,6 +21,24 @@ namespace TrackerDAW
             this.Tracks = new List<Track>();
         }
 
+        public Pattern Clone(string name = null)
+        {
+            var pattern = new Pattern()
+            {
+                Name = name == null ? this.Name : name,
+                ProviderInfo = this.ProviderInfo,
+                Length = this.Length,
+                BPS = this.BPS
+            };
+
+            foreach (var track in this.Tracks)
+            {
+                pattern.Tracks.Add(track.Clone());
+            }
+
+            return pattern;
+        }
+
         public Track AddNewTrack()
         {
             var track = new Track();
@@ -31,6 +49,7 @@ namespace TrackerDAW
 
             return track;
         }
+        
         public int GetCount(Song song) => (int)(this.Length * song.SampleRate);
     }
 }

@@ -15,6 +15,7 @@ namespace TrackerDAW
         {
             InitializeComponent();
 
+            Env.MainWindow = this;
             Env.DirtyChanged += Env_DirtyChanged;
             Song.SongChanged += Song_SongChanged;
 
@@ -25,8 +26,13 @@ namespace TrackerDAW
             {
                 if (!isActivated)
                 {
-                    Song.CreateEmpty();
+                    Song.CreateOrOpenDefault();
                     isActivated = true;
+
+                    if (Env.Song.Patterns.Count > 0)
+                    {
+                        Env.OnSelectedPatternChanged(0);
+                    }
                 }
             };
         }
@@ -115,7 +121,7 @@ namespace TrackerDAW
                 return;
             }
 
-            var dialog = CreateProjectDialog.Create(this, Env.ApplicationPath, Env.NewProjectName, Env.DefaultSampleRate, Env.DefaultBPS, 2);
+            var dialog = CreateProjectDialog.Create(Env.ApplicationPath, Env.NewProjectName, Env.DefaultSampleRate, Env.DefaultBPS, 2);
             if (dialog.ShowDialog() ?? false)
             {
                 if (!System.IO.Directory.Exists(dialog.ProjectPath))

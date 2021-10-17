@@ -29,7 +29,7 @@ namespace TrackerDAW
             InitializeComponent();
 
             this.track = track;
-            this.Height = paternLength * Env.TrackPixelsPerSecond;
+            this.Width = paternLength * Env.TrackPixelsPerSecond + grid.ColumnDefinitions[0].Width.Value;
             this.titleTextBlock.Text = title;
 
             Song.TrackChanged += Song_TrackChanged;
@@ -55,7 +55,20 @@ namespace TrackerDAW
             {
                 var partControl = new PartControl(part, this.track);
                 this.partCanvas.Children.Add(partControl);
+                partControl.MouseDoubleClick += PartControl_MouseDoubleClick;
             }
+        }
+
+        private void PartControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var part = (sender as PartControl).Part;
+            var dialog = EditPartDialog.Create(part);
+
+            if (dialog.ShowDialog() == true)
+            {
+                Song.OnPartChanged(part);
+            }
+
         }
 
         private void partCanvas_DragEnter(object sender, DragEventArgs e)

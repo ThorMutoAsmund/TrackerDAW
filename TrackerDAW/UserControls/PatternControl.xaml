@@ -12,20 +12,34 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" >
-                <TextBlock Name="nameTextBlock" Padding="4,4,24,4" Text="P100"></TextBlock>
-                <TextBox Name="bpsTextBox" Width="42"  PreviewTextInput="bpsTextBox_PreviewTextInput" PreviewKeyDown="bpsTextBox_PreviewKeyDown" />
-                <Label>BPS</Label>
-                <TextBlock Name="playPositionBlock" Padding="4,4,24,4" Text="Stopped"></TextBlock>
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" >
-                <Button Name="prevPatternButton" Content="&lt;" Width="25" Click="prevPatternButton_Click"></Button>
-                <Button Name="nextPatternButton" Content="&gt;" Width="25" Click="nextPatternButton_Click"></Button>
-            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Name="nameTextBlock" Padding="4,4,24,4" Text="Pattern 1" TextWrapping="NoWrap" Style="{StaticResource PatternTitle}"></TextBlock>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Left" Orientation="Horizontal" Height="24">
+                    <TextBox Name="bpsTextBox" Width="42"  PreviewTextInput="bpsTextBox_PreviewTextInput" PreviewKeyDown="bpsTextBox_PreviewKeyDown" Text="80" />
+                    <Label>BPS</Label>
+                    <Button Margin="20,0,0,0" Content="Play" Width="65"></Button>
+                    <Button Margin="4,0,0,0" Content="Pattern" Width="65"></Button>
+                </StackPanel>
+                <StackPanel Grid.Column="3" HorizontalAlignment="Right" Orientation="Horizontal" >
+                    <Button Name="prevPatternButton" Content="◀" Width="25" Click="prevPatternButton_Click"></Button>
+                    <Button Name="nextPatternButton" Content="▶" Width="25" Click="nextPatternButton_Click"></Button>
+                </StackPanel>
+            </Grid>
         </Grid>
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
-            <StackPanel x:Name="tracksStackPanel" FlowDirection="LeftToRight" Orientation="Horizontal" Background="{StaticResource CheckerBoard}">
+            <StackPanel x:Name="tracksStackPanel" Orientation="Vertical">
             </StackPanel>
         </ScrollViewer>
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Edit pattern..." Click="editPatternMenuItem_Click" InputGestureText="F5" />
+            </ContextMenu>
+        </Grid.ContextMenu>
     </Grid>
 </UserControl>

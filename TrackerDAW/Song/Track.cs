@@ -18,6 +18,21 @@ namespace TrackerDAW
             this.Parts = new List<Part>();
         }
 
+        public Track Clone()
+        {
+            var track = new Track()
+            {
+                ProviderInfo = this.ProviderInfo,
+            };
+
+            foreach (var part in this.Parts)
+            {
+                track.Parts.Add(part.Clone());
+            }
+
+            return track;
+        }
+        
         public Part AddPart(Part part)
         {
             //part.ProviderData.Add(ProviderData.PartKey, part); creates self reference!

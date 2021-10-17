@@ -33,7 +33,7 @@ namespace TrackerDAW
             this.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(this.SampleRate, this.Channels);
         }
 
-        public static void CreateEmpty()
+        public static void CreateOrOpenDefault()
         {
             var projectPath = Path.Combine(Env.ApplicationPath, Env.DefaultProjectFileName);
             
@@ -163,7 +163,7 @@ namespace TrackerDAW
             do
             {
                 patternNo++;
-                patternName = $"P{patternNo}";
+                patternName = $"Pattern {patternNo}";
             }
             while (this.Patterns.Any(p => p.Name == patternName));
 

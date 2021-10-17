@@ -5,17 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TrackerDAW"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="150"
-             BorderBrush="black" BorderThickness="1"
-             Background="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}">
-    <Grid Width="150">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="15"></RowDefinition>
-        </Grid.RowDefinitions>
-        <TextBlock x:Name="titleTextBlock" Grid.Row="0" Text="Track x" Padding="4" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"></TextBlock>
-        <Canvas Name="partCanvas" Grid.Row="1" Background="{StaticResource TrackBrush}" DragOver="partCanvas_DragOver" DragEnter="partCanvas_DragEnter" Drop="partCanvas_Drop" DragLeave="partCanvas_DragLeave" AllowDrop="True">
+             d:DesignHeight="25" d:DesignWidth="400"
+             BorderBrush="{StaticResource Background}" 
+             BorderThickness="0,1,0,0"
+             >
+    <Grid Name="grid" Height="25">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <!--<ColumnDefinition Width="15"></ColumnDefinition>-->
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="titleTextBlock" Grid.Column="0" Text="Track name" Padding="4" Background="{StaticResource BackgroundNormal}"></TextBlock>
+        <Canvas Name="partCanvas" Grid.Column="1" Background="{StaticResource TrackBrush}" DragOver="partCanvas_DragOver" DragEnter="partCanvas_DragEnter" Drop="partCanvas_Drop" DragLeave="partCanvas_DragLeave" AllowDrop="True">
             <Canvas.ContextMenu>
                 <ContextMenu Opened="ContextMenu_Opened">
                     <MenuItem Header="Add empty part" Name="addEmptyPartMenuItem" Click="addEmptyPartMenuItem_Click" />

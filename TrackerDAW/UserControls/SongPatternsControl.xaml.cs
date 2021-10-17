@@ -24,6 +24,7 @@ namespace TrackerDAW
         {
             InitializeComponent();
 
+            Env.SelectedPatternChanged += Env_SelectedPatternChanged;
             Song.SongChanged += Song_SongChanged;
             Song.PatternsChanged += Song_PatternsChanged;
         }
@@ -39,6 +40,14 @@ namespace TrackerDAW
             Song_PatternsChanged();
         }
 
+        private void Env_SelectedPatternChanged(Pattern pattern)
+        {
+            if (this.listView.SelectedItem != pattern)
+            {
+                this.listView.SelectedItem = pattern;
+            }
+        }
+        
         private void Song_PatternsChanged()
         {
             this.DataContext = Env.Song.Patterns.ToArray();
@@ -52,7 +61,11 @@ namespace TrackerDAW
         private void duplicateMenu_Click(object sender, RoutedEventArgs e)
         {
             var pattern = this.listView.SelectedItem as Pattern;
-            Env.Song.AddPattern(pattern, this.listView.SelectedIndex);
+            var dialog = StringDialog.Create("New pattern name", pattern.Name);
+            if (dialog.ShowDialog() == true)
+            {
+                Env.Song.AddPattern(pattern.Clone(dialog.Value), this.listView.SelectedIndex+1);
+            }
         }
     }
 }

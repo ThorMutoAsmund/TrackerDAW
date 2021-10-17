@@ -31,12 +31,11 @@ namespace TrackerDAW
             this.okButton.Click += (sender, e) => this.DialogResult = true;
         }
 
-        public static CreateProjectDialog Create(Window owner,
-           string initialProjectPath, string projectName, int sampleRate, double bps, int channels)
+        public static CreateProjectDialog Create(string initialProjectPath, string projectName, int sampleRate, double bps, int channels)
         {
             var dialog = new CreateProjectDialog()
             {
-                Owner = owner,                
+                Owner = Env.MainWindow
             };
 
             dialog.projectPathTextBox.Text = initialProjectPath;

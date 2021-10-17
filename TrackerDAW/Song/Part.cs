@@ -26,17 +26,17 @@ namespace TrackerDAW
             this.Offset = offset;
         }
 
-        public float GetLength()
-        {
-            return 24f;
-        }
-
         public Part Clone()
         {
-            return new Part(this.Offset, this.ProviderInfo.Clone(), this.ProviderData.Clone())
+            return new Part(this.Offset, this.ProviderInfo, this.ProviderData)
             {
                 Name = this.Name
             };
+        }
+
+        public float GetLength()
+        {
+            return 24f;
         }
     }
 }

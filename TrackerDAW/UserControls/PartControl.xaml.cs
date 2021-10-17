@@ -20,8 +20,10 @@ namespace TrackerDAW
     /// </summary>
     public partial class PartControl : UserControl
     {
+        public Part Part => this.part;
+
         private Part part;
-        Track track;
+        private Track track;
         private Point dragStartPoint;
 
         public PartControl(Part part, Track track)
@@ -30,8 +32,8 @@ namespace TrackerDAW
 
             this.part = part;
             this.track = track;
-            this.Height = Env.DefaultPartHeight;
-            Canvas.SetTop(this, this.part.Offset * Env.TrackPixelsPerSecond);
+            this.Width = Env.DefaultPartHeight;
+            Canvas.SetLeft(this, this.part.Offset * Env.TrackPixelsPerSecond);
             
             Song.PartChanged += Song_PartChanged;
 

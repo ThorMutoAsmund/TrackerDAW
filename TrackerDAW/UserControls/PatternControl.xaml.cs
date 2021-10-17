@@ -26,7 +26,7 @@ namespace TrackerDAW
         private Pattern pattern;
         private static readonly Regex _regex = new Regex("[^0-9.-]+");
         private Thread playPositionThread;
-        
+
         public PatternControl()
         {
             InitializeComponent();
@@ -34,7 +34,7 @@ namespace TrackerDAW
             Env.SelectedPatternChanged += Env_SelectedPatternChanged;
             Song.PatternChanged += Song_PatternChanged;
 
-            Audio.WaveOut.PlaybackStopped +=    Audio_PlaybackStopped;
+            Audio.WaveOut.PlaybackStopped += Audio_PlaybackStopped;
 
             this.playPositionThread = new Thread(CheckPlayPosition);
             this.playPositionThread.Start();
@@ -68,12 +68,12 @@ namespace TrackerDAW
 
         private void Audio_PlayPositionChanged(double ms)
         {
-            this.playPositionBlock.Text = string.Format("{0:0.0}", ms/1000d) + " s";
+            //this.playPositionBlock.Content = string.Format("{0:0.0}", ms/1000d) + " s";
         }
 
         private void Audio_PlaybackStopped(object sender, StoppedEventArgs e)
         {
-            this.playPositionBlock.Text = "Stopped";
+            //this.playPositionBlock.Content = "Stopped";
         }
 
         private void Song_PatternChanged(Pattern pattern)
@@ -96,16 +96,12 @@ namespace TrackerDAW
             if (pattern == null)
             {
                 this.bpsTextBox.Text = string.Empty;
+                this.nameTextBlock.Text = string.Empty;
                 return;
             }
 
             this.bpsTextBox.Text = pattern.BPS.ToString();
-            this.nameTextBlock.Text = this.pattern == null ? string.Empty : this.pattern.Name;
-
-            if (this.pattern == null)
-            {
-                return;
-            }
+            this.nameTextBlock.Text = this.pattern.Name;
 
             int i = 1;
             foreach (var track in this.pattern.Tracks)
@@ -164,6 +160,16 @@ namespace TrackerDAW
                     return;
                 }
                 this.bpsTextBox.Text = this.pattern.BPS.ToString();
+            }
+        }
+
+        private void editPatternMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = EditPatternDialog.Create(this.pattern);
+
+            if (dialog.ShowDialog() == true)
+            {
+                Song.OnPatternChanged(this.pattern);
             }
         }
     }
