@@ -121,25 +121,7 @@ namespace TrackerDAW
                 return;
             }
 
-            var dialog = CreateProjectDialog.Create(Env.ApplicationPath, Env.NewProjectName, Env.DefaultSampleRate, Env.DefaultBPS, 2);
-            if (dialog.ShowDialog() ?? false)
-            {
-                if (!System.IO.Directory.Exists(dialog.ProjectPath))
-                {
-                    MessageBox.Show("Selected project folder not found");
-                    return;
-                }
-
-                var projectPath = System.IO.Path.Combine(dialog.ProjectPath, dialog.ProjectName);
-
-                if (System.IO.Directory.Exists(projectPath))
-                {
-                    MessageBox.Show("Project already exists");
-                    return;
-                }
-
-                Song.CreateNew(projectPath, dialog.ProjectName, dialog.SampleRate, dialog.BPS);
-            }
+            CreateProjectDialog.ShowDialog(Env.ApplicationPath, Env.NewProjectName, Env.DefaultSampleRate, Env.DefaultBPS, 2);
         }
 
         private void Close_Action(object sender, RoutedEventArgs e)

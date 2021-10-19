@@ -91,7 +91,7 @@ namespace TrackerDAW
             this.pattern = pattern;
             Clear();
 
-            this.bpsTextBox.IsEnabled = pattern != null;
+            //this.bpsTextBox.IsEnabled = pattern != null;
 
             if (pattern == null)
             {
@@ -100,7 +100,7 @@ namespace TrackerDAW
                 return;
             }
 
-            this.bpsTextBox.Text = pattern.BPS.ToString();
+            this.bpsTextBox.Text = Env.BPSToString(pattern.BPS);
             this.nameTextBlock.Text = this.pattern.Name;
 
             int i = 1;
@@ -144,33 +144,28 @@ namespace TrackerDAW
             }
         }
 
-        private void bpsTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = _regex.IsMatch(e.Text);
-        }
+        //private void bpsTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        //{
+        //    e.Handled = _regex.IsMatch(e.Text);
+        //}
 
-        private void bpsTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            // Prohibit space
-            if (e.Key == Key.Enter)
-            {
-                if (double.TryParse(this.bpsTextBox.Text, out var bps))
-                {
-                    this.pattern.BPS = bps;
-                    return;
-                }
-                this.bpsTextBox.Text = this.pattern.BPS.ToString();
-            }
-        }
+        //private void bpsTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        //{
+        //    // Prohibit space
+        //    if (e.Key == Key.Enter)
+        //    {
+        //        if (double.TryParse(this.bpsTextBox.Text, out var bps))
+        //        {
+        //            this.pattern.BPS = bps;
+        //            return;
+        //        }
+        //        this.bpsTextBox.Text = this.pattern.BPS.ToString();
+        //    }
+        //}
 
         private void editPatternMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = EditPatternDialog.Create(this.pattern);
-
-            if (dialog.ShowDialog() == true)
-            {
-                Song.OnPatternChanged(this.pattern);
-            }
+            EditPatternDialog.ShowDialog(this.pattern);
         }
     }
 }

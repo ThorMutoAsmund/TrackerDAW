@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace TrackerDAW
 {
@@ -32,8 +21,6 @@ namespace TrackerDAW
 
             this.part = part;
             this.track = track;
-            this.Width = Env.DefaultPartHeight;
-            Canvas.SetLeft(this, this.part.Offset * Env.TrackPixelsPerSecond);
             
             Song.PartChanged += Song_PartChanged;
 
@@ -53,6 +40,8 @@ namespace TrackerDAW
         private void RedrawPart()
         {
             this.titleTextBlock.Text = this.part.Name;
+            this.Width = this.part.GetLength() * Env.TrackPixelsPerSecond;
+            Canvas.SetLeft(this, this.part.Offset * Env.TrackPixelsPerSecond);
         }
 
         private void grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -67,14 +56,26 @@ namespace TrackerDAW
                 // Get the current mouse position
                 var mousePos = e.GetPosition(null);
                 var diff = this.dragStartPoint - mousePos;
-                
-                this.CheckDragDrop(diff, (this.part, this.track), "part", DragDropEffects.Copy | DragDropEffects.Move);
+                var canvasLeft = Canvas.GetLeft(this);
+                var offset = e.GetPosition(this).X;
+                this.CheckDragDrop(diff, (this.part, this.track, offset), "part", DragDropEffects.Copy | DragDropEffects.Move);
             }
+        }
+
+        private void editPartMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            EditPartDialog.ShowDialog(this.part);
         }
 
         private void deletePartMenuItem_Click(object sender, RoutedEventArgs e)
         {
             this.track.DeletePart(this.part);
+        }
+
+        private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            EditPartDialog.ShowDialog(this.part);
+
         }
     }
 }

@@ -21,7 +21,8 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Name="nameTextBlock" Padding="4,4,24,4" Text="Pattern 1" TextWrapping="NoWrap" Style="{StaticResource PatternTitle}"></TextBlock>
                 <StackPanel Grid.Column="1" HorizontalAlignment="Left" Orientation="Horizontal" Height="24">
-                    <TextBox Name="bpsTextBox" Width="42"  PreviewTextInput="bpsTextBox_PreviewTextInput" PreviewKeyDown="bpsTextBox_PreviewKeyDown" Text="80" />
+                    <!--PreviewTextInput="bpsTextBox_PreviewTextInput" PreviewKeyDown="bpsTextBox_PreviewKeyDown"-->
+                    <TextBox Name="bpsTextBox" Width="42"   Text="80" IsReadOnly="True" />
                     <Label>BPS</Label>
                     <Button Margin="20,0,0,0" Content="Play" Width="65"></Button>
                     <Button Margin="4,0,0,0" Content="Pattern" Width="65"></Button>
@@ -33,12 +34,12 @@
             </Grid>
         </Grid>
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
-            <StackPanel x:Name="tracksStackPanel" Orientation="Vertical">
+            <StackPanel x:Name="tracksStackPanel" Orientation="Vertical" HorizontalAlignment="Left">
             </StackPanel>
         </ScrollViewer>
         <Grid.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Edit pattern..." Click="editPatternMenuItem_Click" InputGestureText="F5" />
+                <MenuItem Header="Edit pattern..." Click="editPatternMenuItem_Click" />
             </ContextMenu>
         </Grid.ContextMenu>
     </Grid>

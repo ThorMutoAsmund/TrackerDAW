@@ -8,6 +8,7 @@
              d:DesignHeight="25" d:DesignWidth="400"
              BorderBrush="{StaticResource Background}" 
              BorderThickness="0,1,0,0"
+             MouseDoubleClick="UserControl_MouseDoubleClick"
              >
     <Grid Name="grid" Height="25">
         <Grid.ColumnDefinitions>
@@ -23,5 +24,10 @@
                 </ContextMenu>
             </Canvas.ContextMenu>
         </Canvas>
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Edit track..." Click="editTrackMenuItem_Click" />
+            </ContextMenu>
+        </Grid.ContextMenu>
     </Grid>
 </UserControl>

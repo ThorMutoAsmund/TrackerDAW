@@ -1,43 +1,44 @@
 ﻿using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TrackerDAW
 {
     public class DefaultSampleProvider : BaseProvider
     {
         public const int Version = 1;
-        public override string Title => "";
-        public override double Offset => this.part?.Offset ?? 0d;
+
+        public override float Gain => (float)this.gain;
 
         private ISampleProvider wtsProvider;
-
         private ProviderData providerData;
-        private Part part;
         private string sampleName;
+        private int iStartAt;
+        private double gain;
 
-        public DefaultSampleProvider(Song song, ProviderData providerData) :
-            base(song)
+        public DefaultSampleProvider(PlaybackContext context, ProviderData providerData) :
+            base(context)
         {
             this.providerData = providerData;
 
-            if (!providerData.TryGetValue<Part>(ProviderData.PartKey, out this.part))
-            {
-                Fail("No part info");
-                return;
-            }
-
-            if (!providerData.TryGetValue<string>(ProviderData.SampleNameKey, out this.sampleName))
+            if (!this.providerData.TryGetValue<string>(ProviderData.SampleNameKey, out this.sampleName))
             {
                 Fail("No samplename info");
                 return;
             }
 
-            var waveFileReader = new WaveFileReader(System.IO.Path.Combine(Env.Song.SamplesPath, this.sampleName));
+            if (!this.providerData.TryGetValue<int>(ProviderData.IStartAtKey, out this.iStartAt))
+            {
+                Fail("No start-at info");
+                return;
+            }
+
+            if (!this.providerData.TryGetValue<double>(ProviderData.GainKey, out this.gain))
+            {
+                this.gain = 1d;
+            }
+
+            var waveFileReader = new WaveFileReader(System.IO.Path.Combine(this.Song.SamplesPath, this.sampleName));
             this.wtsProvider = CreateConverter(waveFileReader);
         }
 
@@ -48,7 +49,19 @@ namespace TrackerDAW
                 return 0;
             }
 
-            return this.wtsProvider.Read(buffer, offset, count);
+            var read = 0;
+
+            if (this.Context.SamplePosition < this.iStartAt)
+            {
+                read = Math.Min(count, this.iStartAt - this.Context.SamplePosition);
+            }
+
+            if (read < count)
+            {
+                read += this.wtsProvider.Read(buffer, read + offset, count - read);
+            }
+
+            return read;
         }
 
         private ISampleProvider CreateConverter(IWaveProvider waveProvider)

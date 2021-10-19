@@ -34,6 +34,7 @@ namespace TrackerDAW
         public static bool HasChanges;
         public static string LastProjectPath;
         public static double TrackPixelsPerSecond = 100d;
+        public static double PlayPosition = 0d;
         public static Watchers Watchers { get; private set; } = new Watchers();
         public static List<string> RecentFiles { get; } = new List<string>();
 
@@ -70,5 +71,28 @@ namespace TrackerDAW
             }
         }
 
+        public static string SampleRateToString(double value)
+        {
+            return value.ToString("0.000", System.Globalization.CultureInfo.InvariantCulture);
+        }
+        public static string GainToString(double value)
+        {
+            return value.ToString("0.000", System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        public static string BPSToString(double value)
+        {
+            return value.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        public static string TimeToString(double value)
+        {
+            return value.ToString("0.000", System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        public static bool TryParseDouble(string s, out double result)
+        {
+            return double.TryParse(s.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out result);
+        }
     }
 }

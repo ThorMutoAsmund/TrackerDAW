@@ -10,6 +10,12 @@ namespace TrackerDAW
 {
     public class ProviderInfo
     {
+        public static ProviderInfo EmptyProviderInfo = ProviderInfo.CreateDefaultProvider<EmptyProvider>(0);
+        public static ProviderInfo DefaultSongProviderInfo = ProviderInfo.CreateDefaultProvider<DefaultSongProvider>(DefaultSongProvider.Version);
+        public static ProviderInfo DefaultPatternProviderInfo = ProviderInfo.CreateDefaultProvider<DefaultPatternProvider>(DefaultPatternProvider.Version);
+        public static ProviderInfo DefaultTrackProviderInfo = ProviderInfo.CreateDefaultProvider<DefaultTrackProvider>(DefaultTrackProvider.Version);
+        public static ProviderInfo DefaultSampleProviderInfo = ProviderInfo.CreateDefaultProvider<DefaultSampleProvider>(DefaultSampleProvider.Version);
+
         public const string UserNameSpace = "User";
         public const string DefaultNameSpace = "Default";
 

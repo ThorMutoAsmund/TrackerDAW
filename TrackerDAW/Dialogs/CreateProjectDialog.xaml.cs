@@ -31,7 +31,7 @@ namespace TrackerDAW
             this.okButton.Click += (sender, e) => this.DialogResult = true;
         }
 
-        public static CreateProjectDialog Create(string initialProjectPath, string projectName, int sampleRate, double bps, int channels)
+        public static void ShowDialog(string initialProjectPath, string projectName, int sampleRate, double bps, int channels)
         {
             var dialog = new CreateProjectDialog()
             {
@@ -40,10 +40,27 @@ namespace TrackerDAW
 
             dialog.projectPathTextBox.Text = initialProjectPath;
             dialog.projectNameTextBox.Text = projectName;
-            dialog.sampleRateTextBox.Text = $"{sampleRate}";
-            dialog.bpsTextBox.Text = $"{bps}";
+            dialog.sampleRateTextBox.Text = Env.SampleRateToString(sampleRate);
+            dialog.bpsTextBox.Text = Env.BPSToString(bps);
 
-            return dialog;
+            if (dialog.ShowDialog() == true)
+            {
+                if (!System.IO.Directory.Exists(dialog.ProjectPath))
+                {
+                    MessageBox.Show("Selected project folder not found");
+                    return;
+                }
+
+                var projectPath = System.IO.Path.Combine(dialog.ProjectPath, dialog.ProjectName);
+
+                if (System.IO.Directory.Exists(projectPath))
+                {
+                    MessageBox.Show("Project already exists");
+                    return;
+                }
+
+                Song.CreateNew(projectPath, dialog.ProjectName, dialog.SampleRate, dialog.BPS);
+            }
         }
     }
 }

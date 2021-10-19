@@ -10,22 +10,36 @@ namespace TrackerDAW
 {
     public abstract class BaseProvider : IProvider
     {
-        public virtual string Title => string.Empty;
-        public abstract double Offset { get; }
-        public WaveFormat WaveFormat => this.song.WaveFormat;
+        public abstract float Gain { get; }
+        public WaveFormat WaveFormat => this.Song.WaveFormat;
         public bool Failed { get; set; }
         public string Failure { get; set; }
-        protected Song song;
+        
+        protected PlaybackContext Context { get; private set; }
+        protected Song Song => this.Context.Song;
 
-        public BaseProvider(Song song)
+        public BaseProvider(PlaybackContext context)
         {
-            this.song = song;
+            this.Context = context;
         }
 
         protected void Fail(string failure)
         {
             this.Failed = true;
             this.Failure = failure;
+        }
+
+        private int ramp = 0;
+        protected int Test(float[] buffer, int offset, int count)
+        {
+            var r = new Random();
+            for (int i = 0; i < count; ++i)
+            {
+                buffer[offset + i] = (float)(Math.Sin((i + ramp) / 10f) * 2f - 1f);
+            }
+            ramp += count;
+
+            return count;
         }
 
         public abstract int Read(float[] buffer, int offset, int count);

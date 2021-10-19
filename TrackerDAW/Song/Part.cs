@@ -14,29 +14,38 @@ namespace TrackerDAW
         [JsonProperty] public ProviderData ProviderData { get; set; }
         [JsonProperty] public string Name { get; set; }
         [JsonProperty] public double Offset { get; set; }
+        [JsonProperty] public double Gain { get; set; }
 
+        [JsonIgnore] public string NameWithDefaultValue => String.IsNullOrEmpty(this.Name) ? "(untitled)" : this.Name;
+        
         public Part()
         {
+            this.Offset = 0d;
+            this.Gain = 1d;
         }
 
-        public Part(double offset, ProviderInfo providerInfo, ProviderData providerData)
+        public Part(double offset, ProviderInfo providerInfo, ProviderData providerData, double gain = 1d, string name = "")
         {
             this.ProviderInfo = providerInfo;
             this.ProviderData = providerData;
             this.Offset = offset;
+            this.Gain = gain;
+            this.Name = name;
+        }
+
+        public int SampleOffset(Song song)
+        {
+            return (int)(this.Offset * song.SampleRate);
         }
 
         public Part Clone()
         {
-            return new Part(this.Offset, this.ProviderInfo, this.ProviderData)
-            {
-                Name = this.Name
-            };
+            return new Part(this.Offset, this.ProviderInfo.Clone(), this.ProviderData.Clone(), this.Gain, this.Name);
         }
 
         public float GetLength()
         {
-            return 24f;
+            return 3f;
         }
     }
 }

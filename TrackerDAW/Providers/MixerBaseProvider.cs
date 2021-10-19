@@ -1,25 +1,21 @@
 ﻿using NAudio.Utils;
 using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TrackerDAW
 {
     public abstract class MixerBaseProvider : BaseProvider
     {
-        private List<ISampleProvider> providers = new List<ISampleProvider>();
+        private List<IProvider> providers = new List<IProvider>();
         private float[] mixBuffer;
 
-        public MixerBaseProvider(Song song) :
-            base(song)
+        public MixerBaseProvider(PlaybackContext context) :
+            base(context)
         {
         }
 
-        protected void AddInputProvider(ISampleProvider provider)
+        protected void AddInputProvider(IProvider provider)
         {
             this.providers.Add(provider);
         }
@@ -45,11 +41,11 @@ namespace TrackerDAW
                     {
                         if (n >= outputSamples)
                         {
-                            buffer[outIndex++] = this.mixBuffer[n];
+                            buffer[outIndex++] = this.mixBuffer[n] * source.Gain;
                         }
                         else
                         {
-                            buffer[outIndex++] += this.mixBuffer[n];
+                            buffer[outIndex++] += this.mixBuffer[n] * source.Gain;
                         }
                     }
                     outputSamples = Math.Max(samplesRead, outputSamples);

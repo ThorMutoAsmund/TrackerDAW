@@ -8,6 +8,9 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <ListView x:Name="listView" Margin="0,0,0,0" ItemsSource="{Binding}"
             MouseDoubleClick="listView_MouseDoubleClick" PreviewMouseMove="listView_PreviewMouseMove" MouseLeftButtonDown="listView_MouseLeftButtonDown">
+        <ListView.ItemContainerStyle>
+            <Style TargetType="{x:Type ListViewItem}" />
+        </ListView.ItemContainerStyle>
         <ListView.ItemTemplate>
             <DataTemplate>
                 <TextBlock Text="{Binding}" />

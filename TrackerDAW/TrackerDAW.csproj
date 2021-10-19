@@ -90,6 +90,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Audio.cs" />
+    <Compile Include="Dialogs\EditTrackDialog.xaml.cs">
+      <DependentUpon>EditTrackDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\EditPartDialog.xaml.cs">
       <DependentUpon>EditPartDialog.xaml</DependentUpon>
     </Compile>
@@ -102,7 +105,7 @@
     <Compile Include="Dialogs\EditPatternDialog.xaml.cs">
       <DependentUpon>EditPatternDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CreateProjectDialog.xaml.cs">
+    <Compile Include="Dialogs\CreateProjectDialog.xaml.cs">
       <DependentUpon>CreateProjectDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomCommands.cs" />
@@ -111,13 +114,12 @@
     <Compile Include="Providers\EmptyProvider.cs" />
     <Compile Include="Providers\BaseProvider.cs" />
     <Compile Include="Examples\VolumeProvider.cs" />
-    <Compile Include="Examples\MixingProvider.cs" />
     <Compile Include="Providers\MixerBaseProvider.cs" />
+    <Compile Include="Providers\PlaybackContext.cs" />
     <Compile Include="Providers\ProviderFactory.cs" />
     <Compile Include="Providers\DefaultSampleProvider.cs" />
     <Compile Include="Providers\IProvider.cs" />
     <Compile Include="Providers\DefaultPatternProvider.cs" />
-    <Compile Include="Examples\PartSampleProvider.cs" />
     <Compile Include="Providers\DefaultSongProvider.cs" />
     <Compile Include="Song\ProviderData.cs" />
     <Compile Include="Song\ProviderInfo.cs" />
@@ -154,6 +156,10 @@
       <DependentUpon>TrackControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Watchers.cs" />
+    <Page Include="Dialogs\EditTrackDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\EditPartDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -170,7 +176,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="CreateProjectDialog.xaml">
+    <Page Include="Dialogs\CreateProjectDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

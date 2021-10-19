@@ -12,8 +12,16 @@ namespace TrackerDAW
         [JsonProperty] public string Name { get; set; }
         [JsonProperty] public ProviderInfo ProviderInfo { get; set; }
         [JsonProperty] public int Version { get; set; }
-        [JsonProperty] public int SampleRate { get; set; }
-        [JsonProperty] public int Channels { get; set; }
+        [JsonProperty] public int SampleRate
+        {
+            get => this.sampleRate;
+            set
+            {
+                this.sampleRate = value;
+                this.waveFormat = null;
+            }
+        }
+        [JsonIgnore] public int Channels => 2;
         [JsonProperty] public List<Pattern> Patterns { get; private set; }
         //[JsonProperty] public List<ProviderInfo> Providers { get; set; }
         [JsonProperty] public double BPS { get; set; }
@@ -21,16 +29,28 @@ namespace TrackerDAW
         [JsonIgnore] public string ProjectFilePath => Path.Combine(this.projectPath, $"{Env.ProjectFileName}.json");
         [JsonIgnore] public string ScriptsPath => Path.Combine(this.projectPath, Env.ScriptsFolder);
         [JsonIgnore] public string SamplesPath => Path.Combine(this.projectPath, Env.SamplesFolder);
-        [JsonIgnore] public WaveFormat WaveFormat { get; private set; }
+        
+        [JsonIgnore] public WaveFormat WaveFormat
+        {
+            get
+            {
+                if (this.waveFormat == null)
+                {
+                    this.waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(this.SampleRate, 2);
+                }
 
+                return this.waveFormat;
+            }
+        }
+
+        private int sampleRate;
         private string projectPath;
+        public WaveFormat waveFormat;
 
         private Song()
         {
-            this.ProviderInfo = ProviderFactory.DefaultSongProviderInfo;
+            this.ProviderInfo = ProviderInfo.DefaultSongProviderInfo;
             this.Patterns = new List<Pattern>();
-            //this.Providers = new List<ProviderInfo>();
-            this.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(this.SampleRate, this.Channels);
         }
 
         public static void CreateOrOpenDefault()
@@ -55,19 +75,17 @@ namespace TrackerDAW
             Song.CreateNew(projectPath, Env.DefaultProjectName, Env.DefaultSampleRate, Env.DefaultBPS);
         }
 
-        public static void CreateNew(string projectPath, string songName, int sampleRate, double bps, int channels = 2)
+        public static void CreateNew(string projectPath, string songName, int sampleRate, double bps)
         {
             Env.Song = new Song()
             {
                 projectPath = projectPath,
                 Name = songName,
                 SampleRate = sampleRate,
-                BPS = bps,
-                Channels = channels
+                BPS = bps
             };
 
             Song.CreateFolders(projectPath);
-            ProviderFactory.AddDefaultProviders(Env.Song);
 
             for (var p = 0; p < Env.DefaultNumberOfPatterns; ++p)
             {

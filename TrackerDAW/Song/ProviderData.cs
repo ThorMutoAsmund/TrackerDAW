@@ -10,7 +10,8 @@ namespace TrackerDAW
 {
     public class ProviderData : Dictionary<string, object>
     {
-        public const string OffsetKey = "Offset";
+        public const string IStartAtKey = "Offset";
+        public const string GainKey = "Gain";
         public const string PatternKey = "Pattern";
         public const string TrackKey = "Track";
         public const string PartKey = "Part";
@@ -39,6 +40,18 @@ namespace TrackerDAW
             }
 
             return clone;
+        }
+
+        public ProviderData Extend(Dictionary<string, object> other)
+        {
+            var result = this.Clone();
+            foreach (var pair in other)
+            {
+                result[pair.Key] = pair.Value;
+            }
+
+            return result;
+
         }
     }
 }

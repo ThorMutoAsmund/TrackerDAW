@@ -34,25 +34,41 @@ namespace TrackerDAW
         {
             var partName = this.partNameTextBox.Text;
 
-            this.part.Name = partName;
+            if (!Env.TryParseDouble(this.partOffsetTextBox.Text, out var partOffset) || partOffset < 0d)
+            {
+                MessageBox.Show("Illegal part offset");
+                return;
+            }
 
+            if (!Env.TryParseDouble(this.partGainTextBox.Text, out var partGain) || partGain < 0d)
+            {
+                MessageBox.Show("Illegal part gain");
+                return;
+            }
+
+            this.part.Name = partName;
+            this.part.Offset = partOffset;
+            this.part.Gain = partGain;
             this.DialogResult = true;
         }
 
-        public static EditPartDialog Create(Part part)
+        public static void ShowDialog(Part part)
         {
             var dialog = new EditPartDialog()
             {
-                Owner = Env.MainWindow
+                Owner = Env.MainWindow,
+                part = part
             };
 
-            dialog.part = part;
             dialog.partNameLabel.Content = part.Name;
             dialog.partNameTextBox.Text = part.Name;
-            //dialog.patternLengthTextBox.Text = $"{pattern.Length}";
-            //dialog.patternBPSTextBox.Text = $"{pattern.BPS}";
+            dialog.partGainTextBox.Text = Env.GainToString(part.Gain);
+            dialog.partOffsetTextBox.Text = Env.TimeToString(part.Offset);
 
-            return dialog;
+            if (dialog.ShowDialog() == true)
+            {
+                Song.OnPartChanged(part);
+            }
         }
 
         private void partNameTextBox_TextChanged(object sender, TextChangedEventArgs e)

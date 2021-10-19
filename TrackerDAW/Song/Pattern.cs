@@ -14,11 +14,20 @@ namespace TrackerDAW
         [JsonProperty] public double Length { get; set; }
         [JsonProperty] public List<Track> Tracks { get; set; }
         [JsonProperty] public double BPS { get; set; }
+        [JsonProperty] public double Gain { get; set; }
 
+        [JsonIgnore] public string NameWithDefaultValue => String.IsNullOrEmpty(this.Name) ? "(untitled)" : this.Name;
+        
         public Pattern()
         {
-            this.ProviderInfo = ProviderFactory.DefaultPatternProviderInfo;
+            this.ProviderInfo = ProviderInfo.DefaultPatternProviderInfo;
             this.Tracks = new List<Track>();
+            this.Gain = 1d;
+        }
+
+        public int SampleLength(Song song)
+        {
+            return (int)(this.Length * song.SampleRate);
         }
 
         public Pattern Clone(string name = null)
@@ -28,7 +37,8 @@ namespace TrackerDAW
                 Name = name == null ? this.Name : name,
                 ProviderInfo = this.ProviderInfo,
                 Length = this.Length,
-                BPS = this.BPS
+                BPS = this.BPS,
+                Gain = this.Gain
             };
 
             foreach (var track in this.Tracks)

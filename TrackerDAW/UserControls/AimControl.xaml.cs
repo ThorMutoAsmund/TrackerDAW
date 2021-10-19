@@ -31,5 +31,9 @@ namespace TrackerDAW
         {
             Canvas.SetTop(this, top);
         }
+        public void SetLeft(double left)
+        {
+            Canvas.SetLeft(this, left);
+        }
     }
 }

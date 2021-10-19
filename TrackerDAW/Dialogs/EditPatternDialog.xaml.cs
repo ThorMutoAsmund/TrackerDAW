@@ -34,38 +34,50 @@ namespace TrackerDAW
         {
             var patternName = this.patternNameTextBox.Text;
 
-            if (!double.TryParse(this.patternLengthTextBox.Text, out var patternLength))
+            if (!Env.TryParseDouble(this.patternLengthTextBox.Text, out var patternLength) || patternLength < 0d)
             {
                 MessageBox.Show("Illegal pattern length");
                 return;
             }
-            if (!double.TryParse(this.patternBPSTextBox.Text, out var patternBPS))
+            if (!Env.TryParseDouble(this.patternBPSTextBox.Text, out var patternBPS) || patternBPS < 0d)
             {
                 MessageBox.Show("Illegal pattern BPS");
+                return;
+            }
+            if (!Env.TryParseDouble(this.patternGainTextBox.Text, out var patternGain) || patternGain < 0d)
+            {
+                MessageBox.Show("Illegal pattern gain");
                 return;
             }
 
             this.pattern.Name = patternName;
             this.pattern.Length = patternLength;
-            this.pattern.BPS = patternBPS;                 
+            this.pattern.BPS = patternBPS;
+            this.pattern.Gain = patternGain;
 
             this.DialogResult = true;
         }
 
-        public static EditPatternDialog Create(Pattern pattern)
+
+
+        public static void ShowDialog(Pattern pattern)
         {
             var dialog = new EditPatternDialog()
             {
-                Owner = Env.MainWindow
+                Owner = Env.MainWindow,
+                pattern = pattern,
             };
 
-            dialog.pattern = pattern;
             dialog.patternNameLabel.Content = pattern.Name;
             dialog.patternNameTextBox.Text = pattern.Name;
-            dialog.patternLengthTextBox.Text = $"{pattern.Length}";
-            dialog.patternBPSTextBox.Text = $"{pattern.BPS}";
+            dialog.patternLengthTextBox.Text = Env.TimeToString(pattern.Length);
+            dialog.patternBPSTextBox.Text = Env.BPSToString(pattern.BPS);
+            dialog.patternGainTextBox.Text = Env.GainToString(pattern.Gain);
 
-            return dialog;
+            if (dialog.ShowDialog() == true)
+            {
+                Song.OnPatternChanged(pattern);
+            }
         }
 
         private void patternNameTextBox_TextChanged(object sender, TextChangedEventArgs e)

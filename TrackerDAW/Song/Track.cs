@@ -11,11 +11,13 @@ namespace TrackerDAW
     {
         [JsonProperty] public ProviderInfo ProviderInfo { get; set; }
         [JsonProperty] public List<Part> Parts { get; set; }
+        [JsonProperty] public double Gain { get; set; }
 
         public Track()
         {
-            this.ProviderInfo = ProviderFactory.DefaultTrackProviderInfo;
+            this.ProviderInfo = ProviderInfo.DefaultTrackProviderInfo;
             this.Parts = new List<Part>();
+            this.Gain = 1d;
         }
 
         public Track Clone()
@@ -23,6 +25,7 @@ namespace TrackerDAW
             var track = new Track()
             {
                 ProviderInfo = this.ProviderInfo,
+                Gain = this.Gain
             };
 
             foreach (var part in this.Parts)
@@ -35,7 +38,6 @@ namespace TrackerDAW
         
         public Part AddPart(Part part)
         {
-            //part.ProviderData.Add(ProviderData.PartKey, part); creates self reference!
             this.Parts.Add(part);
 
             Song.OnTrackChanged(this);

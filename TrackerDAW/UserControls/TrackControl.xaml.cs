@@ -55,38 +55,59 @@ namespace TrackerDAW
             {
                 var partControl = new PartControl(part, this.track);
                 this.partCanvas.Children.Add(partControl);
-                partControl.MouseDoubleClick += PartControl_MouseDoubleClick;
             }
         }
 
-        private void PartControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private bool CheckDataPresent(DragEventArgs e)
         {
-            var part = (sender as PartControl).Part;
-            var dialog = EditPartDialog.Create(part);
-
-            if (dialog.ShowDialog() == true)
-            {
-                Song.OnPartChanged(part);
-            }
-
-        }
-
-        private void partCanvas_DragEnter(object sender, DragEventArgs e)
-        {
-            if (!(e.Data.GetDataPresent("sample") || e.Data.GetDataPresent("script") || e.Data.GetDataPresent("part")))
+            if (!(e.Data.GetDataPresent("sample") || e.Data.GetDataPresent("part")))
             {
                 e.Effects = DragDropEffects.None;
-                return;
+                return false;
             }
+            return true;
+        }
 
-            var point = e.GetPosition(this.partCanvas);
-
+        private void EnsureAimControlCreated()
+        {
+            // Create or reuse aim control
             if (this.aimControl == null)
             {
                 this.aimControl = new AimControl();
                 this.partCanvas.Children.Add(this.aimControl);
             }
-            this.aimControl.SetTop(GetSnapValue(point.Y));
+        }
+
+        private void partCanvas_DragEnter(object sender, DragEventArgs e)
+        {
+            if (!CheckDataPresent(e))
+            {
+                return;
+            }
+
+            EnsureAimControlCreated();
+
+            // Aim control width
+            if (e.Data.GetDataPresent("sample"))
+            {
+                this.aimControl.Width = 200d;
+
+                // Aim control position
+                var point = e.GetPosition(this.partCanvas);
+                this.aimControl.SetLeft(GetSnapValue(point.X));
+            }
+            else if (e.Data.GetDataPresent("part"))
+            {
+                (var part, var oldTrack, var offset) = ((Part, Track, double))e.Data.GetData("part");
+
+                var width = part.GetLength() * Env.TrackPixelsPerSecond;
+                this.aimControl.Width = width;
+
+                // Aim control position
+                var point = e.GetPosition(this.partCanvas);
+                this.aimControl.SetLeft(GetSnapValue(point.X) - offset);
+            }
+
 
             e.Effects = e.CheckEffect();
             e.Handled = true;
@@ -94,36 +115,64 @@ namespace TrackerDAW
 
         private void partCanvas_DragOver(object sender, DragEventArgs e)
         {
-            partCanvas_DragEnter(sender, e);
+            if (!CheckDataPresent(e))
+            {
+                return;
+            }
+
+            EnsureAimControlCreated();
+
+            // Aim control width
+            if (e.Data.GetDataPresent("sample"))
+            {
+                // Aim control position
+                var point = e.GetPosition(this.partCanvas);
+                this.aimControl.SetLeft(GetSnapValue(point.X));
+            }
+            else if (e.Data.GetDataPresent("part"))
+            {
+                var point = e.GetPosition(this.partCanvas);
+                (var part, var oldTrack, var offset) = ((Part, Track, double))e.Data.GetData("part");
+                var left = Math.Max(0d, GetSnapValue(point.X) - offset);
+
+                // Aim control position
+                this.aimControl.SetLeft(left);
+            }
+
+            e.Effects = e.CheckEffect();
+            e.Handled = true;
         }
 
         private void partCanvas_Drop(object sender, DragEventArgs e)
         {
             var point = e.GetPosition(this.partCanvas);
-
+            
             if (e.Data.GetDataPresent("sample"))
             {
                 var sampleName = e.Data.GetData("sample") as string;
+                var left = Math.Max(0d, GetSnapValue(point.X));
 
                 this.track.AddPart(
-                    new Part(GetSnapValue(point.Y) / Env.TrackPixelsPerSecond,
-                    ProviderFactory.DefaultSampleProviderInfo,
+                    new Part(left / Env.TrackPixelsPerSecond,
+                    ProviderInfo.DefaultSampleProviderInfo,
                     new ProviderData()
                     {
                         { ProviderData.SampleNameKey, sampleName }
-                    }));
+                    },
+                    name: sampleName));
             }
             else if (e.Data.GetDataPresent("part"))
             {
-                (var part, var oldTrack) = ((Part, Track))e.Data.GetData("part");
+                (var part, var oldTrack, var offset) = ((Part, Track, double))e.Data.GetData("part");
+                var left = Math.Max(0d, GetSnapValue(point.X) - offset);
 
                 switch (e.CheckEffect())
                 {
                     case DragDropEffects.Copy:
-                        this.track.CopyPart(part, GetSnapValue(point.Y) / Env.TrackPixelsPerSecond);
+                        this.track.CopyPart(part, left / Env.TrackPixelsPerSecond);
                         break;
                     case DragDropEffects.Move:
-                        this.track.MovePart(part, oldTrack, GetSnapValue(point.Y) / Env.TrackPixelsPerSecond);
+                        this.track.MovePart(part, oldTrack, left / Env.TrackPixelsPerSecond);
                         break;
                 }
             }
@@ -143,7 +192,7 @@ namespace TrackerDAW
         private void addEmptyPartMenuItem_Click(object sender, RoutedEventArgs e)
         {
             this.track.AddPart(new Part(GetSnapValue(this.contextMenuPoint.Y) / Env.TrackPixelsPerSecond,
-                ProviderFactory.EmptyProviderInfo, new ProviderData()));
+                ProviderInfo.EmptyProviderInfo, new ProviderData(), name: "empty"));
         }
 
         private void ContextMenu_Opened(object sender, RoutedEventArgs e)
@@ -153,7 +202,17 @@ namespace TrackerDAW
 
         private double GetSnapValue(double y)
         {
-            return Math.Floor(y / Env.DefaultPartHeight) * Env.DefaultPartHeight;
+            return y;
+            //return Math.Floor(y / Env.DefaultPartHeight) * Env.DefaultPartHeight;
+        }
+        private void editTrackMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            EditTrackDialog.ShowDialog(this.track, this.titleTextBlock.Text);
+        }
+
+        private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            EditTrackDialog.ShowDialog(this.track, this.titleTextBlock.Text);
         }
     }
 }

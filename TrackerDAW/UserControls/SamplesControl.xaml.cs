@@ -39,8 +39,11 @@ namespace TrackerDAW
 
         private void listView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var fileName = this.listView.SelectedItem as string;
-            Audio.PlayFile(fileName);
+            if (this.listView.SelectedItem != null)
+            {
+                var fileName = this.listView.SelectedItem as string;
+                Audio.PlayFile(fileName);
+            }
         }
 
         private void listView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -51,7 +54,7 @@ namespace TrackerDAW
 
         private void listView_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Pressed && this.listView.SelectedItem != null)
             {
                 // Get the current mouse position
                 var mousePos = e.GetPosition(null);

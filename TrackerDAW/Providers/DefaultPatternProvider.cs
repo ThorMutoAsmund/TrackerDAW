@@ -1,46 +1,40 @@
-﻿using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace TrackerDAW
 {
     public class DefaultPatternProvider : MixerBaseProvider
     {
+        public override float Gain => (float)this.pattern.Gain;
         public const int Version = 1;
-        public override double Offset => this.offset; // offset = 50 means this pattern should start returning samples when Read is called with offset 50
 
         private ProviderData providerData;
         private Pattern pattern;
-        private double offset;
 
-        public DefaultPatternProvider(Song song, ProviderData providerData) :
-            base(song)
+        public DefaultPatternProvider(PlaybackContext context, ProviderData providerData) :
+            base(context)
         {
             this.providerData = providerData;
 
-            if (!providerData.TryGetValue<Pattern>(ProviderData.PatternKey, out this.pattern))
+            if (!this.providerData.TryGetValue<Pattern>(ProviderData.PatternKey, out this.pattern))
             {
                 Fail("No pattern info");
                 return;
             }
 
-            if (!providerData.TryGetValue<double>(ProviderData.OffsetKey, out this.offset))
+            if (!this.providerData.TryGetValue<int>(ProviderData.IStartAtKey, out var iStartAt))
             {
-                Fail("No offset info");
+                Fail("No start-at info");
                 return;
             }
 
-            foreach (var track in this.pattern.Tracks)
+            foreach (var track in this.pattern.Tracks.Where(t => t.Parts.Count > 0))
             {
-                var provider = ProviderFactory.Create(song, track, track.ProviderInfo, new ProviderData()
+                var provider = this.Context.CreateProvider(track, track.ProviderInfo, new ProviderData()
                 {
                     { ProviderData.TrackKey, track },
-                    { ProviderData.OffsetKey, this.offset }
+                    { ProviderData.IStartAtKey, iStartAt }
                 });
+
                 this.AddInputProvider(provider);
             }
         }

@@ -1,39 +1,40 @@
 ﻿using NAudio.Wave;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TrackerDAW
 {
     public class DefaultSongProvider : BaseProvider
     {
         public const int Version = 1;
-        public override double Offset => 0;
+        public override float Gain => 1f; 
 
         private ProviderData providerData;
         private int patternIndex = -1;
         private List<ISampleProvider> patternProviders = new List<ISampleProvider>();
 
-        public DefaultSongProvider(Song song, ProviderData providerData) :
-            base(song)
+        public DefaultSongProvider(PlaybackContext context, ProviderData providerData) :
+            base(context)
         {
             this.providerData = providerData;
 
-            var offset = 0d;
-
-            foreach (var pattern in this.song.Patterns)
+            // Get custom offset
+            if (!this.providerData.TryGetValue<int>(ProviderData.IStartAtKey, out var iStartAt))
             {
-                var provider = ProviderFactory.Create(song, pattern, pattern.ProviderInfo, new ProviderData()
+                iStartAt = 0;
+            }
+
+            foreach (var pattern in this.Song.Patterns)
+            {
+                var provider = this.Context.CreateProvider(pattern, pattern.ProviderInfo, new ProviderData()
                 {
                     { ProviderData.PatternKey, pattern },
-                    { ProviderData.OffsetKey, offset }
+                    { ProviderData.IStartAtKey, iStartAt }
                 });
 
                 patternProviders.Add(provider);
                 
-                offset += pattern.Length;
+                iStartAt += pattern.SampleLength(context.Song);
             }
         }
 
@@ -46,7 +47,7 @@ namespace TrackerDAW
 
             int bytesRead = 0;
 
-            while (bytesRead < count && this.patternIndex < this.song.Patterns.Count)
+            while (bytesRead < count && this.patternIndex < this.Song.Patterns.Count)
             {
                 if (this.patternIndex < 0)
                 {
@@ -65,8 +66,8 @@ namespace TrackerDAW
 
         private int ReadFromCurrentPattern(float[] buffer, int offset, int count)
         {
-            var pattern = this.song.Patterns[this.patternIndex];
-            var bytesRequired = Math.Min(pattern.GetCount(this.song), count);
+            var pattern = this.Song.Patterns[this.patternIndex];
+            var bytesRequired = Math.Min(pattern.GetCount(this.Song), count);
             var provider = this.patternProviders[this.patternIndex];
             
             return provider.Read(buffer, offset, bytesRequired);
