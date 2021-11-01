@@ -21,6 +21,14 @@ namespace TrackerDAW
 
             this.part = part;
             this.track = track;
+
+            switch (part)
+            {
+                case Note note:
+                    this.titleTextBlock.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(200,200,200));
+                    this.titleTextBlock.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Black);
+                    break;
+            }
             
             Song.PartChanged += Song_PartChanged;
 
@@ -64,7 +72,7 @@ namespace TrackerDAW
 
         private void editPartMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            EditPartDialog.ShowDialog(this.part);
+            EditPart();
         }
 
         private void deletePartMenuItem_Click(object sender, RoutedEventArgs e)
@@ -72,10 +80,26 @@ namespace TrackerDAW
             this.track.DeletePart(this.part);
         }
 
-        private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void EditPart()
         {
-            EditPartDialog.ShowDialog(this.part);
+            switch (this.part)
+            {
+                case Composition composition:
+                    EditCompositionDialog.ShowDialog(composition);
+                    break;
+                case Note note:
+                    EditNoteDialog.ShowDialog(note);
+                    break;
+            }
+        }
 
+        private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                e.Handled = true;
+                EditPart();
+            }
         }
     }
 }

@@ -90,11 +90,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Audio.cs" />
+    <Compile Include="Dialogs\EditNoteDialog.xaml.cs">
+      <DependentUpon>EditNoteDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\EditTrackDialog.xaml.cs">
       <DependentUpon>EditTrackDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\EditPartDialog.xaml.cs">
-      <DependentUpon>EditPartDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\EditCompositionDialog.xaml.cs">
+      <DependentUpon>EditCompositionDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\StringAndTextDialog.xaml.cs">
+      <DependentUpon>StringAndTextDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="MultipleStringDialog.xaml.cs">
       <DependentUpon>MultipleStringDialog.xaml</DependentUpon>
@@ -121,11 +127,13 @@
     <Compile Include="Providers\IProvider.cs" />
     <Compile Include="Providers\DefaultPatternProvider.cs" />
     <Compile Include="Providers\DefaultSongProvider.cs" />
+    <Compile Include="Song\Part.cs" />
+    <Compile Include="Song\Note.cs" />
     <Compile Include="Song\ProviderData.cs" />
     <Compile Include="Song\ProviderInfo.cs" />
     <Compile Include="Song\Pattern.cs" />
     <Compile Include="Song\Track.cs" />
-    <Compile Include="Song\Part.cs" />
+    <Compile Include="Song\Composition.cs" />
     <Compile Include="UserControls\AimControl.xaml.cs">
       <DependentUpon>AimControl.xaml</DependentUpon>
     </Compile>
@@ -156,11 +164,19 @@
       <DependentUpon>TrackControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Watchers.cs" />
+    <Page Include="Dialogs\EditNoteDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\EditTrackDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Dialogs\EditPartDialog.xaml">
+    <Page Include="Dialogs\EditCompositionDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\StringAndTextDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

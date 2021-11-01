@@ -8,7 +8,7 @@
              d:DesignHeight="25" d:DesignWidth="400"
              BorderBrush="{StaticResource Background}" 
              BorderThickness="0,1,0,0"
-             MouseDoubleClick="UserControl_MouseDoubleClick"
+             MouseLeftButtonDown="UserControl_MouseLeftButtonDown"
              >
     <Grid Name="grid" Height="25">
         <Grid.ColumnDefinitions>
@@ -20,7 +20,8 @@
         <Canvas Name="partCanvas" Grid.Column="1" Background="{StaticResource TrackBrush}" DragOver="partCanvas_DragOver" DragEnter="partCanvas_DragEnter" Drop="partCanvas_Drop" DragLeave="partCanvas_DragLeave" AllowDrop="True">
             <Canvas.ContextMenu>
                 <ContextMenu Opened="ContextMenu_Opened">
-                    <MenuItem Header="Add empty part" Name="addEmptyPartMenuItem" Click="addEmptyPartMenuItem_Click" />
+                    <MenuItem Header="Add new part" Click="addNewPartMenuItem_Click" />
+                    <MenuItem Header="Add note..." Click="addNoteMenuItem_Click" />
                 </ContextMenu>
             </Canvas.ContextMenu>
         </Canvas>

@@ -94,7 +94,7 @@ namespace TrackerDAW
 
                 // Aim control position
                 var point = e.GetPosition(this.partCanvas);
-                this.aimControl.SetLeft(GetSnapValue(point.X));
+                this.aimControl.SetLeft(point.X);
             }
             else if (e.Data.GetDataPresent("part"))
             {
@@ -105,7 +105,7 @@ namespace TrackerDAW
 
                 // Aim control position
                 var point = e.GetPosition(this.partCanvas);
-                this.aimControl.SetLeft(GetSnapValue(point.X) - offset);
+                this.aimControl.SetLeft(point.X - offset);
             }
 
 
@@ -127,13 +127,13 @@ namespace TrackerDAW
             {
                 // Aim control position
                 var point = e.GetPosition(this.partCanvas);
-                this.aimControl.SetLeft(GetSnapValue(point.X));
+                this.aimControl.SetLeft(point.X);
             }
             else if (e.Data.GetDataPresent("part"))
             {
                 var point = e.GetPosition(this.partCanvas);
                 (var part, var oldTrack, var offset) = ((Part, Track, double))e.Data.GetData("part");
-                var left = Math.Max(0d, GetSnapValue(point.X) - offset);
+                var left = Math.Max(0d, point.X - offset);
 
                 // Aim control position
                 this.aimControl.SetLeft(left);
@@ -150,10 +150,10 @@ namespace TrackerDAW
             if (e.Data.GetDataPresent("sample"))
             {
                 var sampleName = e.Data.GetData("sample") as string;
-                var left = Math.Max(0d, GetSnapValue(point.X));
+                var left = Math.Max(0d, point.X);
 
                 this.track.AddPart(
-                    new Part(left / Env.TrackPixelsPerSecond,
+                    new Composition(left / Env.TrackPixelsPerSecond,
                     ProviderInfo.DefaultSampleProviderInfo,
                     new ProviderData()
                     {
@@ -164,7 +164,7 @@ namespace TrackerDAW
             else if (e.Data.GetDataPresent("part"))
             {
                 (var part, var oldTrack, var offset) = ((Part, Track, double))e.Data.GetData("part");
-                var left = Math.Max(0d, GetSnapValue(point.X) - offset);
+                var left = Math.Max(0d, point.X - offset);
 
                 switch (e.CheckEffect())
                 {
@@ -189,10 +189,19 @@ namespace TrackerDAW
             }
         }
 
-        private void addEmptyPartMenuItem_Click(object sender, RoutedEventArgs e)
+        private void addNewPartMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            this.track.AddPart(new Part(GetSnapValue(this.contextMenuPoint.Y) / Env.TrackPixelsPerSecond,
+            this.track.AddPart(new Composition(this.contextMenuPoint.Y / Env.TrackPixelsPerSecond,
                 ProviderInfo.EmptyProviderInfo, new ProviderData(), name: "empty"));
+        }
+
+        private void addNoteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = StringAndTextDialog.Create("Create Note");
+            if (dialog.ShowDialog() == true)
+            {
+                this.track.AddPart(new Note(this.contextMenuPoint.Y / Env.TrackPixelsPerSecond, dialog.Value, dialog.TextContent));
+            }
         }
 
         private void ContextMenu_Opened(object sender, RoutedEventArgs e)
@@ -200,19 +209,18 @@ namespace TrackerDAW
             this.contextMenuPoint = Mouse.GetPosition(this.partCanvas);
         }
 
-        private double GetSnapValue(double y)
-        {
-            return y;
-            //return Math.Floor(y / Env.DefaultPartHeight) * Env.DefaultPartHeight;
-        }
         private void editTrackMenuItem_Click(object sender, RoutedEventArgs e)
         {
             EditTrackDialog.ShowDialog(this.track, this.titleTextBlock.Text);
         }
 
-        private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            EditTrackDialog.ShowDialog(this.track, this.titleTextBlock.Text);
+            if (e.ClickCount == 2)
+            {
+                e.Handled = true;
+                EditTrackDialog.ShowDialog(this.track, this.titleTextBlock.Text);
+            }
         }
     }
 }

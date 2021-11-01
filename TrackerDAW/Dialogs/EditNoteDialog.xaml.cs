@@ -15,13 +15,13 @@ using System.Windows.Shapes;
 namespace TrackerDAW
 {
     /// <summary>
-    /// Interaction logic for EditPatternDialog.xaml
+    /// Interaction logic for EditNoteDialog.xaml
     /// </summary>
-    public partial class EditPartDialog : Window
+    public partial class EditNoteDialog : Window
     {
-        private Part part;
+        private Note note;
 
-        public EditPartDialog()
+        public EditNoteDialog()
         {
             InitializeComponent();
 
@@ -33,41 +33,36 @@ namespace TrackerDAW
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             var partName = this.partNameTextBox.Text;
+            var textContent = this.noteContentTextBox.Text;
 
-            if (!Env.TryParseDouble(this.partOffsetTextBox.Text, out var partOffset) || partOffset < 0d)
+            if (!Env.TryParseDouble(this.noteOffsetTextBox.Text, out var partOffset) || partOffset < 0d)
             {
                 MessageBox.Show("Illegal part offset");
                 return;
             }
 
-            if (!Env.TryParseDouble(this.partGainTextBox.Text, out var partGain) || partGain < 0d)
-            {
-                MessageBox.Show("Illegal part gain");
-                return;
-            }
-
-            this.part.Name = partName;
-            this.part.Offset = partOffset;
-            this.part.Gain = partGain;
+            this.note.Name = partName;
+            this.note.Offset = partOffset;
+            this.note.Content = textContent;
             this.DialogResult = true;
         }
 
-        public static void ShowDialog(Part part)
+        public static void ShowDialog(Note note)
         {
-            var dialog = new EditPartDialog()
+            var dialog = new EditNoteDialog()
             {
                 Owner = Env.MainWindow,
-                part = part
+                note = note
             };
 
-            dialog.partNameLabel.Content = part.Name;
-            dialog.partNameTextBox.Text = part.Name;
-            dialog.partGainTextBox.Text = Env.GainToString(part.Gain);
-            dialog.partOffsetTextBox.Text = Env.TimeToString(part.Offset);
+            dialog.partNameLabel.Content = note.Name;
+            dialog.partNameTextBox.Text = note.Name;
+            dialog.noteOffsetTextBox.Text = note.Content;
+            dialog.noteContentTextBox.Text = note.Content;
 
             if (dialog.ShowDialog() == true)
             {
-                Song.OnPartChanged(part);
+                Song.OnPartChanged(note);
             }
         }
 

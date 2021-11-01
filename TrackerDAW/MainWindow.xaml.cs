@@ -139,6 +139,16 @@ namespace TrackerDAW
             Env.Song.NewPattern(Env.DefaultPatternLength, Env.Song.BPS);
         }
 
+        private void recordMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Not implemented yet");
+        }
+
+        private void youTubeMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Not implemented yet");
+        }
+
         private void Play_Action(object sender, RoutedEventArgs e)
         {
             Audio.Play();

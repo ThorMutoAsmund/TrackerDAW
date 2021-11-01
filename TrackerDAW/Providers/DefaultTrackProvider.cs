@@ -29,13 +29,18 @@ namespace TrackerDAW
 
             foreach (var part in this.track.Parts)
             {
-                var provider = this.Context.CreateProvider(part, part.ProviderInfo, part.ProviderData.Extend(new Dictionary<string, object>()
+                switch (part)
                 {
-                    { ProviderData.IStartAtKey, part.SampleOffset(context.Song) + iStartAt },
-                    { ProviderData.GainKey, part.Gain }
-                }));
+                    case Composition composition:
+                        var provider = this.Context.CreateProvider(composition, composition.ProviderInfo, composition.ProviderData.Extend(new Dictionary<string, object>()
+                        {
+                            { ProviderData.IStartAtKey, composition.SampleOffset(context.Song) + iStartAt },
+                            { ProviderData.GainKey, composition.Gain }
+                        }));
 
-                this.AddInputProvider(provider);
+                        this.AddInputProvider(provider);
+                        break;
+                }
             }
         }
     }
