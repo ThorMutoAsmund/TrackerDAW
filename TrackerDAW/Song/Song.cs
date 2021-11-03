@@ -66,8 +66,9 @@ namespace TrackerDAW
                         return;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Console.WriteLine($"Error creating or opening default: {ex.Message}");
                     // Fall through
                 }
             }

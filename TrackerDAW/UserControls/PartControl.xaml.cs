@@ -84,6 +84,9 @@ namespace TrackerDAW
         {
             switch (this.part)
             {
+                case Sample sample:
+                    EditSampleDialog.ShowDialog(sample);
+                    break;
                 case Composition composition:
                     EditCompositionDialog.ShowDialog(composition);
                     break;

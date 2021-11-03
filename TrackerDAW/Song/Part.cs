@@ -9,6 +9,7 @@ namespace TrackerDAW
 {
     public abstract class Part
     {
+        [JsonProperty] public abstract int ObjType { get; set; }
         [JsonProperty] public string Name { get; set; }
         [JsonProperty] public double Offset { get; set; }
 

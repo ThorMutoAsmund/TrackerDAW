@@ -20,7 +20,7 @@
         <Canvas Name="partCanvas" Grid.Column="1" Background="{StaticResource TrackBrush}" DragOver="partCanvas_DragOver" DragEnter="partCanvas_DragEnter" Drop="partCanvas_Drop" DragLeave="partCanvas_DragLeave" AllowDrop="True">
             <Canvas.ContextMenu>
                 <ContextMenu Opened="ContextMenu_Opened">
-                    <MenuItem Header="Add new part" Click="addNewPartMenuItem_Click" />
+                    <MenuItem Header="Add empty composition" Click="addEmptyCompositionMenuItem_Click" />
                     <MenuItem Header="Add note..." Click="addNoteMenuItem_Click" />
                 </ContextMenu>
             </Canvas.ContextMenu>

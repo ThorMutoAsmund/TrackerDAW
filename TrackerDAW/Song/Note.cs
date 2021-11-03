@@ -10,8 +10,15 @@ namespace TrackerDAW
 {
     public class Note : Part
     {
-        [JsonProperty] public string Content { get; set; }
+        public const int ObjTypeValue = 2;
 
+        [JsonProperty]
+        public override int ObjType
+        {
+            get => ObjTypeValue;
+            set { }
+        }
+        [JsonProperty] public string Content { get; set; }
         [JsonIgnore] public string NameWithDefaultValue => String.IsNullOrEmpty(this.Name) ? "(untitled)" : this.Name;
         
         public Note()

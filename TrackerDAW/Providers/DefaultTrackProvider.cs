@@ -32,14 +32,27 @@ namespace TrackerDAW
                 switch (part)
                 {
                     case Composition composition:
-                        var provider = this.Context.CreateProvider(composition, composition.ProviderInfo, composition.ProviderData.Extend(new Dictionary<string, object>()
                         {
-                            { ProviderData.IStartAtKey, composition.SampleOffset(context.Song) + iStartAt },
-                            { ProviderData.GainKey, composition.Gain }
-                        }));
+                            var provider = this.Context.CreateProvider(composition, composition.ProviderInfo, composition.ProviderData.Extend(new Dictionary<string, object>()
+                            {
+                                { ProviderData.IStartAtKey, composition.SampleOffset(context.Song) + iStartAt },
+                                { ProviderData.GainKey, composition.Gain }
+                            }));
 
-                        this.AddInputProvider(provider);
-                        break;
+                            this.AddInputProvider(provider);
+                            break;
+                        }
+                    case Sample sample:
+                        {
+                            var provider = this.Context.CreateProvider(sample, sample.ProviderInfo, sample.ProviderData.Extend(new Dictionary<string, object>()
+                            {
+                                { ProviderData.IStartAtKey, sample.SampleOffset(context.Song) + iStartAt },
+                                { ProviderData.GainKey, sample.Gain }
+                            }));
+
+                            this.AddInputProvider(provider);
+                            break;
+                        }
                 }
             }
         }

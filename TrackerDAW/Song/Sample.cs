@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 
 namespace TrackerDAW
 {
-    public class Composition : Part
+    public class Sample : Part
     {
-        public const int ObjTypeValue = 1;
-        [JsonProperty] public override int ObjType 
+        public const int ObjTypeValue = 3;
+
+        [JsonProperty]
+        public override int ObjType
         {
             get => ObjTypeValue;
             set { }
@@ -22,13 +24,13 @@ namespace TrackerDAW
 
         [JsonIgnore] public string NameWithDefaultValue => String.IsNullOrEmpty(this.Name) ? "(untitled)" : this.Name;
         
-        public Composition()
+        public Sample()
         {
             this.Offset = 0d;
             this.Gain = 1d;
         }
 
-        public Composition(double offset, ProviderInfo providerInfo, ProviderData providerData, double gain = 1d, string name = "")
+        public Sample(double offset, ProviderInfo providerInfo, ProviderData providerData, double gain = 1d, string name = "")
         {
             this.ProviderInfo = providerInfo;
             this.ProviderData = providerData;
@@ -44,7 +46,7 @@ namespace TrackerDAW
 
         public override Part Clone()
         {
-            return new Composition(this.Offset, this.ProviderInfo.Clone(), this.ProviderData.Clone(), this.Gain, this.Name);
+            return new Sample(this.Offset, this.ProviderInfo.Clone(), this.ProviderData.Clone(), this.Gain, this.Name);
         }
 
         public override float GetLength()

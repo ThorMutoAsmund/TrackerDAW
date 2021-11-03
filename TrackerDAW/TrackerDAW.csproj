@@ -90,6 +90,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Audio.cs" />
+    <Compile Include="Dialogs\EditSampleDialog.xaml.cs">
+      <DependentUpon>EditSampleDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\EditNoteDialog.xaml.cs">
       <DependentUpon>EditNoteDialog.xaml</DependentUpon>
     </Compile>
@@ -127,6 +130,7 @@
     <Compile Include="Providers\IProvider.cs" />
     <Compile Include="Providers\DefaultPatternProvider.cs" />
     <Compile Include="Providers\DefaultSongProvider.cs" />
+    <Compile Include="Song\Sample.cs" />
     <Compile Include="Song\Part.cs" />
     <Compile Include="Song\Note.cs" />
     <Compile Include="Song\ProviderData.cs" />
@@ -164,6 +168,10 @@
       <DependentUpon>TrackControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Watchers.cs" />
+    <Page Include="Dialogs\EditSampleDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\EditNoteDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

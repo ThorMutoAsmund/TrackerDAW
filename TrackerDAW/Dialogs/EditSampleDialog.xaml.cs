@@ -15,13 +15,13 @@ using System.Windows.Shapes;
 namespace TrackerDAW
 {
     /// <summary>
-    /// Interaction logic for EditCompositionDialog.xaml
+    /// Interaction logic for EditSampleDialog.xaml
     /// </summary>
-    public partial class EditCompositionDialog : Window
+    public partial class EditSampleDialog : Window
     {
-        private Composition composition;
+        private Sample sample;
 
-        public EditCompositionDialog()
+        public EditSampleDialog()
         {
             InitializeComponent();
 
@@ -46,28 +46,28 @@ namespace TrackerDAW
                 return;
             }
 
-            this.composition.Name = partName;
-            this.composition.Offset = partOffset;
-            this.composition.Gain = partGain;
+            this.sample.Name = partName;
+            this.sample.Offset = partOffset;
+            this.sample.Gain = partGain;
             this.DialogResult = true;
         }
 
-        public static void ShowDialog(Composition composition)
+        public static void ShowDialog(Sample sample)
         {
-            var dialog = new EditCompositionDialog()
+            var dialog = new EditSampleDialog()
             {
                 Owner = Env.MainWindow,
-                composition = composition
+                sample = sample
             };
 
-            dialog.partNameLabel.Content = composition.Name;
-            dialog.partNameTextBox.Text = composition.Name;
-            dialog.partGainTextBox.Text = Env.GainToString(composition.Gain);
-            dialog.partOffsetTextBox.Text = Env.TimeToString(composition.Offset);
+            dialog.partNameLabel.Content = sample.Name;
+            dialog.partNameTextBox.Text = sample.Name;
+            dialog.partGainTextBox.Text = Env.GainToString(sample.Gain);
+            dialog.partOffsetTextBox.Text = Env.TimeToString(sample.Offset);
 
             if (dialog.ShowDialog() == true)
             {
-                Song.OnPartChanged(composition);
+                Song.OnPartChanged(sample);
             }
         }
 

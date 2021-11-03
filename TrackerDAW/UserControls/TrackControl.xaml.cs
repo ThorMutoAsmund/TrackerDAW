@@ -153,7 +153,7 @@ namespace TrackerDAW
                 var left = Math.Max(0d, point.X);
 
                 this.track.AddPart(
-                    new Composition(left / Env.TrackPixelsPerSecond,
+                    new Sample(left / Env.TrackPixelsPerSecond,
                     ProviderInfo.DefaultSampleProviderInfo,
                     new ProviderData()
                     {
@@ -189,9 +189,9 @@ namespace TrackerDAW
             }
         }
 
-        private void addNewPartMenuItem_Click(object sender, RoutedEventArgs e)
+        private void addEmptyCompositionMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            this.track.AddPart(new Composition(this.contextMenuPoint.Y / Env.TrackPixelsPerSecond,
+            this.track.AddPart(new Composition(this.contextMenuPoint.X / Env.TrackPixelsPerSecond,
                 ProviderInfo.EmptyProviderInfo, new ProviderData(), name: "empty"));
         }
 
@@ -200,7 +200,7 @@ namespace TrackerDAW
             var dialog = StringAndTextDialog.Create("Create Note");
             if (dialog.ShowDialog() == true)
             {
-                this.track.AddPart(new Note(this.contextMenuPoint.Y / Env.TrackPixelsPerSecond, dialog.Value, dialog.TextContent));
+                this.track.AddPart(new Note(this.contextMenuPoint.X / Env.TrackPixelsPerSecond, dialog.Value, dialog.TextContent));
             }
         }
 
