@@ -63,7 +63,7 @@ namespace TrackerDAW
                 var sampleName = this.listView.SelectedItem as string;
                 this.listView.CheckDragDrop(diff, () => {
                     var length = DefaultSampleProvider.GetFileLength(Env.Song, sampleName);
-                    return new Tuple<string, double>(sampleName, length);
+                    return (sampleName, length);
                 }
                 , DragDropKey.Sample);
             }

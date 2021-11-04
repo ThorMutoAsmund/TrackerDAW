@@ -22,7 +22,7 @@
                 <TextBlock Grid.Column="0" Name="nameTextBlock" Padding="4,4,24,4" Text="Pattern 1" TextWrapping="NoWrap" Style="{StaticResource PatternTitle}"></TextBlock>
                 <StackPanel Grid.Column="1" HorizontalAlignment="Left" Orientation="Horizontal" Height="24">
                     <!--PreviewTextInput="bpsTextBox_PreviewTextInput" PreviewKeyDown="bpsTextBox_PreviewKeyDown"-->
-                    <TextBox Name="bpsTextBox" Width="42"   Text="80" IsReadOnly="True" />
+                    <TextBox Name="bpsTextBox" Width="42" Text="80" IsReadOnly="True" />
                     <Label>BPS</Label>
                     <Button Margin="20,0,0,0" Content="Play" Width="65"></Button>
                     <Button Margin="4,0,0,0" Content="Pattern" Width="65"></Button>

@@ -33,6 +33,7 @@ namespace TrackerDAW
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             var patternName = this.patternNameTextBox.Text;
+            var providerInfo = this.providerSelectorControl.ProviderInfo;
 
             if (!Env.TryParseDouble(this.patternLengthTextBox.Text, out var patternLength) || patternLength < 0d)
             {
@@ -54,11 +55,10 @@ namespace TrackerDAW
             this.pattern.Length = patternLength;
             this.pattern.BPS = patternBPS;
             this.pattern.Gain = patternGain;
+            this.pattern.ProviderInfo = providerInfo;
 
             this.DialogResult = true;
         }
-
-
 
         public static void ShowDialog(Pattern pattern)
         {
@@ -73,6 +73,7 @@ namespace TrackerDAW
             dialog.patternLengthTextBox.Text = Env.TimeToString(pattern.Length);
             dialog.patternBPSTextBox.Text = Env.BPSToString(pattern.BPS);
             dialog.patternGainTextBox.Text = Env.GainToString(pattern.Gain);
+            dialog.providerSelectorControl.ProviderInfo = pattern.ProviderInfo;
 
             if (dialog.ShowDialog() == true)
             {

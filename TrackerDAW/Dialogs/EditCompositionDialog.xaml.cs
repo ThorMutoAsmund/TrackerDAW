@@ -33,6 +33,7 @@ namespace TrackerDAW
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             var partName = this.partNameTextBox.Text;
+            var providerInfo = this.providerSelectorControl.ProviderInfo;
 
             if (!Env.TryParseDouble(this.partOffsetTextBox.Text, out var partOffset) || partOffset < 0d)
             {
@@ -56,6 +57,8 @@ namespace TrackerDAW
             this.composition.Offset = partOffset;
             this.composition.Gain = partGain;
             this.composition.Length = compositionLength;
+            this.composition.ProviderInfo = providerInfo;
+
             this.DialogResult = true;
         }
 
@@ -72,6 +75,7 @@ namespace TrackerDAW
             dialog.partGainTextBox.Text = Env.GainToString(composition.Gain);
             dialog.partOffsetTextBox.Text = Env.TimeToString(composition.Offset);
             dialog.compositionLengthTextBox.Text = Env.TimeToString(composition.Length);
+            dialog.providerSelectorControl.ProviderInfo = composition.ProviderInfo;
 
             if (dialog.ShowDialog() == true)
             {

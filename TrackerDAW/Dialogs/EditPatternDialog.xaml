@@ -11,7 +11,12 @@
     <StackPanel>
         <Border Style="{StaticResource DialogTitleBorder}">
             <Grid Style="{StaticResource DialogTitleBackground}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
                 <Label Name="patternNameLabel" Content="Pattern name" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Style="{StaticResource DialogTitle}"/>
+                <local:ProviderSelectorControl x:Name="providerSelectorControl" Grid.Column="1"></local:ProviderSelectorControl>
             </Grid>
         </Border>
         <Grid>

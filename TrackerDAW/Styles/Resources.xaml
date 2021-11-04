@@ -18,6 +18,7 @@
     <!--Text Box-->
     <SolidColorBrush x:Key="TextBoxBackground" Color="#333337"/>
     <SolidColorBrush x:Key="TextBoxBackgroundSelected" Color="#3F3F46"/>
+    <SolidColorBrush x:Key="TextBoxDisabledForeground" Color="#999999"/>
     
     <!--Search Text Box-->
     <SolidColorBrush x:Key="SearchTextForeground" Color="#999999"/>

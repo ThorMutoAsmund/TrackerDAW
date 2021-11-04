@@ -18,11 +18,12 @@ namespace TrackerDAW
             providerClasses.Add(ProviderInfo.DefaultPatternProviderInfo.Name, typeof(DefaultPatternProvider));
             providerClasses.Add(ProviderInfo.DefaultTrackProviderInfo.Name, typeof(DefaultTrackProvider));
             providerClasses.Add(ProviderInfo.DefaultSampleProviderInfo.Name, typeof(DefaultSampleProvider));
+            providerClasses.Add(ProviderInfo.DefaultCompositionProviderInfo.Name, typeof(DefaultCompositionProvider));
         }
 
         public static Type GetProviderClass(ProviderInfo providerInfo)
         {
-            if (providerClasses.ContainsKey(providerInfo.Name))
+            if (providerInfo != null && providerClasses.ContainsKey(providerInfo.Name))
             {
                 return providerClasses[providerInfo.Name];
             }

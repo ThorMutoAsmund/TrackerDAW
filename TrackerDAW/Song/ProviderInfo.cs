@@ -11,6 +11,7 @@ namespace TrackerDAW
     public class ProviderInfo
     {
         public static ProviderInfo EmptyProviderInfo = ProviderInfo.CreateDefaultProvider<EmptyProvider>(0);
+        public static ProviderInfo DefaultCompositionProviderInfo = ProviderInfo.CreateDefaultProvider<DefaultCompositionProvider>(DefaultCompositionProvider.Version);
         public static ProviderInfo DefaultSongProviderInfo = ProviderInfo.CreateDefaultProvider<DefaultSongProvider>(DefaultSongProvider.Version);
         public static ProviderInfo DefaultPatternProviderInfo = ProviderInfo.CreateDefaultProvider<DefaultPatternProvider>(DefaultPatternProvider.Version);
         public static ProviderInfo DefaultTrackProviderInfo = ProviderInfo.CreateDefaultProvider<DefaultTrackProvider>(DefaultTrackProvider.Version);

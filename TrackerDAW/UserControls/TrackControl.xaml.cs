@@ -81,7 +81,7 @@ namespace TrackerDAW
             if (e.Data.GetDataPresent(DragDropKey.Sample))
             {
                 // Aim control width
-                var (sampleName, length) = e.Data.GetData(DragDropKey.Sample) as Tuple<string, double>;
+                var (_, length) = ((string, double))e.Data.GetData(DragDropKey.Sample);
                 this.aimControl.Width = length * Env.TrackPixelsPerSecond;
 
                 // Aim control position
@@ -90,7 +90,7 @@ namespace TrackerDAW
             }
             else if (e.Data.GetDataPresent(DragDropKey.Part))
             {
-                (var part, var oldTrack, var offset) = ((Part, Track, double))e.Data.GetData(DragDropKey.Part);
+                var (part, oldTrack, offset) = ((Part, Track, double))e.Data.GetData(DragDropKey.Part);
 
                 var width = part.GetLength() * Env.TrackPixelsPerSecond;
                 this.aimControl.Width = width;
@@ -99,7 +99,6 @@ namespace TrackerDAW
                 var point = e.GetPosition(this.partCanvas);
                 this.aimControl.SetLeft(point.X - offset);
             }
-
 
             e.Effects = e.CheckEffect();
             e.Handled = true;
@@ -141,7 +140,7 @@ namespace TrackerDAW
             
             if (e.Data.GetDataPresent(DragDropKey.Sample))
             {
-                var (sampleName, length) = e.Data.GetData(DragDropKey.Sample) as Tuple<string, double>;
+                var (sampleName, length) = ((string, double))e.Data.GetData(DragDropKey.Sample);
                 var left = Math.Max(0d, point.X);
 
                 this.track.AddPart(
@@ -187,7 +186,7 @@ namespace TrackerDAW
         private void addEmptyCompositionMenuItem_Click(object sender, RoutedEventArgs e)
         {
             this.track.AddPart(new Composition(this.contextMenuPoint.X / Env.TrackPixelsPerSecond,
-                ProviderInfo.EmptyProviderInfo, new ProviderData(), Env.DefaultPartLength, name: "empty"));
+                ProviderInfo.DefaultCompositionProviderInfo, new ProviderData(), Env.DefaultPartLength, name: "empty"));
         }
 
         private void addNoteMenuItem_Click(object sender, RoutedEventArgs e)

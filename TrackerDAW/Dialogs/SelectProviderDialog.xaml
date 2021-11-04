@@ -1,5 +1,5 @@
 ﻿ <!--Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"-->
-<Window x:Class="TrackerDAW.EditTrackDialog"
+<Window x:Class="TrackerDAW.SelectProviderDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,16 +7,11 @@
         xmlns:local="clr-namespace:TrackerDAW"
         mc:Ignorable="d"
         Style="{StaticResource StandardWindow}"
-        Title="Edit Track" Height="347.667" Width="613" WindowStartupLocation="CenterScreen">
+        Title="Select Provider" Height="347.667" Width="613" WindowStartupLocation="CenterScreen">
     <StackPanel>
         <Border Style="{StaticResource DialogTitleBorder}">
             <Grid Style="{StaticResource DialogTitleBackground}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition  />
-                    <ColumnDefinition Width="auto" />
-                </Grid.ColumnDefinitions>
-                <Label Name="trackNameLabel" Content="Track" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Style="{StaticResource DialogTitle}"/>
-                <local:ProviderSelectorControl x:Name="providerSelectorControl" Grid.Column="1"></local:ProviderSelectorControl>
+                <Label Content="Select Provider" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Style="{StaticResource DialogTitle}"/>
             </Grid>
         </Border>
         <Grid>
@@ -25,27 +20,14 @@
                 <ColumnDefinition Width="119"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0" Height="auto" Width="auto" Margin="12,12,12,12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                </Grid.RowDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="Gain" VerticalAlignment="Top" HorizontalAlignment="Right" />
-                <TextBox x:Name="trackGainTextBox" Grid.Row="0" Grid.Column="1" Height="23" TextWrapping="Wrap" Text="" Width="120" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                <!--<Label Grid.Row="2" Grid.Column="0" Content="BPS" VerticalAlignment="Top" HorizontalAlignment="Right" />
-                <TextBox x:Name="patternBPSTextBox" Grid.Row="2" Grid.Column="1" Height="23" TextWrapping="Wrap" Text="" Width="120" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                <Label Grid.Row="3" Grid.Column="0" Content="Provider" VerticalAlignment="Top" HorizontalAlignment="Right" />
-                <Label x:Name="providerDummyLabel" Grid.Row="3" Grid.Column="1" Height="23" Width="0" VerticalAlignment="Top" HorizontalAlignment="Left"/>-->
             </Grid>
             <StackPanel Grid.Column="1" Height="auto" Orientation="Vertical" Margin="12,12,12,12">
                 <Button x:Name="okButton" Content="OK" HorizontalAlignment="Left"  Width="95" IsDefault="true" Margin="0,0,0,10" />
                 <Button x:Name="cancelButton" Content="Cancel" HorizontalAlignment="Left"  Width="95" IsCancel="True"  />
+                
             </StackPanel>
+
+
         </Grid>
     </StackPanel>
 

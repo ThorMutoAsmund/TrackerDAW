@@ -11,7 +11,12 @@
     <StackPanel>
         <Border Style="{StaticResource DialogTitleBorder}">
             <Grid Style="{StaticResource DialogTitleBackground}">
-                <Label Name="partNameLabel" Content="Part name" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Style="{StaticResource DialogTitle}"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Label Name="partNameLabel" Grid.Column="0" Content="Part name" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Style="{StaticResource DialogTitle}"/>
+                <local:ProviderSelectorControl x:Name="providerSelectorControl" Grid.Column="1"></local:ProviderSelectorControl>
             </Grid>
         </Border>
         <Grid>

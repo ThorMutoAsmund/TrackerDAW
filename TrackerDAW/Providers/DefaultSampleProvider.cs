@@ -39,6 +39,7 @@ namespace TrackerDAW
             }
 
             var waveFileReader = CreateWaveFileReader(this.Song, this.sampleName);
+            
             this.wtsProvider = CreateConverter(waveFileReader);
         }
 

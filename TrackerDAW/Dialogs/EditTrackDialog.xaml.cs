@@ -32,6 +32,8 @@ namespace TrackerDAW
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
+            var providerInfo = this.providerSelectorControl.ProviderInfo;
+
             if (!Env.TryParseDouble(this.trackGainTextBox.Text, out var trackGain) || trackGain < 0d)
             {
                 MessageBox.Show("Illegal track gain");
@@ -39,6 +41,8 @@ namespace TrackerDAW
             }
 
             this.track.Gain = trackGain;
+            this.track.ProviderInfo = providerInfo;
+
             this.DialogResult = true;
         }
 
@@ -52,6 +56,7 @@ namespace TrackerDAW
 
             dialog.trackNameLabel.Content = title;
             dialog.trackGainTextBox.Text = Env.GainToString(track.Gain);
+            dialog.providerSelectorControl.ProviderInfo = track.ProviderInfo;
 
             if (dialog.ShowDialog() == true)
             {
