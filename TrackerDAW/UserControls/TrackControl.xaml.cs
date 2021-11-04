@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace TrackerDAW
 {
@@ -24,12 +14,12 @@ namespace TrackerDAW
         private Point contextMenuPoint;
         private AimControl aimControl;
 
-        public TrackControl(string title, Track track, double paternLength)
+        public TrackControl(string title, Track track, Pattern pattern)
         {
             InitializeComponent();
 
             this.track = track;
-            this.Width = paternLength * Env.TrackPixelsPerSecond + grid.ColumnDefinitions[0].Width.Value;
+            this.Width = pattern.Length * Env.TrackPixelsPerSecond + grid.ColumnDefinitions[0].Width.Value;
             this.titleTextBlock.Text = title;
 
             Song.TrackChanged += Song_TrackChanged;
@@ -60,7 +50,7 @@ namespace TrackerDAW
 
         private bool CheckDataPresent(DragEventArgs e)
         {
-            if (!(e.Data.GetDataPresent("sample") || e.Data.GetDataPresent("part")))
+            if (!(e.Data.GetDataPresent(DragDropKey.Sample) || e.Data.GetDataPresent(DragDropKey.Part)))
             {
                 e.Effects = DragDropEffects.None;
                 return false;
@@ -88,17 +78,19 @@ namespace TrackerDAW
             EnsureAimControlCreated();
 
             // Aim control width
-            if (e.Data.GetDataPresent("sample"))
+            if (e.Data.GetDataPresent(DragDropKey.Sample))
             {
-                this.aimControl.Width = 200d;
+                // Aim control width
+                var (sampleName, length) = e.Data.GetData(DragDropKey.Sample) as Tuple<string, double>;
+                this.aimControl.Width = length * Env.TrackPixelsPerSecond;
 
                 // Aim control position
                 var point = e.GetPosition(this.partCanvas);
                 this.aimControl.SetLeft(point.X);
             }
-            else if (e.Data.GetDataPresent("part"))
+            else if (e.Data.GetDataPresent(DragDropKey.Part))
             {
-                (var part, var oldTrack, var offset) = ((Part, Track, double))e.Data.GetData("part");
+                (var part, var oldTrack, var offset) = ((Part, Track, double))e.Data.GetData(DragDropKey.Part);
 
                 var width = part.GetLength() * Env.TrackPixelsPerSecond;
                 this.aimControl.Width = width;
@@ -123,16 +115,16 @@ namespace TrackerDAW
             EnsureAimControlCreated();
 
             // Aim control width
-            if (e.Data.GetDataPresent("sample"))
+            if (e.Data.GetDataPresent(DragDropKey.Sample))
             {
                 // Aim control position
                 var point = e.GetPosition(this.partCanvas);
                 this.aimControl.SetLeft(point.X);
             }
-            else if (e.Data.GetDataPresent("part"))
+            else if (e.Data.GetDataPresent(DragDropKey.Part))
             {
                 var point = e.GetPosition(this.partCanvas);
-                (var part, var oldTrack, var offset) = ((Part, Track, double))e.Data.GetData("part");
+                (var part, var oldTrack, var offset) = ((Part, Track, double))e.Data.GetData(DragDropKey.Part);
                 var left = Math.Max(0d, point.X - offset);
 
                 // Aim control position
@@ -147,9 +139,9 @@ namespace TrackerDAW
         {
             var point = e.GetPosition(this.partCanvas);
             
-            if (e.Data.GetDataPresent("sample"))
+            if (e.Data.GetDataPresent(DragDropKey.Sample))
             {
-                var sampleName = e.Data.GetData("sample") as string;
+                var (sampleName, length) = e.Data.GetData(DragDropKey.Sample) as Tuple<string, double>;
                 var left = Math.Max(0d, point.X);
 
                 this.track.AddPart(
@@ -157,13 +149,16 @@ namespace TrackerDAW
                     ProviderInfo.DefaultSampleProviderInfo,
                     new ProviderData()
                     {
-                        { ProviderData.SampleNameKey, sampleName }
+                        { ProviderDataKey.SampleName, sampleName },
+                        { ProviderDataKey.TrimLeft, sampleName },
+                        { ProviderDataKey.TrimRight, sampleName }
                     },
+                    length,
                     name: sampleName));
             }
-            else if (e.Data.GetDataPresent("part"))
+            else if (e.Data.GetDataPresent(DragDropKey.Part))
             {
-                (var part, var oldTrack, var offset) = ((Part, Track, double))e.Data.GetData("part");
+                (var part, var oldTrack, var offset) = ((Part, Track, double))e.Data.GetData(DragDropKey.Part);
                 var left = Math.Max(0d, point.X - offset);
 
                 switch (e.CheckEffect())
@@ -192,7 +187,7 @@ namespace TrackerDAW
         private void addEmptyCompositionMenuItem_Click(object sender, RoutedEventArgs e)
         {
             this.track.AddPart(new Composition(this.contextMenuPoint.X / Env.TrackPixelsPerSecond,
-                ProviderInfo.EmptyProviderInfo, new ProviderData(), name: "empty"));
+                ProviderInfo.EmptyProviderInfo, new ProviderData(), Env.DefaultPartLength, name: "empty"));
         }
 
         private void addNoteMenuItem_Click(object sender, RoutedEventArgs e)
@@ -200,7 +195,7 @@ namespace TrackerDAW
             var dialog = StringAndTextDialog.Create("Create Note");
             if (dialog.ShowDialog() == true)
             {
-                this.track.AddPart(new Note(this.contextMenuPoint.X / Env.TrackPixelsPerSecond, dialog.Value, dialog.TextContent));
+                this.track.AddPart(new Note(this.contextMenuPoint.X / Env.TrackPixelsPerSecond, Env.DefaultPartLength, dialog.Value, dialog.TextContent));
             }
         }
 

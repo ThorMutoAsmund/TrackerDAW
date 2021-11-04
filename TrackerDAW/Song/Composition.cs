@@ -19,6 +19,7 @@ namespace TrackerDAW
         [JsonProperty] public ProviderInfo ProviderInfo { get; set; }
         [JsonProperty] public ProviderData ProviderData { get; set; }
         [JsonProperty] public double Gain { get; set; }
+        [JsonProperty] public double Length { get; set; }
 
         [JsonIgnore] public string NameWithDefaultValue => String.IsNullOrEmpty(this.Name) ? "(untitled)" : this.Name;
         
@@ -26,13 +27,15 @@ namespace TrackerDAW
         {
             this.Offset = 0d;
             this.Gain = 1d;
+            this.Length = 0d;
         }
 
-        public Composition(double offset, ProviderInfo providerInfo, ProviderData providerData, double gain = 1d, string name = "")
+        public Composition(double offset, ProviderInfo providerInfo, ProviderData providerData, double length, double gain = 1d, string name = "")
         {
             this.ProviderInfo = providerInfo;
             this.ProviderData = providerData;
             this.Offset = offset;
+            this.Length = length;
             this.Gain = gain;
             this.Name = name;
         }
@@ -44,12 +47,12 @@ namespace TrackerDAW
 
         public override Part Clone()
         {
-            return new Composition(this.Offset, this.ProviderInfo.Clone(), this.ProviderData.Clone(), this.Gain, this.Name);
+            return new Composition(this.Offset, this.ProviderInfo.Clone(), this.ProviderData.Clone(), this.Length, this.Gain, this.Name);
         }
 
-        public override float GetLength()
+        public override double GetLength()
         {
-            return 3f;
+            return this.Length;
         }
     }
 }

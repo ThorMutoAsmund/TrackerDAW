@@ -28,7 +28,7 @@ namespace TrackerDAW
 
             context.SampleProvider = context.CreateProvider(song, song.ProviderInfo, new ProviderData()
             {
-                { ProviderData.IStartAtKey, (int)-(offset*song.SampleRate) },
+                { ProviderDataKey.IStartAt, (int)-(offset*song.SampleRate) },
             });
 
             return context;
@@ -40,8 +40,8 @@ namespace TrackerDAW
 
             context.SampleProvider = context.CreateProvider(pattern, pattern.ProviderInfo, new ProviderData()
             {
-                { ProviderData.PatternKey, pattern },
-                { ProviderData.IStartAtKey, (int)-(offset*song.SampleRate) },
+                { ProviderDataKey.Pattern, pattern },
+                { ProviderDataKey.IStartAt, (int)-(offset * song.SampleRate) },
             });
 
             return context;
@@ -56,7 +56,7 @@ namespace TrackerDAW
 
             var providerClass = ProviderFactory.GetProviderClass(providerInfo);
 
-            var provider = default(IProvider);
+            IProvider provider;
 
             if (providerClass == null)
             {

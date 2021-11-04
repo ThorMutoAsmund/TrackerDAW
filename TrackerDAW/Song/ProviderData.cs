@@ -8,15 +8,20 @@ using System.Threading.Tasks;
 
 namespace TrackerDAW
 {
+    public static class ProviderDataKey
+    {
+        public const string IStartAt = "Offset";
+        public const string Gain = "Gain";
+        public const string Pattern = "Pattern";
+        public const string Track = "Track";
+        public const string Part = "Part";
+        public const string SampleName = "SampleName";
+        public const string TrimLeft = "TrimLeft";
+        public const string TrimRight = "TrimRight";
+    }
+
     public class ProviderData : Dictionary<string, object>
     {
-        public const string IStartAtKey = "Offset";
-        public const string GainKey = "Gain";
-        public const string PatternKey = "Pattern";
-        public const string TrackKey = "Track";
-        public const string PartKey = "Part";
-        public const string SampleNameKey = "SampleName";
-
         public bool TryGetValue<T>(string key, out T value)
         {
             if (base.TryGetValue(key, out var obj) && obj is T typedValue)

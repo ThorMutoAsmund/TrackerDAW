@@ -41,9 +41,16 @@ namespace TrackerDAW
                 return;
             }
 
+            if (!Env.TryParseDouble(this.noteLengthTextBox.Text, out var noteLength) || noteLength < 0d)
+            {
+                MessageBox.Show("Illegal note length");
+                return;
+            }
+
             this.note.Name = partName;
             this.note.Offset = partOffset;
             this.note.Content = textContent;
+            this.note.Length = noteLength;
             this.DialogResult = true;
         }
 
@@ -57,8 +64,9 @@ namespace TrackerDAW
 
             dialog.partNameLabel.Content = note.Name;
             dialog.partNameTextBox.Text = note.Name;
-            dialog.noteOffsetTextBox.Text = note.Content;
+            dialog.noteOffsetTextBox.Text = Env.TimeToString(note.Offset);
             dialog.noteContentTextBox.Text = note.Content;
+            dialog.noteLengthTextBox.Text = Env.TimeToString(note.Length);
 
             if (dialog.ShowDialog() == true)
             {

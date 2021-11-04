@@ -106,16 +106,19 @@ namespace TrackerDAW
             int i = 1;
             foreach (var track in this.pattern.Tracks)
             {
-                var trackControl = new TrackControl($"Track {i}", track, this.pattern.Length);
+                var trackControl = new TrackControl($"Track {i}", track, this.pattern);
                 DockPanel.SetDock(trackControl, Dock.Left);
                 this.tracksStackPanel.Children.Add(trackControl);
                 i++;
             }
+
+            this.timeRuler.Pattern = pattern;
         }
 
         public void Clear()
         {
             this.tracksStackPanel.Children.Clear();
+            this.timeRuler.Pattern = null;
         }
 
         private void prevPatternButton_Click(object sender, RoutedEventArgs e)

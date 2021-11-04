@@ -14,6 +14,6 @@ namespace TrackerDAW
         [JsonProperty] public double Offset { get; set; }
 
         public abstract Part Clone();
-        public abstract float GetLength();
+        public abstract double GetLength();
     }
 }

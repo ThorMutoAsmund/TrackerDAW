@@ -60,8 +60,12 @@ namespace TrackerDAW
                 var mousePos = e.GetPosition(null);
                 var diff = this.dragStartPoint - mousePos;
 
-                var fileName = this.listView.SelectedItem as string;
-                this.listView.CheckDragDrop(diff, fileName, "sample");
+                var sampleName = this.listView.SelectedItem as string;
+                this.listView.CheckDragDrop(diff, () => {
+                    var length = DefaultSampleProvider.GetFileLength(Env.Song, sampleName);
+                    return new Tuple<string, double>(sampleName, length);
+                }
+                , DragDropKey.Sample);
             }
         }
     }

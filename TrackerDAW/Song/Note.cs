@@ -19,6 +19,7 @@ namespace TrackerDAW
             set { }
         }
         [JsonProperty] public string Content { get; set; }
+        [JsonProperty] public double Length { get; set; }
         [JsonIgnore] public string NameWithDefaultValue => String.IsNullOrEmpty(this.Name) ? "(untitled)" : this.Name;
         
         public Note()
@@ -26,21 +27,22 @@ namespace TrackerDAW
             this.Offset = 0d;
         }
 
-        public Note(double offset, string name = "", string content = "")
+        public Note(double offset, double length, string name = "", string content = "")
         {
             this.Offset = offset;
+            this.Length = length;
             this.Name = name;
             this.Content = content;
         }
 
         public override Part Clone()
         {
-            return new Note(this.Offset, this.Name, this.Content);
+            return new Note(this.Offset, this.Length, this.Name, this.Content);
         }
 
-        public override float GetLength()
+        public override double GetLength()
         {
-            return 3f;
+            return this.Length;
         }
     }
 }

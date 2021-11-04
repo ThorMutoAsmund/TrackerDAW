@@ -141,6 +141,9 @@
     <Compile Include="UserControls\AimControl.xaml.cs">
       <DependentUpon>AimControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\TimeRuler.xaml.cs">
+      <DependentUpon>TimeRuler.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\SamplesControl.xaml.cs">
       <DependentUpon>SamplesControl.xaml</DependentUpon>
     </Compile>
@@ -277,6 +280,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\AimControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\TimeRuler.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

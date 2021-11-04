@@ -46,9 +46,16 @@ namespace TrackerDAW
                 return;
             }
 
+            if (!Env.TryParseDouble(this.sampleLengthTextBox.Text, out var sampleLength) || sampleLength < 0d)
+            {
+                MessageBox.Show("Illegal sample length");
+                return;
+            }
+
             this.sample.Name = partName;
             this.sample.Offset = partOffset;
             this.sample.Gain = partGain;
+            this.sample.Length = sampleLength;
             this.DialogResult = true;
         }
 
@@ -64,6 +71,7 @@ namespace TrackerDAW
             dialog.partNameTextBox.Text = sample.Name;
             dialog.partGainTextBox.Text = Env.GainToString(sample.Gain);
             dialog.partOffsetTextBox.Text = Env.TimeToString(sample.Offset);
+            dialog.sampleLengthTextBox.Text = Env.TimeToString(sample.Length);
 
             if (dialog.ShowDialog() == true)
             {

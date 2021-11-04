@@ -66,13 +66,13 @@ namespace TrackerDAW
                 var diff = this.dragStartPoint - mousePos;
                 var canvasLeft = Canvas.GetLeft(this);
                 var offset = e.GetPosition(this).X;
-                this.CheckDragDrop(diff, (this.part, this.track, offset), "part", DragDropEffects.Copy | DragDropEffects.Move);
+                this.CheckDragDrop(diff, (this.part, this.track, offset), DragDropKey.Part, DragDropEffects.Copy | DragDropEffects.Move);
             }
         }
 
         private void editPartMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            EditPart();
+            EditPart(this.part);
         }
 
         private void deletePartMenuItem_Click(object sender, RoutedEventArgs e)
@@ -80,9 +80,9 @@ namespace TrackerDAW
             this.track.DeletePart(this.part);
         }
 
-        private void EditPart()
+        public static void EditPart(Part part)
         {
-            switch (this.part)
+            switch (part)
             {
                 case Sample sample:
                     EditSampleDialog.ShowDialog(sample);
@@ -101,7 +101,7 @@ namespace TrackerDAW
             if (e.ClickCount == 2)
             {
                 e.Handled = true;
-                EditPart();
+                EditPart(this.part);
             }
         }
     }

@@ -28,6 +28,7 @@ namespace TrackerDAW
         public static int DefaultNumberOfTracks = 4;
         public static double DefaultPartHeight = 24d;
         public static double DefaultBPS = 120d;
+        public static double DefaultPartLength = 3d;
         public static Song Song;
         public static int SelectedPatternIdx;
         public static Pattern SelectedPattern;
@@ -88,6 +89,11 @@ namespace TrackerDAW
         public static string TimeToString(double value)
         {
             return value.ToString("0.000", System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        public static string TimeToStringPrecision(double value, int precision)
+        {
+            return value.ToString($"0.{"0000".Substring(0,precision)}", System.Globalization.CultureInfo.InvariantCulture);
         }
 
         public static bool TryParseDouble(string s, out double result)

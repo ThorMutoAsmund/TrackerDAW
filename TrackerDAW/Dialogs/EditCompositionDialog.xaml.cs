@@ -46,9 +46,16 @@ namespace TrackerDAW
                 return;
             }
 
+            if (!Env.TryParseDouble(this.compositionLengthTextBox.Text, out var compositionLength) || compositionLength < 0d)
+            {
+                MessageBox.Show("Illegal composition length");
+                return;
+            }
+
             this.composition.Name = partName;
             this.composition.Offset = partOffset;
             this.composition.Gain = partGain;
+            this.composition.Length = compositionLength;
             this.DialogResult = true;
         }
 
@@ -64,6 +71,7 @@ namespace TrackerDAW
             dialog.partNameTextBox.Text = composition.Name;
             dialog.partGainTextBox.Text = Env.GainToString(composition.Gain);
             dialog.partOffsetTextBox.Text = Env.TimeToString(composition.Offset);
+            dialog.compositionLengthTextBox.Text = Env.TimeToString(composition.Length);
 
             if (dialog.ShowDialog() == true)
             {

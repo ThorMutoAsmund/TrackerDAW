@@ -21,25 +21,43 @@ namespace TrackerDAW
         {
             this.providerData = providerData;
 
-            if (!this.providerData.TryGetValue<string>(ProviderData.SampleNameKey, out this.sampleName))
+            if (!this.providerData.TryGetValue<string>(ProviderDataKey.SampleName, out this.sampleName))
             {
                 Fail("No samplename info");
                 return;
             }
 
-            if (!this.providerData.TryGetValue<int>(ProviderData.IStartAtKey, out this.iStartAt))
+            if (!this.providerData.TryGetValue<int>(ProviderDataKey.IStartAt, out this.iStartAt))
             {
                 Fail("No start-at info");
                 return;
             }
 
-            if (!this.providerData.TryGetValue<double>(ProviderData.GainKey, out this.gain))
+            if (!this.providerData.TryGetValue<double>(ProviderDataKey.Gain, out this.gain))
             {
                 this.gain = 1d;
             }
 
-            var waveFileReader = new WaveFileReader(System.IO.Path.Combine(this.Song.SamplesPath, this.sampleName));
+            var waveFileReader = CreateWaveFileReader(this.Song, this.sampleName);
             this.wtsProvider = CreateConverter(waveFileReader);
+        }
+
+        private static WaveFileReader CreateWaveFileReader(Song song, string sampleName)
+        {
+            return new WaveFileReader(System.IO.Path.Combine(song.SamplesPath, sampleName));
+        }
+
+        public static double GetFileLength(Song song, string sampleName)
+        {
+            try
+            {
+                var wf = CreateWaveFileReader(song, sampleName);
+                return wf.TotalTime.TotalSeconds;
+            }
+            catch (Exception)
+            {
+                return Env.DefaultPartLength;
+            }
         }
 
         public override int Read(float[] buffer, int offset, int count)

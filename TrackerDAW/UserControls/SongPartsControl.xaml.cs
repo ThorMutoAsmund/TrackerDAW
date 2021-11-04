@@ -47,5 +47,14 @@ namespace TrackerDAW
         private void listView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
         }
+
+        private void editMenu_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.listView.SelectedItem != null)
+            {
+                var part = this.listView.SelectedItem as Part;
+                PartControl.EditPart(part);
+            }
+        }
     }
 }

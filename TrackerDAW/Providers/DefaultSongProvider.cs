@@ -19,7 +19,7 @@ namespace TrackerDAW
             this.providerData = providerData;
 
             // Get custom offset
-            if (!this.providerData.TryGetValue<int>(ProviderData.IStartAtKey, out var iStartAt))
+            if (!this.providerData.TryGetValue<int>(ProviderDataKey.IStartAt, out var iStartAt))
             {
                 iStartAt = 0;
             }
@@ -28,8 +28,8 @@ namespace TrackerDAW
             {
                 var provider = this.Context.CreateProvider(pattern, pattern.ProviderInfo, new ProviderData()
                 {
-                    { ProviderData.PatternKey, pattern },
-                    { ProviderData.IStartAtKey, iStartAt }
+                    { ProviderDataKey.Pattern, pattern },
+                    { ProviderDataKey.IStartAt, iStartAt }
                 });
 
                 patternProviders.Add(provider);

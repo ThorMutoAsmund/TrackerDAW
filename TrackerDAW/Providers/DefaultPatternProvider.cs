@@ -15,13 +15,13 @@ namespace TrackerDAW
         {
             this.providerData = providerData;
 
-            if (!this.providerData.TryGetValue<Pattern>(ProviderData.PatternKey, out this.pattern))
+            if (!this.providerData.TryGetValue<Pattern>(ProviderDataKey.Pattern, out this.pattern))
             {
                 Fail("No pattern info");
                 return;
             }
 
-            if (!this.providerData.TryGetValue<int>(ProviderData.IStartAtKey, out var iStartAt))
+            if (!this.providerData.TryGetValue<int>(ProviderDataKey.IStartAt, out var iStartAt))
             {
                 Fail("No start-at info");
                 return;
@@ -31,8 +31,8 @@ namespace TrackerDAW
             {
                 var provider = this.Context.CreateProvider(track, track.ProviderInfo, new ProviderData()
                 {
-                    { ProviderData.TrackKey, track },
-                    { ProviderData.IStartAtKey, iStartAt }
+                    { ProviderDataKey.Track, track },
+                    { ProviderDataKey.IStartAt, iStartAt }
                 });
 
                 this.AddInputProvider(provider);

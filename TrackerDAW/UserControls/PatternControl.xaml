@@ -34,7 +34,10 @@
             </Grid>
         </Grid>
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
-            <StackPanel x:Name="tracksStackPanel" Orientation="Vertical" HorizontalAlignment="Left">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                <local:TimeRuler x:Name="timeRuler" Margin="150,0,0,0"></local:TimeRuler>
+                <StackPanel x:Name="tracksStackPanel" Orientation="Vertical" HorizontalAlignment="Left">
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
         <Grid.ContextMenu>

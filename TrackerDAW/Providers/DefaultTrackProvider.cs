@@ -15,13 +15,13 @@ namespace TrackerDAW
         {
             this.providerData = providerData;
 
-            if (!this.providerData.TryGetValue<Track>(ProviderData.TrackKey, out this.track))
+            if (!this.providerData.TryGetValue<Track>(ProviderDataKey.Track, out this.track))
             {
                 Fail("No track info");
                 return;
             }
 
-            if (!this.providerData.TryGetValue<int>(ProviderData.IStartAtKey, out var iStartAt))
+            if (!this.providerData.TryGetValue<int>(ProviderDataKey.IStartAt, out var iStartAt))
             {
                 Fail("No start-at info");
                 return;
@@ -35,8 +35,8 @@ namespace TrackerDAW
                         {
                             var provider = this.Context.CreateProvider(composition, composition.ProviderInfo, composition.ProviderData.Extend(new Dictionary<string, object>()
                             {
-                                { ProviderData.IStartAtKey, composition.SampleOffset(context.Song) + iStartAt },
-                                { ProviderData.GainKey, composition.Gain }
+                                { ProviderDataKey.IStartAt, composition.SampleOffset(context.Song) + iStartAt },
+                                { ProviderDataKey.Gain, composition.Gain }
                             }));
 
                             this.AddInputProvider(provider);
@@ -46,8 +46,8 @@ namespace TrackerDAW
                         {
                             var provider = this.Context.CreateProvider(sample, sample.ProviderInfo, sample.ProviderData.Extend(new Dictionary<string, object>()
                             {
-                                { ProviderData.IStartAtKey, sample.SampleOffset(context.Song) + iStartAt },
-                                { ProviderData.GainKey, sample.Gain }
+                                { ProviderDataKey.IStartAt, sample.SampleOffset(context.Song) + iStartAt },
+                                { ProviderDataKey.Gain, sample.Gain }
                             }));
 
                             this.AddInputProvider(provider);

@@ -15,5 +15,11 @@
                 <TextBlock Text="{Binding NameWithDefaultValue}" />
             </DataTemplate>
         </ListView.ItemTemplate>
+        <ListView.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Edit" Name="editMenu" Click="editMenu_Click" />
+            </ContextMenu>
+        </ListView.ContextMenu>
+
     </ListView>
 </UserControl>
