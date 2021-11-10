@@ -20,9 +20,9 @@ namespace TrackerDAW
             Env.Watchers.ScriptsListChanged += Watchers_ScriptsListChanged; 
         }
         
-        private void Song_SongChanged(Song song)
+        private void Song_SongChanged(Song song, SongChangedAction action)
         {
-            if (song == null)
+            if (action == SongChangedAction.Closed)
             {
                 this.DataContext = null;
             }

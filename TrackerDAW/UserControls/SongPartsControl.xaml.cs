@@ -28,9 +28,9 @@ namespace TrackerDAW
             Song.TrackChanged += Song_TrackChanged;
         }
 
-        private void Song_SongChanged(Song song)
+        private void Song_SongChanged(Song song, SongChangedAction action)
         {
-            if (song == null)
+            if (action == SongChangedAction.Closed)
             {
                 this.DataContext = null;
                 return;

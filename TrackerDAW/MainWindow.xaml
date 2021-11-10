@@ -57,7 +57,7 @@
                 <MenuItem Name="stopMenu" Header="_Stop" InputGestureText="Esc" Command="local:CustomCommands.Stop"  />
             </MenuItem>
         </Menu>
-        <Grid DockPanel.Dock="Right" Width="200" Margin="0,4,4,4">
+        <Grid DockPanel.Dock="Right" Width="250" Margin="0,4,4,4">
             <TabControl>
                 <!--<TabControl.Resources>
                     <Style TargetType="{x:Type TabItem}">
@@ -72,6 +72,9 @@
                 </TabItem>
                 <TabItem Header="Samples" BorderBrush="Transparent">
                     <local:SamplesControl x:Name="sampleListControl"></local:SamplesControl>
+                </TabItem>
+                <TabItem Header="Scripts" BorderBrush="Transparent">
+                    <local:ScriptsListControl x:Name="scriptsListControl"></local:ScriptsListControl>
                 </TabItem>
             </TabControl>
         </Grid>

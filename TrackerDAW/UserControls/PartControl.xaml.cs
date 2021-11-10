@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace TrackerDAW
 {
@@ -24,8 +25,16 @@ namespace TrackerDAW
 
             switch (part)
             {
+                case Composition composition:
+                    this.titleTextBlock.Background = Application.Current.TryFindResource("SubmenuItemBackground") as SolidColorBrush;
+                    this.titleTextBlock.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
+                    break;
+                case Sample sample:
+                    this.titleTextBlock.Background = Application.Current.TryFindResource("PartSampleBackground") as SolidColorBrush;
+                    this.titleTextBlock.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
+                    break;                    
                 case Note note:
-                    this.titleTextBlock.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(200,200,200));
+                    this.titleTextBlock.Background = Application.Current.TryFindResource("PartNoteBackground") as SolidColorBrush; 
                     this.titleTextBlock.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Black);
                     break;
             }

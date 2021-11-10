@@ -123,6 +123,9 @@
     <Compile Include="CustomCommands.cs" />
     <Compile Include="DragDropExtensions.cs" />
     <Compile Include="Providers\DefaultCompositionProvider.cs" />
+    <Compile Include="Providers\BlankProvider.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Providers\DefaultTrackProvider.cs" />
     <Compile Include="Providers\EmptyProvider.cs" />
     <Compile Include="Providers\BaseProvider.cs" />
@@ -142,11 +145,15 @@
     <Compile Include="Song\Pattern.cs" />
     <Compile Include="Song\Track.cs" />
     <Compile Include="Song\Composition.cs" />
+    <Compile Include="Tools\SampleTools.cs" />
     <Compile Include="UserControls\AimControl.xaml.cs">
       <DependentUpon>AimControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ProviderSelectorControl.xaml.cs">
       <DependentUpon>ProviderSelectorControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ScriptsListControl.xaml.cs">
+      <DependentUpon>ScriptsListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\TimeRuler.xaml.cs">
       <DependentUpon>TimeRuler.xaml</DependentUpon>
@@ -297,6 +304,10 @@
     <Page Include="UserControls\ProviderSelectorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ScriptsListControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\TimeRuler.xaml">
       <Generator>MSBuild:Compile</Generator>

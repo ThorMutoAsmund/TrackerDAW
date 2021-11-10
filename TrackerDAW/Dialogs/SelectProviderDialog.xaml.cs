@@ -25,6 +25,9 @@ namespace TrackerDAW
             set
             {
                 this.providerInfo = value;
+                var registration = ProviderFactory.GetProviderRegistration(this.providerInfo);
+                this.providerListView.SelectedValue = registration;
+                this.providerTextBox.Text = registration.Name;
             }
         }
 
@@ -36,13 +39,22 @@ namespace TrackerDAW
 
             this.okButton.Click += OkButton_Click;
 
+            var providers = ProviderFactory.ProviderRegistrations.Values;
+
+            this.DataContext = providers;
+
+
+            this.providerListView.SelectionChanged += ProviderListView_SelectionChanged;
             //this.patternNameTextBox.Focus();
+        }
+
+        private void ProviderListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.ProviderInfo = (this.providerListView.SelectedItem as ProviderRegistration).ProviderInfo;
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            // Assign seleced provider info
-
             this.DialogResult = true;
         }
 
@@ -55,9 +67,21 @@ namespace TrackerDAW
 
             dialog.ProviderInfo = providerInfo;
 
-            //dialog.projectPathTextBox.Text = initialProjectPath;
-
             return dialog;
+        }
+
+        private void createBlankProviderButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = StringDialog.Create("New provider name");
+            if (dialog.ShowDialog() == true)
+            {
+                ProviderFactory.CreateBlankProviderScript(dialog.Value);
+            }
+        }
+
+        private void duplicateProviderButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

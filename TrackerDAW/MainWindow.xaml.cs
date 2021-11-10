@@ -19,7 +19,7 @@ namespace TrackerDAW
             Env.DirtyChanged += Env_DirtyChanged;
             Song.SongChanged += Song_SongChanged;
 
-            Song_SongChanged(null);
+            Song_SongChanged(null, SongChangedAction.Closed);
 
             bool isActivated = false;
             this.Activated += (sender, e) =>
@@ -42,7 +42,7 @@ namespace TrackerDAW
             this.Title = $"{this.title}{(dirty ? " *" : string.Empty)}";
         }
 
-        private void Song_SongChanged(Song song)
+        private void Song_SongChanged(Song song, SongChangedAction action)
         {
             var songNotNull = song != null;
 

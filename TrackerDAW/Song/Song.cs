@@ -108,12 +108,12 @@ namespace TrackerDAW
             if (Env.Song == null)
             {
                 Env.Song.projectPath = string.Empty;
-                Song.OnSongChanged(Env.Song, false);
+                Song.OnSongChanged(Env.Song, SongChangedAction.Opened);
                 return false;
             }
 
             Env.Song.projectPath = projectPath;
-            Song.OnSongChanged(Env.Song, false);
+            Song.OnSongChanged(Env.Song, SongChangedAction.Opened);
 
             Env.AddRecentFile(projectPath);
             
@@ -127,7 +127,7 @@ namespace TrackerDAW
             try
             {
                 SongSerializer.ToFile(Env.Song);
-                Song.OnSongChanged(Env.Song, false);
+                Song.OnSongChanged(Env.Song, SongChangedAction.Saved);
             }
             finally
             {
@@ -152,7 +152,6 @@ namespace TrackerDAW
             }
         }
 
-
         public static void Close()
         {
             if (!Dialogs.ConfirmChangesMade())
@@ -162,7 +161,7 @@ namespace TrackerDAW
 
             Env.Song = null;
 
-            Song.OnSongChanged(null, false);
+            Song.OnSongChanged(null, SongChangedAction.Closed);
             Env.OnSelectedPatternChanged(-1);
         }
 

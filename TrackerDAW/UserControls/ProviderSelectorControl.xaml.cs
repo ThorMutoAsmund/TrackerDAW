@@ -40,11 +40,22 @@ namespace TrackerDAW
 
         private void providerSelectButton_Click(object sender, RoutedEventArgs e)
         {
+            OpenDialog();
+        }
+
+        private void OpenDialog()
+        { 
             var dialog = SelectProviderDialog.Create(this.providerInfo);
             if (dialog.ShowDialog() == true)
             {
                 this.ProviderInfo = dialog.ProviderInfo;
             }
+        }
+
+        private void providerTextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+            OpenDialog();
         }
     }
 }

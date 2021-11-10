@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="224 ">
     <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
-        <TextBox x:Name="providerTextBox" Grid.Column="1" Width="200" VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" Foreground="{StaticResource TextBoxDisabledForeground}" Height="24" />
+        <TextBox x:Name="providerTextBox" Grid.Column="1" Width="200" VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" Foreground="{StaticResource TextBoxDisabledForeground}" Height="24" MouseDoubleClick="providerTextBox_MouseDoubleClick" />
         <Button x:Name="providerSelectButton" Grid.Column="2" Width="24" Height="24" Content="&#x00b7;&#x00b7;&#x00b7;" FontSize="14" Margin="-1,5,5,5" Click="providerSelectButton_Click" />
     </StackPanel>
 </UserControl>

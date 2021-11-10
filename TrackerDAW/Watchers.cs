@@ -22,15 +22,15 @@ namespace TrackerDAW
 
         public Watchers()
         {
-            Song.SongChanged += song =>
+            Song.SongChanged += (song, action) =>
             {
-                if (song != null)
+                if (action == SongChangedAction.Opened)
                 {
                     ConfigureWatchers();
                     RescanSamples();
                     RescanSripts();
                 }
-                else
+                else if(action == SongChangedAction.Closed)
                 {
                     StopWatchers();
                 }
