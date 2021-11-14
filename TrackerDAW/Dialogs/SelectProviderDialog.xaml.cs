@@ -19,27 +19,28 @@ namespace TrackerDAW
     /// </summary>
     public partial class SelectProviderDialog : Window
     {
-        public ProviderInfo ProviderInfo
+        private bool viewOnly;
+
+        public ProviderRegistration ProviderRegistration
         {
-            get => this.providerInfo;
+            get => this.providerRegistration;
             set
             {
-                this.providerInfo = value;
-                var registration = ProviderFactory.GetProviderRegistration(this.providerInfo);
-                this.providerListView.SelectedValue = registration;
-                this.providerTextBox.Text = registration.Name;
+                this.providerRegistration = value;
+                this.providerListView.SelectedValue = value;
+                this.providerTextBox.Text = value.Name;
             }
         }
 
-        private ProviderInfo providerInfo;
+        private ProviderRegistration providerRegistration;
 
-        public SelectProviderDialog()
+        private SelectProviderDialog()
         {
             InitializeComponent();
 
             this.okButton.Click += OkButton_Click;
 
-            var providers = ProviderFactory.ProviderRegistrations.Values;
+            var providers = ProviderFactory.Default.ProviderRegistrations.Values;
 
             this.DataContext = providers;
 
@@ -50,7 +51,10 @@ namespace TrackerDAW
 
         private void ProviderListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            this.ProviderInfo = (this.providerListView.SelectedItem as ProviderRegistration).ProviderInfo;
+            if (!this.viewOnly)
+            {
+                this.ProviderRegistration = this.providerListView.SelectedItem as ProviderRegistration;
+            }
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
@@ -58,14 +62,25 @@ namespace TrackerDAW
             this.DialogResult = true;
         }
 
-        public static SelectProviderDialog Create(ProviderInfo providerInfo)
+        public static SelectProviderDialog Create(ProviderInfo providerInfo = null)
         {
             var dialog = new SelectProviderDialog()
             {
-                Owner = Env.MainWindow
+                Owner = Env.MainWindow,
+                viewOnly = providerInfo == null
             };
 
-            dialog.ProviderInfo = providerInfo;
+
+            if (providerInfo != null)
+            {
+                dialog.ProviderRegistration = ProviderFactory.Default.GetProviderRegistration(providerInfo);
+            }
+            else
+            {
+                dialog.cancelButton.Visibility = Visibility.Hidden;
+                dialog.dialogTitle.Content = "Provider List";
+                dialog.Title = "Provider List";
+            }
 
             return dialog;
         }
@@ -75,13 +90,12 @@ namespace TrackerDAW
             var dialog = StringDialog.Create("New provider name");
             if (dialog.ShowDialog() == true)
             {
-                ProviderFactory.CreateBlankProviderScript(dialog.Value);
+                ProviderFactory.Default.CreateBlankProviderScript(dialog.Value);
             }
         }
 
         private void duplicateProviderButton_Click(object sender, RoutedEventArgs e)
         {
-
         }
     }
 }

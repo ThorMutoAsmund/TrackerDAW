@@ -15,7 +15,7 @@ namespace TrackerDAW
 
         public Track()
         {
-            this.ProviderInfo = ProviderInfo.DefaultTrackProviderInfo;
+            this.ProviderInfo = DefaultTrackProvider.ProviderInfo;
             this.Parts = new List<Part>();
             this.Gain = 1d;
         }

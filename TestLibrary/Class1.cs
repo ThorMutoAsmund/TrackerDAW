@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TrackerDAW.Tools
+namespace TestLibrary
 {
-    public class SampleTools
+    public class Class1
     {
     }
 }

@@ -1,9 +1,5 @@
-﻿using NAudio.Wave;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TrackerDAW
 {
@@ -16,12 +12,21 @@ namespace TrackerDAW
         public static MainWindow MainWindow;
         public static string AppName = "TrackerDAW";
         public static string ApplicationPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        public static string DevEnvProcessName = "devenv";
+        public static string DevEnvPath = @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe";
+        public static string VSCodePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Programs\Microsoft VS Code\Code.exe";
         public static string SamplesFolder = "Samples";
         public static string ScriptsFolder = "Scripts";
+        public static string ProvidersSystemFolder = "Providers";
+        public static string ResourcesSystemFolder = "Resources";
         public static string ProjectFileName = "Project";
         public static string DefaultProjectFileName = "default_project";
         public static string DefaultProjectName = "Default project";
         public static string NewProjectName = "New project";
+        public static string BlankProviderFileName = "BlankProvider.cs";
+        public static string CsProjectFileName = "Project.csproj";
+        public static string CsSolutionFileName = "Project.sln";
+        public static string LibMainFileName = "LibMain.cs";
         public static double DefaultPatternLength = 10d;
         public static int DefaultSampleRate = 44100;
         public static int DefaultNumberOfPatterns = 1;

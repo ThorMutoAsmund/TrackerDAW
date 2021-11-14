@@ -21,7 +21,7 @@ namespace TrackerDAW
     {
         private Sample sample;
 
-        public EditSampleDialog()
+        private EditSampleDialog()
         {
             InitializeComponent();
 

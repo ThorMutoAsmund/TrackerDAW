@@ -21,7 +21,7 @@ namespace TrackerDAW
     {
         private Composition composition;
 
-        public EditCompositionDialog()
+        private EditCompositionDialog()
         {
             InitializeComponent();
 

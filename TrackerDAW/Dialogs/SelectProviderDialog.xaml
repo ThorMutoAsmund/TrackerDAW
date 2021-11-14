@@ -11,7 +11,7 @@
     <DockPanel>
         <Border DockPanel.Dock="Top" Style="{StaticResource DialogTitleBorder}">
             <Grid Style="{StaticResource DialogTitleBackground}">
-                <Label Content="Select Provider" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Style="{StaticResource DialogTitle}"/>
+                <Label Name="dialogTitle" Content="Select Provider" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Style="{StaticResource DialogTitle}"/>
             </Grid>
         </Border>
         <Grid>

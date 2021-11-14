@@ -1,12 +1,15 @@
 ﻿using NAudio.Wave;
 using System;
 using System.Collections.Generic;
+using TrackerDAW.Rev1;
 
 namespace TrackerDAW
 {
+    [ProviderRegistration(version: DefaultSongProvider.Version)]
     public class DefaultSongProvider : BaseProvider
     {
         public const int Version = 1;
+        public static ProviderInfo ProviderInfo = ProviderInfo.CreateProvider<DefaultSongProvider>(DefaultSongProvider.Version);
         public override float Gain => 1f; 
 
         private ProviderData providerData;

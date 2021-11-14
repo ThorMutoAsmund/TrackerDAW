@@ -2,6 +2,7 @@
 using NAudio.Wave;
 using System;
 using System.Collections.Generic;
+using TrackerDAW.Rev1;
 
 namespace TrackerDAW
 {

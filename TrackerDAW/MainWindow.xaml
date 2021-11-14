@@ -44,6 +44,8 @@
             </MenuItem>
             <MenuItem Header="_Song">
                 <MenuItem Name="createPatternMenu" Header="_Create Pattern" Click="createPatternMenu_Click" />
+                <Separator/>
+                <MenuItem Name="showProviders" Header="_Show Providers" Click="showProviders_Click" />                
             </MenuItem>
             <MenuItem Header="_Sample">
                 <MenuItem Name="recordMenu" Header="Record..." Click="recordMenu_Click" />

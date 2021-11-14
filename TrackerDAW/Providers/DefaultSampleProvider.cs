@@ -1,13 +1,15 @@
 ﻿using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System;
+using TrackerDAW.Rev1;
 
 namespace TrackerDAW
 {
+    [ProviderRegistration(version: DefaultSampleProvider.Version)]
     public class DefaultSampleProvider : BaseProvider
     {
         public const int Version = 1;
-
+        public static ProviderInfo ProviderInfo = ProviderInfo.CreateProvider<DefaultSampleProvider>(DefaultSampleProvider.Version);
         public override float Gain => (float)this.gain;
 
         private ISampleProvider wtsProvider;

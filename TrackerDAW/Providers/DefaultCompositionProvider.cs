@@ -2,9 +2,12 @@
 
 namespace TrackerDAW
 {
+
+    [ProviderRegistration(version: DefaultCompositionProvider.Version)]
     public class DefaultCompositionProvider : MixerBaseProvider
     {
         public const int Version = 1;
+        public static ProviderInfo ProviderInfo = ProviderInfo.CreateProvider<DefaultCompositionProvider>(DefaultCompositionProvider.Version);
         public override float Gain => 1f;
 
         private ProviderData providerData;

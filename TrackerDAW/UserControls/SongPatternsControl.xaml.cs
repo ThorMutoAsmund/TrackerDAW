@@ -61,10 +61,14 @@ namespace TrackerDAW
 
         private void listView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left && this.listView.SelectedIndex != -1)
+            if (((FrameworkElement)e.OriginalSource).DataContext is Pattern pattern)
             {
                 Env.OnSelectedPatternChanged(this.listView.SelectedIndex);
             }
+
+            //if (e.ChangedButton == MouseButton.Left && this.listView.SelectedIndex != -1)
+            //{
+            //}
         }
 
         private void editMenu_Click(object sender, RoutedEventArgs e)

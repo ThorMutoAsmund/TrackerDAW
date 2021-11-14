@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 
 namespace TrackerDAW
 {
@@ -49,7 +50,7 @@ namespace TrackerDAW
 
         private Song()
         {
-            this.ProviderInfo = ProviderInfo.DefaultSongProviderInfo;
+            this.ProviderInfo = DefaultSongProvider.ProviderInfo;
             this.Patterns = new List<Pattern>();
         }
 
@@ -135,21 +136,24 @@ namespace TrackerDAW
             }
         }
 
-        private static void CreateFolders(string path)
+        private static void CreateFolders(string projectPath)
         {
             // Ensure script directory
-            var scriptDirectory = Path.Combine(path, Env.ScriptsFolder);
+            var scriptDirectory = Path.Combine(projectPath, Env.ScriptsFolder);
             if (!Directory.Exists(scriptDirectory))
             {
                 Directory.CreateDirectory(scriptDirectory);
             }
 
             // Ensure sample directory
-            var sampleDirectory = Path.Combine(path, Env.SamplesFolder);
+            var sampleDirectory = Path.Combine(projectPath, Env.SamplesFolder);
             if (!Directory.Exists(sampleDirectory))
             {
                 Directory.CreateDirectory(sampleDirectory);
             }
+
+            // Ensure project
+            IDEIntegration.CreateBlankProject(projectPath);
         }
 
         public static void Close()

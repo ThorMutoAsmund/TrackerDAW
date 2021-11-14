@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TrackerDAW
+namespace TrackerDAW.Rev1
 {
     public abstract class BaseProvider : IProvider
     {
@@ -14,7 +14,8 @@ namespace TrackerDAW
         public WaveFormat WaveFormat => this.Song.WaveFormat;
         public bool Failed { get; set; }
         public string Failure { get; set; }
-        
+        public virtual ProviderInterface Interface { get; } = null;
+
         protected PlaybackContext Context { get; private set; }
         protected Song Song => this.Context.Song;
 

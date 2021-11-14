@@ -54,13 +54,13 @@ namespace TrackerDAW
                 return this.providers[source];
             }
 
-            var providerClass = ProviderFactory.GetProviderClass(providerInfo);
+            var providerClass = ProviderFactory.Default.GetProviderClass(providerInfo);
 
             IProvider provider;
 
             if (providerClass == null)
             {
-                provider = new EmptyProvider(this, $"Provider class {providerInfo.Name} not found");
+                provider = new EmptyProvider(this, $"Provider class {providerInfo.Type} not found");
             }
             else
             {
@@ -68,7 +68,7 @@ namespace TrackerDAW
 
                 if (provider == null)
                 {
-                    provider = new EmptyProvider(this, $"Provider class {providerInfo.Name} instantiation failed");
+                    provider = new EmptyProvider(this, $"Provider class {providerInfo.Type} instantiation failed");
                 }
             }
 

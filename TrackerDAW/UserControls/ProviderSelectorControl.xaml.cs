@@ -26,7 +26,7 @@ namespace TrackerDAW
             set
             {
                 this.providerInfo = value;
-                var providerClass = ProviderFactory.GetProviderClass(this.providerInfo);
+                var providerClass = ProviderFactory.Default.GetProviderClass(this.providerInfo);
                 this.providerTextBox.Text = providerClass != null ? providerClass.Name : string.Empty;
             }
         }
@@ -48,13 +48,12 @@ namespace TrackerDAW
             var dialog = SelectProviderDialog.Create(this.providerInfo);
             if (dialog.ShowDialog() == true)
             {
-                this.ProviderInfo = dialog.ProviderInfo;
+                this.ProviderInfo = dialog.ProviderRegistration.ToProviderInfo();
             }
         }
 
         private void providerTextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
             OpenDialog();
         }
     }

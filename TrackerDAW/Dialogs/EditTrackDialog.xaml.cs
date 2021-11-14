@@ -21,7 +21,7 @@ namespace TrackerDAW
     {
         private Track track;
 
-        public EditTrackDialog()
+        private EditTrackDialog()
         {
             InitializeComponent();
 

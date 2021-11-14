@@ -9,16 +9,17 @@ using System.Windows;
 
 namespace TrackerDAW
 {
-    public static class ProviderFactory
-    {        
-        public static Dictionary<string, ProviderRegistration> ProviderRegistrations { get; private set; } = new Dictionary<string, ProviderRegistration>();
+    public class ProviderFactory
+    {
+        public static ProviderFactory Default { get; } = new ProviderFactory();
+        public Dictionary<string, ProviderRegistration> ProviderRegistrations { get; private set; } = new Dictionary<string, ProviderRegistration>();
        
-        static ProviderFactory()
+        public ProviderFactory()
         {
             Song.SongChanged += Song_SongChanged;
         }
 
-        private static void Song_SongChanged(Song song, SongChangedAction action)
+        private void Song_SongChanged(Song song, SongChangedAction action)
         {
             if (action == SongChangedAction.Opened)
             {
@@ -34,51 +35,66 @@ namespace TrackerDAW
             //}
         }
 
-        public static void RefreshProviders()
+        public void RefreshProviders()
         {
             ProviderRegistrations.Clear();
 
-            AddProvider<EmptyProvider>(ProviderInfo.EmptyProviderInfo);
-            AddProvider<DefaultSongProvider>(ProviderInfo.DefaultSongProviderInfo);
-            AddProvider<DefaultPatternProvider>(ProviderInfo.DefaultPatternProviderInfo);
-            AddProvider<DefaultTrackProvider>(ProviderInfo.DefaultTrackProviderInfo);
-            AddProvider<DefaultSampleProvider>(ProviderInfo.DefaultSampleProviderInfo);
-            AddProvider<DefaultCompositionProvider>(ProviderInfo.DefaultCompositionProviderInfo);
+            foreach (Type type in System.Reflection.Assembly.GetExecutingAssembly().GetTypes())
+            {
+                var customAttributes = type.GetCustomAttributes(typeof(ProviderRegistrationAttribute), true);
+                if (customAttributes.Length > 0 && customAttributes[0] is ProviderRegistrationAttribute providerRegistrationAttribute)
+                {
+                    AddProvider(type, providerRegistrationAttribute.Version);
+                }
+            }
+            //AddProvider<EmptyProvider>(ProviderInfo.EmptyProviderInfo);
+            //AddProvider<DefaultSongProvider>(ProviderInfo.DefaultSongProviderInfo);
+            //AddProvider<DefaultPatternProvider>(ProviderInfo.DefaultPatternProviderInfo);
+            //AddProvider<DefaultTrackProvider>(ProviderInfo.DefaultTrackProviderInfo);
+            //AddProvider<DefaultSampleProvider>(ProviderInfo.DefaultSampleProviderInfo);
+            //AddProvider<DefaultCompositionProvider>(ProviderInfo.DefaultCompositionProviderInfo);
+            var a = 2;
         }
 
-        public static void AddProvider<T>(ProviderInfo providerInfo)
+        public void AddProvider<T>(int version)
         {
-            ProviderRegistrations.Add(providerInfo.Name, new ProviderRegistration()
-            {
-                Name = typeof(T).Name,
-                Type = typeof(T),
-                ProviderInfo = providerInfo
-            });            
+            AddProvider(typeof(T), version);
         }
 
-        public static Type GetProviderClass(ProviderInfo providerInfo)
+        public void AddProvider(Type type, int version)
         {
-            if (providerInfo != null && ProviderRegistrations.ContainsKey(providerInfo.Name))
+            ProviderRegistrations.Add(type.Name, new ProviderRegistration()
             {
-                return ProviderRegistrations[providerInfo.Name].Type;
+                Name = type.Name,
+                Type = type,
+                Version = version
+            });
+        }
+
+        public Type GetProviderClass(ProviderInfo providerInfo)
+        {
+            if (providerInfo != null && ProviderRegistrations.ContainsKey(providerInfo.Type))
+            {
+                return ProviderRegistrations[providerInfo.Type].Type;
             }
 
             return null;
         }
-        public static ProviderRegistration GetProviderRegistration(ProviderInfo providerInfo)
+        
+        public ProviderRegistration GetProviderRegistration(ProviderInfo providerInfo)
         {
-            if (providerInfo != null && ProviderRegistrations.ContainsKey(providerInfo.Name))
+            if (providerInfo != null && ProviderRegistrations.ContainsKey(providerInfo.Type))
             {
-                return ProviderRegistrations[providerInfo.Name];
+                return ProviderRegistrations[providerInfo.Type];
             }
 
             return null;
         }
 
-        public static void CreateBlankProviderScript(string className)
+        public void CreateBlankProviderScript(string className)
         {
             // Get content
-            var blankProviderScriptPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Providers", "BlankProvider.cs");
+            var blankProviderScriptPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Env.ProvidersSystemFolder, Env.BlankProviderFileName);
 
             try
             {
@@ -99,14 +115,23 @@ namespace TrackerDAW
                 MessageBox.Show(ex.Message);
                 return;
             }
-
         }
     }
 
     public class ProviderRegistration
     {
         public string Name { get; set; }
-        public ProviderInfo ProviderInfo { get; set; }
+        //public ProviderInfo ProviderInfo { get; set; }
         public Type Type { get; set; }
+        public int Version { get; set; }
+
+        public ProviderInfo ToProviderInfo()
+        {
+            return new ProviderInfo()
+            {
+                Type = $"{this.Type}",
+                Version = this.Version
+            };
+        }
     }
 }

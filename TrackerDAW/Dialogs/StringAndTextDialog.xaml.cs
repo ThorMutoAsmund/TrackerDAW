@@ -22,7 +22,7 @@ namespace TrackerDAW
         public string Value => this.valueTextBox.Text;
         public string TextContent => this.contentTextBox.Text;
 
-        public StringAndTextDialog()
+        private StringAndTextDialog()
         {
             InitializeComponent();
 

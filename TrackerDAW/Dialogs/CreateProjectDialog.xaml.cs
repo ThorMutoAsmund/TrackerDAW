@@ -24,7 +24,7 @@ namespace TrackerDAW
         public int SampleRate => Int32.TryParse(this.sampleRateTextBox.Text, out var sampleRate) ? sampleRate : Env.DefaultSampleRate;
         public double BPS => Int32.TryParse(this.bpsTextBox.Text, out var sampleRate) ? sampleRate : Env.DefaultSampleRate;
 
-        public CreateProjectDialog()
+        private CreateProjectDialog()
         {
             InitializeComponent();
 

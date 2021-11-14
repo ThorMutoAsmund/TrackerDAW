@@ -15,6 +15,8 @@ namespace TrackerDAW
         {
             InitializeComponent();
 
+            System.Console.WriteLine($"{ProviderFactory.Default.ProviderRegistrations} providers");
+
             Env.MainWindow = this;
             Env.DirtyChanged += Env_DirtyChanged;
             Song.SongChanged += Song_SongChanged;
@@ -167,6 +169,11 @@ namespace TrackerDAW
         private void Stop_Action(object sender, RoutedEventArgs e)
         {
             Audio.Stop();
+        }
+
+        private void showProviders_Click(object sender, RoutedEventArgs e)
+        {
+            SelectProviderDialog.Create().ShowDialog();
         }
     }
 }

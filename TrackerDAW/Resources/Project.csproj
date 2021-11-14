@@ -1,0 +1,33 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="Current">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Tools</RootNamespace>
+    <AssemblyName>UserLib</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <OutputPath>Bin\</OutputPath>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <ProjectGuid>{$projectGuid$}</ProjectGuid>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="*.cs" />
+  </ItemGroup>
+  <Target Name="Build" Inputs="@(Compile)" Outputs="$(OutputPath)$(AssemblyName).dll">
+    <MakeDir Directories="$(OutputPath)" Condition="!Exists('$(OutputPath)')" />
+    <Csc Sources="@(Compile)" OutputAssembly="$(OutputPath)$(AssemblyName).dll" TargetType="Library"/>
+  </Target>
+  <Target Name="Clean" >
+    <Delete Files="$(OutputPath)$(AssemblyName).dll" />
+  </Target>
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
+</Project>

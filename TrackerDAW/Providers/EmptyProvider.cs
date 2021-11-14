@@ -1,10 +1,4 @@
-﻿
-using NAudio.Wave;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TrackerDAW.Rev1;
 
 namespace TrackerDAW
 {
@@ -20,6 +14,7 @@ namespace TrackerDAW
             base(context)
         {
         }
+
         public EmptyProvider(PlaybackContext context, string failure) :
             base(context)
         {

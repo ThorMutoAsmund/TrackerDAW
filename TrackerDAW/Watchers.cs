@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,11 +15,11 @@ namespace TrackerDAW
         public List<string> ScriptsList { get; private set; } = new List<string>();
 
         public event Action<List<string>> SamplesListChanged;
-
         public event Action<List<string>> ScriptsListChanged;
 
         private FileSystemWatcher samplesWatcher;
         private FileSystemWatcher scriptsWatcher;
+        private bool rescanScriptsHalted;
 
         public Watchers()
         {
@@ -58,10 +59,10 @@ namespace TrackerDAW
             this.scriptsWatcher = new FileSystemWatcher()
             {
                 Path = Env.Song.ScriptsPath,
-                NotifyFilter = NotifyFilters.FileName,
+                NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite,
                 Filter = "*.cs",
             };
-            this.scriptsWatcher.Changed += (source, e) => context.Post(val => RescanSripts(), source);
+            this.scriptsWatcher.Changed += (source, e) => context.Post(val => RescanSripts(true), source);
             this.scriptsWatcher.Created += (source, e) => context.Post(val => RescanSripts(), source);
             this.scriptsWatcher.Deleted += (source, e) => context.Post(val => RescanSripts(), source);
             this.scriptsWatcher.Renamed += (source, e) => context.Post(val => RescanSripts(), source);
@@ -88,26 +89,46 @@ namespace TrackerDAW
             try
             {
                 this.SamplesList = Directory.EnumerateFiles(Env.Song.SamplesPath, "*.*").Select(x => System.IO.Path.GetFileName(x)).ToList();
-                this.SamplesListChanged?.Invoke(this.SamplesList);
             }
             catch (Exception)
             {
                 this.SamplesList.Clear();
             }
+            this.SamplesListChanged?.Invoke(this.SamplesList);
         }
 
-        private void RescanSripts()
+        private void RescanSripts(bool halt = false)
         {
+            if (halt)
+            {
+                if (this.rescanScriptsHalted)
+                {
+                    return;
+                }
+
+                this.rescanScriptsHalted = true;
+
+                var timer1 = new System.Windows.Forms.Timer();
+                timer1.Interval = 1000;
+                timer1.Enabled = true;
+                timer1.Tick += (s, e) =>
+                {
+                    this.rescanScriptsHalted = false;
+                    timer1.Enabled = false;
+                    timer1.Stop();
+                };
+                timer1.Start();
+            }
+
             try
             {
                 this.ScriptsList = Directory.EnumerateFiles(Env.Song.ScriptsPath, "*.cs").Select(x => System.IO.Path.GetFileName(x)).ToList();
-                this.ScriptsListChanged?.Invoke(this.ScriptsList);
             }
             catch (Exception)
             {
                 this.ScriptsList.Clear();
             }
+            this.ScriptsListChanged?.Invoke(this.ScriptsList);
         }
-
     }
 }

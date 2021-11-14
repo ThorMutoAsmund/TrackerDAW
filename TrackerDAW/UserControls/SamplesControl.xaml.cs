@@ -39,9 +39,8 @@ namespace TrackerDAW
 
         private void listView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (this.listView.SelectedItem != null)
+            if (((FrameworkElement)e.OriginalSource).DataContext is string fileName)
             {
-                var fileName = this.listView.SelectedItem as string;
                 Audio.PlayFile(fileName);
             }
         }

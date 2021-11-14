@@ -21,7 +21,7 @@ namespace TrackerDAW
     {
         private Note note;
 
-        public EditNoteDialog()
+        private EditNoteDialog()
         {
             InitializeComponent();
 

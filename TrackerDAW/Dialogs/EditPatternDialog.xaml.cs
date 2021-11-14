@@ -21,7 +21,7 @@ namespace TrackerDAW
     {
         private Pattern pattern;
 
-        public EditPatternDialog()
+        private EditPatternDialog()
         {
             InitializeComponent();
 

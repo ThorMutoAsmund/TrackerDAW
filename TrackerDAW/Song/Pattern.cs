@@ -20,7 +20,7 @@ namespace TrackerDAW
         
         public Pattern()
         {
-            this.ProviderInfo = ProviderInfo.DefaultPatternProviderInfo;
+            this.ProviderInfo = DefaultPatternProvider.ProviderInfo;
             this.Tracks = new List<Track>();
             this.Gain = 1d;
         }

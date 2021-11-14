@@ -2,10 +2,12 @@
 
 namespace TrackerDAW
 {
+    [ProviderRegistration(version: DefaultPatternProvider.Version)]
     public class DefaultPatternProvider : MixerBaseProvider
     {
-        public override float Gain => (float)this.pattern.Gain;
         public const int Version = 1;
+        public static ProviderInfo ProviderInfo = ProviderInfo.CreateProvider<DefaultPatternProvider>(DefaultPatternProvider.Version);
+        public override float Gain => (float)this.pattern.Gain;
 
         private ProviderData providerData;
         private Pattern pattern;

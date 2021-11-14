@@ -145,7 +145,7 @@ namespace TrackerDAW
 
                 this.track.AddPart(
                     new Sample(left / Env.TrackPixelsPerSecond,
-                    ProviderInfo.DefaultSampleProviderInfo,
+                    DefaultSampleProvider.ProviderInfo,
                     new ProviderData()
                     {
                         { ProviderDataKey.SampleName, sampleName },
@@ -186,7 +186,7 @@ namespace TrackerDAW
         private void addEmptyCompositionMenuItem_Click(object sender, RoutedEventArgs e)
         {
             this.track.AddPart(new Composition(this.contextMenuPoint.X / Env.TrackPixelsPerSecond,
-                ProviderInfo.DefaultCompositionProviderInfo, new ProviderData(), Env.DefaultPartLength, name: "empty"));
+                DefaultCompositionProvider.ProviderInfo, new ProviderData(), Env.DefaultPartLength, name: "empty"));
         }
 
         private void addNoteMenuItem_Click(object sender, RoutedEventArgs e)

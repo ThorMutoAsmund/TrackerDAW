@@ -35,6 +35,7 @@ namespace TrackerDAW
 
         private void listView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            MessageBox.Show("Clicked");
             //if (e.ClickCount == 2)
             //{
             //    var fileName = this.scriptsListView.SelectedItem as string;

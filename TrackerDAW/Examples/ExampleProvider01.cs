@@ -2,21 +2,27 @@
 using NAudio.Wave.SampleProviders;
 using System;
 using TrackerDAW;
+
 using TrackerDAW.Rev1;
 
 namespace User
 {
-    public class BlankProvider : BaseProvider
+    [ProviderRegistration(version: ExampleProvider01.Version)]
+    public class ExampleProvider01 : BaseProvider
     {
         public const int Version = 1;
+        public class MyInterface : EffectProviderInterface
+        {
+        }
 
+        public override ProviderInterface Interface { get; } = new MyInterface();
         public override float Gain => (float)this.gain;
 
         private ProviderData providerData;
         private int iStartAt;
         private double gain;
 
-        public BlankProvider(PlaybackContext context, ProviderData providerData) :
+        public ExampleProvider01(PlaybackContext context, ProviderData providerData) :
             base(context)
         {
             this.providerData = providerData;

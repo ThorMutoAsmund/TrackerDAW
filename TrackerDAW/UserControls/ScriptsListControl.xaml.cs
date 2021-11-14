@@ -1,6 +1,7 @@
 ﻿using NAudio.Wave;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -35,10 +36,16 @@ namespace TrackerDAW
         private void Watchers_ScriptsListChanged(List<string> stringList)
         {
             this.DataContext = stringList;
+
+            IDEIntegration.TestBuildProject(Env.Song.ScriptsPath);
         }
 
         private void listView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            if (((FrameworkElement)e.OriginalSource).DataContext is string scriptFileName)
+            {
+                IDEIntegration.OpenSourceFile(Env.Song.ScriptsPath, scriptFileName);
+            }
         }
 
         private void listView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
