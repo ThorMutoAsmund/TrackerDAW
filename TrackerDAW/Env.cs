@@ -8,6 +8,7 @@ namespace TrackerDAW
         public static event Action<bool> DirtyChanged;
         public static event Action<Pattern> SelectedPatternChanged;
         public static event Action ApplicationEnded;
+        public static event Action<string> OutputAdded;
 
         public static MainWindow MainWindow;
         public static string AppName = "TrackerDAW";
@@ -26,6 +27,8 @@ namespace TrackerDAW
         public static string BlankProviderFileName = "BlankProvider.cs";
         public static string CsProjectFileName = "Project.csproj";
         public static string CsSolutionFileName = "Project.sln";
+        public static string CsOutputFolder = "Bin";
+        public static string CsOutputDllFileName = "UserLib.dll";
         public static string LibMainFileName = "LibMain.cs";
         public static double DefaultPatternLength = 10d;
         public static int DefaultSampleRate = 44100;
@@ -104,6 +107,15 @@ namespace TrackerDAW
         public static bool TryParseDouble(string s, out double result)
         {
             return double.TryParse(s.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out result);
+        }
+
+        public static void AddOutput(string message)
+        {
+            OutputAdded?.Invoke(message);
+        }
+        public static void AddOutput(string title, string message)
+        {
+            OutputAdded?.Invoke($"{title} {message}");
         }
     }
 }

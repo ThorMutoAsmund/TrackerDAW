@@ -60,21 +60,14 @@ namespace TrackerDAW
             
             if (Directory.Exists(projectPath))
             {
-                try
+                if (!Song.Open(projectPath, out var errorMessage))
                 {
-                    if (Song.Open(projectPath))
-                    {
-                        return;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error creating or opening default: {ex.Message}");
-                    // Fall through
+                    Env.AddOutput(errorMessage);
+                    Song.CreateNew(projectPath, Env.DefaultProjectName, Env.DefaultSampleRate, Env.DefaultBPS);
+                    return;
                 }
             }
 
-            Song.CreateNew(projectPath, Env.DefaultProjectName, Env.DefaultSampleRate, Env.DefaultBPS);
         }
 
         public static void CreateNew(string projectPath, string songName, int sampleRate, double bps)
@@ -99,21 +92,35 @@ namespace TrackerDAW
             Env.AddRecentFile(projectPath);
         }
 
-        public static bool Open(string projectPath)
+        public static bool Open(string projectPath, out string errorMessage)
         {
-            var songSerializer = SongSerializer.FromFile(new Song() { projectPath = projectPath }.ProjectFilePath);
-
-            Song.CreateFolders(projectPath);
-            Env.Song = songSerializer.Song;
-
-            if (Env.Song == null)
+            errorMessage = String.Empty;
+            Song song = null;
+            try
             {
-                Env.Song.projectPath = string.Empty;
-                Song.OnSongChanged(Env.Song, SongChangedAction.Opened);
+                var songSerializer = SongSerializer.FromFile(new Song() { projectPath = projectPath }.ProjectFilePath);
+                song = songSerializer.Song;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = $"Error creating or opening default: {ex.Message}";
+
                 return false;
             }
 
+
+
+            Song.CreateFolders(projectPath);
+            Env.Song = song;
+
+            //if (Env.Song == null)
+            //{
+            //    Env.Song.projectPath = string.Empty;
+            //    Song.OnSongChanged(Env.Song, SongChangedAction.Opened);
+            //    return false;
+            //}
             Env.Song.projectPath = projectPath;
+
             Song.OnSongChanged(Env.Song, SongChangedAction.Opened);
 
             Env.AddRecentFile(projectPath);

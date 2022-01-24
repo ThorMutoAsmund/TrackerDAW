@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 
@@ -20,6 +21,7 @@ namespace TrackerDAW
             Env.MainWindow = this;
             Env.DirtyChanged += Env_DirtyChanged;
             Song.SongChanged += Song_SongChanged;
+            Env.OutputAdded += Env_OutputAdded;
 
             Song_SongChanged(null, SongChangedAction.Closed);
 
@@ -55,6 +57,13 @@ namespace TrackerDAW
             this.createPatternMenu.IsEnabled = songNotNull;
                         
             Env_DirtyChanged(Env.HasChanges);
+        }
+
+        private void Env_OutputAdded(string s)
+        {
+            var timeStamp = DateTime.Now.ToLocalTime();
+            this.outputTextBlock.Inlines.Add(new System.Windows.Documents.Run($"{timeStamp}: ") { FontWeight = FontWeights.Bold });
+            this.outputTextBlock.Inlines.Add($"{s}\n");
         }
 
         //private void Song_AvailablePatternsChanged()
@@ -102,7 +111,10 @@ namespace TrackerDAW
                     return;
                 }
 
-                Song.Open(projectPath);
+                if (!Song.Open(projectPath, out var errorMessage))
+                {
+                    Env.AddOutput(errorMessage);
+                }
             }
         }
 
@@ -174,6 +186,11 @@ namespace TrackerDAW
         private void showProviders_Click(object sender, RoutedEventArgs e)
         {
             SelectProviderDialog.Create().ShowDialog();
+        }
+
+        private void outputTextBlockClearMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.outputTextBlock.Inlines.Clear();
         }
     }
 }

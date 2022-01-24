@@ -80,22 +80,39 @@
                 </TabItem>
             </TabControl>
         </Grid>
-        <Grid Margin="4,4,0,4">
-            <TabControl>
-                <!--<TabControl.Resources>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+            <Grid Margin="4,4,0,4" Grid.Row="0">
+                <TabControl>
+                    <!--<TabControl.Resources>
                     <Style TargetType="{x:Type TabItem}">
                         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"></Setter>
                     </Style>
                 </TabControl.Resources>-->
-                <TabItem Header="Pattern" >
-                    <local:PatternControl x:Name="patternControl">
-                    </local:PatternControl>
-                </TabItem>
-                <TabItem Header="Song">
-                </TabItem>
-                <TabItem Header="Mixer">
-                </TabItem>
-            </TabControl>
+                    <TabItem Header="Pattern" >
+                        <local:PatternControl x:Name="patternControl">
+                        </local:PatternControl>
+                    </TabItem>
+                    <TabItem Header="Song">
+                    </TabItem>
+                    <TabItem Header="Mixer">
+                    </TabItem>
+                </TabControl>
+            </Grid>
+            <GridSplitter Grid.Row ="1" Background="{StaticResource MenuSeparatorBorderBrush}" Height="4" VerticalAlignment="Center" HorizontalAlignment="Stretch"  />
+            <ScrollViewer Grid.Row="2">
+                <TextBlock Name="outputTextBlock" Margin="4" TextWrapping="Wrap">
+                    <TextBlock.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Clear" Click="outputTextBlockClearMenuItem_Click" />
+                        </ContextMenu>
+                    </TextBlock.ContextMenu>
+                </TextBlock>
+            </ScrollViewer>
         </Grid>
     </DockPanel>
 </Window>

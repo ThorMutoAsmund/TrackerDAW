@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 
 namespace TrackerDAW
@@ -63,7 +64,8 @@ namespace TrackerDAW
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Env.AddOutput(ex.Message);
+                //MessageBox.Show(ex.Message);
                 return;
             }
         }
@@ -74,20 +76,51 @@ namespace TrackerDAW
         //    return processes.Any(p => p.Id == CurrentProcess.Id);
         //}
 
-        public static void TestBuildProject(string scriptsPath)
+        public static void BuildProject(string scriptsPath)
         {
             var csProjectPath = Path.Combine(scriptsPath, Env.CsProjectFileName);
 
             Microsoft.Build.Evaluation.Project p = new Microsoft.Build.Evaluation.Project(csProjectPath);
             p.SetGlobalProperty("Configuration", "Release");
-
             var logger = new StringLogger();
+            var error = false;
             if (!p.Build(logger))
             {
-                MessageBox.Show(logger.Log, "Build error", MessageBoxButton.OK);
+                Env.AddOutput("Build error", logger.Log);
+                //MessageBox.Show(logger.Log, "Build error", MessageBoxButton.OK);
+                error = true;
             }
 
             Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection.UnloadAllProjects();
+
+            if (!error)
+            {
+                var dllPath = Path.Combine(scriptsPath, Env.CsOutputFolder, Env.CsOutputDllFileName);
+                try
+                {
+                    //var assembly = Assembly.LoadFrom(dllPath);
+                    //var assembly = Assembly.Load(File.ReadAllBytes(dllPath));
+                    //var name = assembly.GetName();
+
+                    AppDomain.CurrentDomain.Load(File.ReadAllBytes(dllPath));
+                    //AppDomain.CurrentDomain.Load(name);
+                    Tools.Random.SystemRandom a;
+                }
+                catch (Exception ex)
+                {
+                    Env.AddOutput(ex.Message);
+                    return;
+                }
+
+                Env.AddOutput("Project DLL reloaded");
+            }
+        }
+
+        private static void CleanUpGC()
+        {
+            GC.Collect(); // collects all unused memory
+            GC.WaitForPendingFinalizers(); // wait until GC has finished its work
+            GC.Collect();
         }
     }
 }

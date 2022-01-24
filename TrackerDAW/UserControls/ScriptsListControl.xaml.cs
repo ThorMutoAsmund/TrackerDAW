@@ -37,7 +37,7 @@ namespace TrackerDAW
         {
             this.DataContext = stringList;
 
-            IDEIntegration.TestBuildProject(Env.Song.ScriptsPath);
+            IDEIntegration.BuildProject(Env.Song.ScriptsPath);
         }
 
         private void listView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
