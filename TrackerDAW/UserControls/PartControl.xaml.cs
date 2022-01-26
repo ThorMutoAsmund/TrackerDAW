@@ -20,22 +20,24 @@ namespace TrackerDAW
         {
             InitializeComponent();
 
+            this.Height = Env.Trackheight - 1d;
+
             this.part = part;
             this.track = track;
 
             switch (part)
             {
                 case Composition composition:
-                    this.titleTextBlock.Background = Application.Current.TryFindResource("SubmenuItemBackground") as SolidColorBrush;
-                    this.titleTextBlock.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
+                    this.grid.Background = Application.Current.TryFindResource("SubmenuItemBackground") as SolidColorBrush;
+                    this.titleTextBlock.Foreground = new SolidColorBrush(System.Windows.Media.Colors.White);
                     break;
                 case Sample sample:
-                    this.titleTextBlock.Background = Application.Current.TryFindResource("PartSampleBackground") as SolidColorBrush;
-                    this.titleTextBlock.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
+                    this.grid.Background = Application.Current.TryFindResource("PartSampleBackground") as SolidColorBrush;
+                    this.titleTextBlock.Foreground = new SolidColorBrush(System.Windows.Media.Colors.White);
                     break;                    
                 case Note note:
-                    this.titleTextBlock.Background = Application.Current.TryFindResource("PartNoteBackground") as SolidColorBrush; 
-                    this.titleTextBlock.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Black);
+                    this.grid.Background = Application.Current.TryFindResource("PartNoteBackground") as SolidColorBrush; 
+                    this.titleTextBlock.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Black);
                     break;
             }
             

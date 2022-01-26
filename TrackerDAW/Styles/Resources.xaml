@@ -3,7 +3,10 @@
     <!--Background-->
     <SolidColorBrush x:Key="Background" Color="#1C1C1C"/>
     <SolidColorBrush x:Key="LightBackground" Color="#2D2D30"/>
-
+    <SolidColorBrush x:Key="TextAreaBackground" Color="#202024"/>
+    <SolidColorBrush x:Key="TimeRulerBackground" Color="#202024"/>
+    <SolidColorBrush x:Key="TrackSeparatorBackground" Color="#666666"/>
+    
     <!--Foreground-->
     <SolidColorBrush x:Key="Foreground" Color="#FFFFFF"/>
 

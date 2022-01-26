@@ -24,8 +24,9 @@
                     <!--PreviewTextInput="bpsTextBox_PreviewTextInput" PreviewKeyDown="bpsTextBox_PreviewKeyDown"-->
                     <TextBox Name="bpsTextBox" Width="42" Text="80" IsReadOnly="True" />
                     <Label>BPS</Label>
-                    <Button Margin="20,0,0,0" Content="Play" Width="65"></Button>
-                    <Button Margin="4,0,0,0" Content="Pattern" Width="65"></Button>
+                    <Button Margin="20,0,0,0" Content="Play" Width="65" Name="playButton" Click="playButton_Click"></Button>
+                    <Button Margin="4,0,0,0" Content="Pattern" Width="65" Name="patternButton" Click="patternButton_Click"></Button>
+                    <Button Margin="4,0,0,0" Content="Stop" Width="65" Name="stopButton" Click="stopButton_Click"></Button>
                 </StackPanel>
                 <StackPanel Grid.Column="3" HorizontalAlignment="Right" Orientation="Horizontal" >
                     <Button Name="prevPatternButton" Content="◀" Width="25" Click="prevPatternButton_Click"></Button>
@@ -35,7 +36,7 @@
         </Grid>
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                <local:TimeRuler x:Name="timeRuler" Margin="150,0,0,0"></local:TimeRuler>
+                <local:TimeRuler x:Name="timeRuler" Margin="150,0,0,0" Height="18"></local:TimeRuler>
                 <StackPanel x:Name="tracksStackPanel" Orientation="Vertical" HorizontalAlignment="Left">
                 </StackPanel>
             </StackPanel>

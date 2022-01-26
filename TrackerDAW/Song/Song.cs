@@ -46,12 +46,13 @@ namespace TrackerDAW
 
         private int sampleRate;
         private string projectPath;
-        public WaveFormat waveFormat;
+        private WaveFormat waveFormat;
 
+        /// <summary>
+        /// Must not assign anything due to JSON deserialization
+        /// </summary>
         private Song()
         {
-            this.ProviderInfo = DefaultSongProvider.ProviderInfo;
-            this.Patterns = new List<Pattern>();
         }
 
         public static void CreateOrOpenDefault()
@@ -74,6 +75,8 @@ namespace TrackerDAW
         {
             Env.Song = new Song()
             {
+                ProviderInfo = DefaultSongProvider.ProviderInfo,
+                Patterns = new List<Pattern>(),
                 projectPath = projectPath,
                 Name = songName,
                 SampleRate = sampleRate,
@@ -196,12 +199,8 @@ namespace TrackerDAW
             }
             while (this.Patterns.Any(p => p.Name == patternName));
 
-            var pattern = new Pattern()
-            {
-                Name = patternName,
-                Length = length,
-                BPS = bps
-            };
+            var pattern = Pattern.CreateNew(patternName, length, bps);
+
             for (var t = 0; t < Env.DefaultNumberOfTracks; ++t)
             {
                 pattern.AddNewTrack();

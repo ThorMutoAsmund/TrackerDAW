@@ -53,7 +53,6 @@ namespace TrackerDAW
             //AddProvider<DefaultTrackProvider>(ProviderInfo.DefaultTrackProviderInfo);
             //AddProvider<DefaultSampleProvider>(ProviderInfo.DefaultSampleProviderInfo);
             //AddProvider<DefaultCompositionProvider>(ProviderInfo.DefaultCompositionProviderInfo);
-            var a = 2;
         }
 
         public void AddProvider<T>(int version)
@@ -63,7 +62,7 @@ namespace TrackerDAW
 
         public void AddProvider(Type type, int version)
         {
-            ProviderRegistrations.Add(type.Name, new ProviderRegistration()
+            ProviderRegistrations.Add(type.FullName, new ProviderRegistration()
             {
                 Name = type.Name,
                 Type = type,
@@ -127,11 +126,7 @@ namespace TrackerDAW
 
         public ProviderInfo ToProviderInfo()
         {
-            return new ProviderInfo()
-            {
-                Type = $"{this.Type}",
-                Version = this.Version
-            };
+            return ProviderInfo.CreateNew($"{this.Type}", this.Version);
         }
     }
 }

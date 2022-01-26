@@ -64,6 +64,7 @@ namespace TrackerDAW
             var timeStamp = DateTime.Now.ToLocalTime();
             this.outputTextBlock.Inlines.Add(new System.Windows.Documents.Run($"{timeStamp}: ") { FontWeight = FontWeights.Bold });
             this.outputTextBlock.Inlines.Add($"{s}\n");
+            this.outputScrollViewer.ScrollToBottom();
         }
 
         //private void Song_AvailablePatternsChanged()
@@ -101,7 +102,7 @@ namespace TrackerDAW
                 return;
             }
 
-            if (Dialogs.OpenFile("Select project file", Env.ApplicationPath, out var projectFilePath, filter: "Project files (Project.json)|Project.json"))
+            if (Dialogs.OpenFile("Select project file", Env.ApplicationPath, out var projectFilePath, filter: Dialogs.ProjectFilesFilter))
             {
                 var projectPath = System.IO.Path.GetDirectoryName(projectFilePath);
 
@@ -191,6 +192,16 @@ namespace TrackerDAW
         private void outputTextBlockClearMenuItem_Click(object sender, RoutedEventArgs e)
         {
             this.outputTextBlock.Inlines.Clear();
+        }
+
+        private void ClearOutputButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.outputTextBlock.Inlines.Clear();
+        }
+
+        private void sampleImportMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Samples.ImportSamples();
         }
     }
 }

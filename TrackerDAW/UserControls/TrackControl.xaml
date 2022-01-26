@@ -10,11 +10,10 @@
              BorderThickness="0,1,0,0"
              MouseLeftButtonDown="UserControl_MouseLeftButtonDown"
              >
-    <Grid Name="grid" Height="25">
+    <Grid Name="grid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <!--<ColumnDefinition Width="15"></ColumnDefinition>-->
         </Grid.ColumnDefinitions>
         <TextBlock x:Name="titleTextBlock" Grid.Column="0" Text="Track name" Padding="4" Background="{StaticResource BackgroundNormal}"></TextBlock>
         <Canvas Name="partCanvas" Grid.Column="1" Background="{StaticResource TrackBrush}" DragOver="partCanvas_DragOver" DragEnter="partCanvas_DragEnter" Drop="partCanvas_Drop" DragLeave="partCanvas_DragLeave" AllowDrop="True">

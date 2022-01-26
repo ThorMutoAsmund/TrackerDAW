@@ -13,8 +13,20 @@ namespace TrackerDAW
         [JsonProperty] public string Type { get; set; }
         [JsonProperty] public int Version { get; set; }
 
-        public ProviderInfo()
+        /// <summary>
+        /// Must not assign anything due to JSON deserialization
+        /// </summary>
+        private ProviderInfo()
         {
+        }
+
+        public static ProviderInfo CreateNew(string type, int version)
+        {
+            return new ProviderInfo()
+            {
+                Type = type,
+                Version = version
+            };
         }
 
         public static ProviderInfo CreateProvider<T>(int version)

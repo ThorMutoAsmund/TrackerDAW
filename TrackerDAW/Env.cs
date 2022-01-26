@@ -34,7 +34,6 @@ namespace TrackerDAW
         public static int DefaultSampleRate = 44100;
         public static int DefaultNumberOfPatterns = 1;
         public static int DefaultNumberOfTracks = 4;
-        public static double DefaultPartHeight = 24d;
         public static double DefaultBPS = 120d;
         public static double DefaultPartLength = 3d;
         public static Song Song;
@@ -42,6 +41,7 @@ namespace TrackerDAW
         public static Pattern SelectedPattern;
         public static bool HasChanges;
         public static string LastProjectPath;
+        public static double Trackheight = 35d;
         public static double TrackPixelsPerSecond = 100d;
         public static double PlayPosition = 0d;
         public static Watchers Watchers { get; private set; } = new Watchers();

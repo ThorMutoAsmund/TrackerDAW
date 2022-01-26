@@ -39,7 +39,7 @@ namespace TrackerDAW
 
         private void listView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (((FrameworkElement)e.OriginalSource).DataContext is string fileName)
+            if (e.ChangedButton == MouseButton.Left && ((FrameworkElement)e.OriginalSource).DataContext is string fileName)
             {
                 Audio.PlayFile(fileName);
             }
@@ -66,6 +66,16 @@ namespace TrackerDAW
                 }
                 , DragDropKey.Sample);
             }
+        }
+
+        private void importMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Samples.ImportSamples();
+        }
+
+        private void deleteMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Samples.DeleteSamples(this.listView.SelectedItems.Cast<string>());
         }
     }
 }

@@ -96,6 +96,12 @@ namespace TrackerDAW
 
         private void duplicateProviderButton_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("Not implemented yet");
+        }
+
+        private void providerListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            this.DialogResult = true;
         }
     }
 }

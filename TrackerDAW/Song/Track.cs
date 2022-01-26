@@ -13,11 +13,21 @@ namespace TrackerDAW
         [JsonProperty] public List<Part> Parts { get; set; }
         [JsonProperty] public double Gain { get; set; }
 
-        public Track()
+        /// <summary>
+        /// Must not assign anything due to JSON deserialization
+        /// </summary>
+        private Track()
         {
-            this.ProviderInfo = DefaultTrackProvider.ProviderInfo;
-            this.Parts = new List<Part>();
-            this.Gain = 1d;
+        }
+
+        public static Track CreateNew()
+        {
+            return new Track()
+            {
+                ProviderInfo = DefaultTrackProvider.ProviderInfo,
+                Parts = new List<Part>(),
+                Gain = 1d
+            };
         }
 
         public Track Clone()

@@ -21,23 +21,28 @@ namespace TrackerDAW
         [JsonProperty] public string Content { get; set; }
         [JsonProperty] public double Length { get; set; }
         [JsonIgnore] public string NameWithDefaultValue => String.IsNullOrEmpty(this.Name) ? "(untitled)" : this.Name;
-        
-        public Note()
+
+        /// <summary>
+        /// Must not assign anything due to JSON deserialization
+        /// </summary>
+        private Note()
         {
-            this.Offset = 0d;
         }
 
-        public Note(double offset, double length, string name = "", string content = "")
+        public static Note CreateNew(double offset, double length, string name = "", string content = "")
         {
-            this.Offset = offset;
-            this.Length = length;
-            this.Name = name;
-            this.Content = content;
+            return new Note()
+            {
+                Offset = offset,
+                Length = length,
+                Name = name,
+                Content = content
+            };
         }
 
         public override Part Clone()
         {
-            return new Note(this.Offset, this.Length, this.Name, this.Content);
+            return Note.CreateNew(this.Offset, this.Length, this.Name, this.Content);
         }
 
         public override double GetLength()

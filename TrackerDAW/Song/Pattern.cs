@@ -18,11 +18,24 @@ namespace TrackerDAW
 
         [JsonIgnore] public string NameWithDefaultValue => String.IsNullOrEmpty(this.Name) ? "(untitled)" : this.Name;
         
-        public Pattern()
+        /// <summary>
+        /// Must not assign anything due to JSON deserialization
+        /// </summary>
+        private Pattern()
         {
-            this.ProviderInfo = DefaultPatternProvider.ProviderInfo;
-            this.Tracks = new List<Track>();
-            this.Gain = 1d;
+        }
+
+        public static Pattern CreateNew(string name, double length, double bps)
+        {
+            return new Pattern()
+            {
+                ProviderInfo = DefaultPatternProvider.ProviderInfo,
+                Tracks = new List<Track>(),
+                Gain = 1d,
+                Name = name,
+                Length = length,
+                BPS = bps
+            };
         }
 
         public int SampleLength(Song song)
@@ -34,8 +47,9 @@ namespace TrackerDAW
         {
             var pattern = new Pattern()
             {
-                Name = name == null ? this.Name : name,
                 ProviderInfo = this.ProviderInfo,
+                Tracks = new List<Track>(),
+                Name = name == null ? this.Name : name,
                 Length = this.Length,
                 BPS = this.BPS,
                 Gain = this.Gain
@@ -51,7 +65,7 @@ namespace TrackerDAW
 
         public Track AddNewTrack()
         {
-            var track = new Track();
+            var track = Track.CreateNew();
 
             this.Tracks.Add(track);
 

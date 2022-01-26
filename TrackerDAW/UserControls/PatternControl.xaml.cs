@@ -170,5 +170,20 @@ namespace TrackerDAW
         {
             EditPatternDialog.ShowDialog(this.pattern);
         }
+
+        private void playButton_Click(object sender, RoutedEventArgs e)
+        {
+            Audio.Play();
+        }
+
+        private void patternButton_Click(object sender, RoutedEventArgs e)
+        {
+            Audio.PlayFromPatternStart(Env.SelectedPattern);
+        }
+
+        private void stopButton_Click(object sender, RoutedEventArgs e)
+        {
+            Audio.Stop();
+        }
     }
 }

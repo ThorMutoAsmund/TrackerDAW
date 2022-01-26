@@ -24,7 +24,7 @@ namespace TrackerDAW
         {
             InitializeComponent();
 
-            this.Height = Env.DefaultPartHeight;
+            this.Height = Env.Trackheight - 1d;
         }
 
         public void SetTop(double top)

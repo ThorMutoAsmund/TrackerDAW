@@ -60,7 +60,8 @@ namespace TrackerDAW
                 cp = precision;
             }
 
-            drawingContext.DrawRectangle(Brushes.Black, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+            var brush = Application.Current.TryFindResource("TimeRulerBackground") as SolidColorBrush;
+            drawingContext.DrawRectangle(brush, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
             for (var i = 0d; i < this.pattern.Length; i += ci)
             {
@@ -76,7 +77,7 @@ namespace TrackerDAW
                     this.textBrush,
                     VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
-                drawingContext.DrawText(formattedText, new Point(j + 3, -2));
+                drawingContext.DrawText(formattedText, new Point(j + 3, 0));
             }
         }
     }

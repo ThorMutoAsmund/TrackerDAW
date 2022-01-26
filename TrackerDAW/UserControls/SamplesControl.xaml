@@ -16,5 +16,12 @@
                 <TextBlock Text="{Binding}" />
             </DataTemplate>
         </ListView.ItemTemplate>
+        <ListView.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Import..." Name="importMenu" Click="importMenu_Click" />
+                <Separator/>
+                <MenuItem Header="Delete" Name="deleteMenu" Click="deleteMenu_Click" />
+            </ContextMenu>
+        </ListView.ContextMenu>
     </ListView>
 </UserControl>

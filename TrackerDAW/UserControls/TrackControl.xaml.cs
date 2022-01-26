@@ -20,6 +20,7 @@ namespace TrackerDAW
 
             this.track = track;
             this.Width = pattern.Length * Env.TrackPixelsPerSecond + grid.ColumnDefinitions[0].Width.Value;
+            this.Height = Env.Trackheight;
             this.titleTextBlock.Text = title;
 
             Song.TrackChanged += Song_TrackChanged;
@@ -144,7 +145,7 @@ namespace TrackerDAW
                 var left = Math.Max(0d, point.X);
 
                 this.track.AddPart(
-                    new Sample(left / Env.TrackPixelsPerSecond,
+                    Sample.CreateNew(left / Env.TrackPixelsPerSecond,
                     DefaultSampleProvider.ProviderInfo,
                     new ProviderData()
                     {
@@ -153,7 +154,8 @@ namespace TrackerDAW
                         { ProviderDataKey.TrimRight, sampleName }
                     },
                     length,
-                    name: sampleName));
+                    name: sampleName)
+                );
             }
             else if (e.Data.GetDataPresent(DragDropKey.Part))
             {
@@ -194,7 +196,7 @@ namespace TrackerDAW
             var dialog = StringAndTextDialog.Create("Create Note");
             if (dialog.ShowDialog() == true)
             {
-                this.track.AddPart(new Note(this.contextMenuPoint.X / Env.TrackPixelsPerSecond, Env.DefaultPartLength, dialog.Value, dialog.TextContent));
+                this.track.AddPart(Note.CreateNew(this.contextMenuPoint.X / Env.TrackPixelsPerSecond, Env.DefaultPartLength, dialog.Value, dialog.TextContent));
             }
         }
 

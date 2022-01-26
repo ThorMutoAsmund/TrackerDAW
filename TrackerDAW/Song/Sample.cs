@@ -25,21 +25,24 @@ namespace TrackerDAW
 
         [JsonIgnore] public string NameWithDefaultValue => String.IsNullOrEmpty(this.Name) ? "(untitled)" : this.Name;
         
+        /// <summary>
+        /// Must not assign anything due to JSON deserialization
+        /// </summary>
         public Sample()
         {
-            this.Offset = 0d;
-            this.Gain = 1d;
-            this.Length = 0d;
         }
 
-        public Sample(double offset, ProviderInfo providerInfo, ProviderData providerData, double length, double gain = 1d, string name = "")
+        public static Sample CreateNew(double offset, ProviderInfo providerInfo, ProviderData providerData, double length, double gain = 1d, string name = "")
         {
-            this.ProviderInfo = providerInfo;
-            this.ProviderData = providerData;
-            this.Offset = offset;
-            this.Length = length;
-            this.Gain = gain;
-            this.Name = name;
+            return new Sample()
+            {
+                ProviderInfo = providerInfo,
+                ProviderData = providerData,
+                Offset = offset,
+                Length = length,
+                Gain = gain,
+                Name = name
+            };
         }
 
         public int SampleOffset(Song song)
@@ -49,7 +52,7 @@ namespace TrackerDAW
 
         public override Part Clone()
         {
-            return new Sample(this.Offset, this.ProviderInfo.Clone(), this.ProviderData.Clone(), this.Length, this.Gain, this.Name);
+            return Sample.CreateNew(this.Offset, this.ProviderInfo.Clone(), this.ProviderData.Clone(), this.Length, this.Gain, this.Name);
         }
 
         public override double GetLength()
