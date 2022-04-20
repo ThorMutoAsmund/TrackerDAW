@@ -1,9 +1,11 @@
 ﻿using NAudio.Wave;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace TrackerDAW
 {
@@ -79,10 +81,12 @@ namespace TrackerDAW
 
         public int Read(float[] buffer, int offset, int count)
         {
+            Env.OnTimeChanged(TimeSpan.FromMilliseconds(1000d * this.SamplePosition / Env.Song.SampleRate));
+
             var result = this.SampleProvider.Read(buffer, offset, count);
-            
-            this.SamplePosition += count;
-            
+
+            this.SamplePosition += count / 2;
+
             return result;
         }
     }

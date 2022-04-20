@@ -65,21 +65,35 @@ namespace TrackerDAW
 
         public override int Read(float[] buffer, int offset, int count)
         {
-            if (this.Failed)
+            if (this.Failed || this.Context.SamplePosition + count <= this.iStartAt)
             {
                 return 0;
             }
 
             var read = 0;
+            int outputIndex = offset;
 
             if (this.Context.SamplePosition < this.iStartAt)
             {
-                read = Math.Min(count, this.iStartAt - this.Context.SamplePosition);
+                read = this.iStartAt - this.Context.SamplePosition;
+
+                while (outputIndex < offset + read)
+                {
+                    buffer[outputIndex++] = 0;
+                }
             }
 
-            if (read < count)
+            count -= read;
+
+            try
             {
-                read += this.wtsProvider.Read(buffer, read + offset, count - read);
+                read += this.wtsProvider.Read(buffer, outputIndex, ((count - read) / 6) * 6); // Nota very good solution
+                //read += this.wtsProvider.Read(buffer, outputIndex, count);
+            }
+            catch (Exception e)
+            {
+                Env.AddOutput(e.Message);
+                Env.AddOutput($"Read {outputIndex},{count}");
             }
 
             return read;

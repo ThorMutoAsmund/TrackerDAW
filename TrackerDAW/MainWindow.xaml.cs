@@ -61,10 +61,14 @@ namespace TrackerDAW
 
         private void Env_OutputAdded(string s)
         {
-            var timeStamp = DateTime.Now.ToLocalTime();
-            this.outputTextBlock.Inlines.Add(new System.Windows.Documents.Run($"{timeStamp}: ") { FontWeight = FontWeights.Bold });
-            this.outputTextBlock.Inlines.Add($"{s}\n");
-            this.outputScrollViewer.ScrollToBottom();
+            this.Dispatcher.Invoke(() =>
+            {
+                var timeStamp = DateTime.Now.ToLocalTime();
+                this.outputTextBlock.Inlines.Add(new System.Windows.Documents.Run($"{timeStamp}: ") { FontWeight = FontWeights.Bold });
+                this.outputTextBlock.Inlines.Add($"{s}\n");
+                this.outputScrollViewer.ScrollToBottom();
+            });
+
         }
 
         //private void Song_AvailablePatternsChanged()

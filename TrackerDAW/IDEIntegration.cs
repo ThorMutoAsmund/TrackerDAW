@@ -104,7 +104,7 @@ namespace TrackerDAW
 
                     AppDomain.CurrentDomain.Load(File.ReadAllBytes(dllPath));
                     //AppDomain.CurrentDomain.Load(name);
-                    Tools.Random.SystemRandom a;
+                    //Tools.Random.SystemRandom a;
                 }
                 catch (Exception ex)
                 {

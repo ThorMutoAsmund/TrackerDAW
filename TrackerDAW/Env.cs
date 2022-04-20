@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace TrackerDAW
 {
@@ -9,6 +10,7 @@ namespace TrackerDAW
         public static event Action<Pattern> SelectedPatternChanged;
         public static event Action ApplicationEnded;
         public static event Action<string> OutputAdded;
+        public static event Action<TimeSpan> TimeChanged;
 
         public static MainWindow MainWindow;
         public static string AppName = "TrackerDAW";
@@ -60,6 +62,11 @@ namespace TrackerDAW
 
                 DirtyChanged?.Invoke(HasChanges);
             }
+        }
+
+        public static void OnTimeChanged(TimeSpan time)
+        {
+            TimeChanged?.Invoke(time);
         }
 
         public static void OnSelectedPatternChanged(int idx)
