@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:TrackerDAW"
              mc:Ignorable="d" 
              d:DesignHeight="25" d:DesignWidth="400"
-             BorderBrush="{StaticResource Background}" 
+             BorderBrush="{StaticResource TrackBorder}" 
              BorderThickness="0,1,0,0"
              MouseLeftButtonDown="UserControl_MouseLeftButtonDown"
              >
@@ -15,7 +15,7 @@
             <ColumnDefinition Width="150"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="titleTextBlock" Grid.Column="0" Text="Track name" Padding="4" Background="{StaticResource BackgroundNormal}"></TextBlock>
+        <TextBlock x:Name="titleTextBlock" Grid.Column="0" Text="Track name" Padding="4" Background="{StaticResource BackgroundNormal}" Foreground="{StaticResource TextNormal}"></TextBlock>
         <Canvas Name="partCanvas" Grid.Column="1" Background="{StaticResource TrackBrush}" DragOver="partCanvas_DragOver" DragEnter="partCanvas_DragEnter" Drop="partCanvas_Drop" DragLeave="partCanvas_DragLeave" AllowDrop="True">
             <Canvas.ContextMenu>
                 <ContextMenu Opened="ContextMenu_Opened">

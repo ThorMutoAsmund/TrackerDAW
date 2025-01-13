@@ -9,6 +9,7 @@
     
     <!--Foreground-->
     <SolidColorBrush x:Key="Foreground" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="TextNormal" Color="#CCC"/>
 
     <!--General-->
     <SolidColorBrush x:Key="BackgroundHighlighted" Color="#54545C"/>
@@ -48,6 +49,8 @@
     
     <!-- Part -->
     <SolidColorBrush x:Key="PartCompositionBackground" Color="#1B1B1C"/>
-    <SolidColorBrush x:Key="PartSampleBackground" Color="#1B332C"/>
+    <SolidColorBrush x:Key="PartSampleBackground" Color="#2B332C"/>
     <SolidColorBrush x:Key="PartNoteBackground" Color="#c8c8c8"/>
+    <SolidColorBrush x:Key="PartBorder" Color="#2B332C"/>
+    
 </ResourceDictionary>

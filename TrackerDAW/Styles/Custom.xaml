@@ -57,8 +57,11 @@
         </DrawingBrush.Drawing>
     </DrawingBrush>
 
-    <DrawingBrush x:Key="TrackBrush" Viewport="0,0,10,34" ViewportUnits="Absolute" Viewbox="0,0,10,34" ViewboxUnits="Absolute" TileMode="Tile">
-        <!--<DrawingBrush.Drawing>
+    <SolidColorBrush x:Key="TrackBrush" Color="#161616"/>
+    <SolidColorBrush x:Key="TrackBorder" Color="#262626"/>
+    
+    <!--<DrawingBrush x:Key="TrackBrush" Viewport="0,0,10,34" ViewportUnits="Absolute" Viewbox="0,0,10,34" ViewboxUnits="Absolute" TileMode="Tile">
+        <DrawingBrush.Drawing>
             <GeometryDrawing>
                 <GeometryDrawing.Geometry>
                     <GeometryGroup>
@@ -66,17 +69,17 @@
                     </GeometryGroup>
                 </GeometryDrawing.Geometry>
                 <GeometryDrawing.Pen>
-                    <Pen Thickness="1" Brush="#666" />
+                    <Pen Thickness="1" Brush="#66f" />
                 </GeometryDrawing.Pen>
             </GeometryDrawing>
-        </DrawingBrush.Drawing>-->
-    </DrawingBrush>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>-->
 
 
     <DrawingBrush x:Key="CheckerBoard" Viewport="0,0,8,8" ViewportUnits="Absolute" Stretch="None" TileMode="Tile">
         <DrawingBrush.Drawing>
             <DrawingGroup>
-                <GeometryDrawing Brush="#222">
+                <GeometryDrawing Brush="#181818">
                     <GeometryDrawing.Geometry>
                         <GeometryGroup>
                             <RectangleGeometry Rect="0,0,4,4"/>
@@ -84,7 +87,7 @@
                         </GeometryGroup>
                     </GeometryDrawing.Geometry>
                 </GeometryDrawing>
-                <GeometryDrawing Brush="#333">
+                <GeometryDrawing Brush="{StaticResource TimeRulerBackground}">
                     <GeometryDrawing.Geometry>
                         <GeometryGroup>
                             <RectangleGeometry Rect="4,0,4,4"/>

@@ -23,7 +23,7 @@ namespace TrackerDAW
         }
 
         private Pattern pattern;
-        private Pen linePen = new Pen(Brushes.White, 1.0);
+        private Pen linePen = new Pen(new SolidColorBrush(Color.FromRgb(150, 150, 150)), 1.0);
         private Brush textBrush = new SolidColorBrush(Color.FromRgb(150,150,150));
 
         public TimeRuler()
@@ -62,22 +62,27 @@ namespace TrackerDAW
 
             var brush = Application.Current.TryFindResource("TimeRulerBackground") as SolidColorBrush;
             drawingContext.DrawRectangle(brush, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
-
+            bool first = true;
             for (var i = 0d; i < this.pattern.Length; i += ci)
             {
                 var j = i * Env.TrackPixelsPerSecond;
 
-                drawingContext.DrawLine(linePen, new Point(j, this.ActualHeight-1),
-                    new Point(j, 0));
-                
-                FormattedText formattedText = new FormattedText($"{Env.TimeToStringPrecision(i, cp)} s", 
+                if (!first)
+                {
+                    drawingContext.DrawLine(linePen, new Point(j, this.ActualHeight),
+                        new Point(j, 5));                    
+                }
+
+                first = false;
+
+                FormattedText formattedText = new FormattedText(Env.TimeToStringPrecision(i, cp), 
                     CultureInfo.InvariantCulture,
                     FlowDirection.LeftToRight, 
                     new Typeface("Segoe UI"), 12,
                     this.textBrush,
                     VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
-                drawingContext.DrawText(formattedText, new Point(j + 3, 0));
+                drawingContext.DrawText(formattedText, new Point(j + 3, 6));
             }
         }
     }

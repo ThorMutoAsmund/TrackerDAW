@@ -36,11 +36,11 @@
             </Grid>
         </Grid>
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                <local:TimeRuler x:Name="timeRuler" Margin="150,0,0,0" Height="18"></local:TimeRuler>
-                <StackPanel x:Name="tracksStackPanel" Orientation="Vertical" HorizontalAlignment="Left">
+            <DockPanel HorizontalAlignment="Left" >
+                <local:TimeRuler DockPanel.Dock="Top" x:Name="timeRuler" Margin="150,0,0,0" Height="22"></local:TimeRuler>
+                <StackPanel DockPanel.Dock="Bottom" x:Name="tracksStackPanel" Orientation="Vertical" HorizontalAlignment="Left" Background="{StaticResource CheckerBoard}">
                 </StackPanel>
-            </StackPanel>
+            </DockPanel>
         </ScrollViewer>
         <Grid.ContextMenu>
             <ContextMenu>

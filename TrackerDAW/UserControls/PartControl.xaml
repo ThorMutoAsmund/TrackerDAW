@@ -6,14 +6,14 @@
              xmlns:local="clr-namespace:TrackerDAW"
              mc:Ignorable="d" 
              d:DesignHeight="34" d:DesignWidth="400"
-             BorderBrush="black" BorderThickness="1"
+             BorderBrush="{StaticResource PartBorder}" BorderThickness="0"             
              MouseLeftButtonDown="UserControl_MouseLeftButtonDown"
              >
     <Grid x:Name="grid" PreviewMouseMove="grid_PreviewMouseMove" MouseLeftButtonDown="grid_MouseLeftButtonDown" >
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="titleTextBlock" Grid.Row="0" Padding="4" Text="Part x" VerticalAlignment="Center"></TextBlock>
+        <TextBlock x:Name="titleTextBlock" Grid.Row="0" Padding="4" Text="Part x" VerticalAlignment="Top" Foreground="{StaticResource TextNormal}" FontStyle="Italic"></TextBlock>
         <Grid.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Edit part..." Name="editPartMenuItem" Click="editPartMenuItem_Click" />

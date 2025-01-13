@@ -163,9 +163,13 @@ namespace TrackerDAW
             MessageBox.Show("Not implemented yet");
         }
 
-        private void youTubeMenu_Click(object sender, RoutedEventArgs e)
+        private async void youTubeMenu_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not implemented yet");
+            var dialog = StringDialog.Create("YouTube Video URL");
+            if (dialog.ShowDialog() == true)
+            {
+                await YouTubeImport.Import(dialog.Value, Env.Song.SamplesPath);
+            }
         }
 
         private void Play_Action(object sender, RoutedEventArgs e)
